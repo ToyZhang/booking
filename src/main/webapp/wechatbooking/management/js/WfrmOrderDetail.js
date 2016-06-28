@@ -30,7 +30,6 @@ $().ready(function(){
             },
 });
     initData();
-      // createItem("WX-201604181634553455-124","豪华单间","1231","1231","123","1231","1231","12312","12312","0","1231");
 })
 function initData(){
 	var requestPath = getRequestPath();
@@ -64,7 +63,8 @@ function initData(){
                 	var dtenddate = content[i].dtenddate;
                 	var stateid = content[i].stateid;
                 	var idcard = content[i].idcard;
-                  	createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard);
+                    var payFlag = content[i].icheckflg;
+                  	createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard,payFlag);
                 }
             }
         },
@@ -85,9 +85,17 @@ function initData(){
  * @param {Object} dtenddate 离店时间
  * @param {Object} stateid 订单状态
  * @param {Object} idcard 身份证号
+ * @param {Object} payFlag 支付标志量   0 未支付  1已支付
  */
-function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard){
+function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard,payFlag){
 	var stateName = getStatusName(stateid);
+    debugger;
+    if( stateid == "0" && payFlag == "0"){
+        stateName = stateName + "(未支付)";
+    }
+    if( stateid == "0" && payFlag == "1"){
+        stateName = stateName + "(已支付)";
+    }
 	var detail =  createDetail(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateName,idcard);
     var count = getRandomDigit(5);
 

@@ -10,9 +10,9 @@
         FROM
             PHO_HT_ORDER
         WHERE
-            dtorderdate BETWEEN date_add(#{START_TIME}, INTERVAL -#{INTERVAL} DAY)
+            DTORDERDATE BETWEEN date_add(#{START_TIME}, INTERVAL -#{INTERVAL} DAY)
         AND #{END_TIME}
-        AND mcid = #{MCID}
+        AND MCID = #{MCID}
         AND STATEID = #{STATEID}
         GROUP BY
             DATE_FORMAT(DTORDERDATE, '%Y-%m-%d')

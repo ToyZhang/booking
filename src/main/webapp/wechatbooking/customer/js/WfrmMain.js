@@ -46,7 +46,8 @@ function query(){
                 	mcId = content[i].mcid;
                 	var name = content[i].name;
                 	var imgName = content[i].hoteImg;
-                	createHotelItem(address,name,imgName);
+                    var orderTel = content[i].ordertel;
+                	createHotelItem(address,name,imgName,orderTel);
                 }
                 $('a').on('click',function(e){
 					var hotel = e.target;
@@ -83,7 +84,7 @@ function query(){
 	                    </div>
                 	</li>
  */
-function createHotelItem(address,name,imgName){
+function createHotelItem(address,name,imgName,orderTel){
 	var ul = document.getElementById("hotel_list");
 	var li = document.createElement("li");
 	li.className = "am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left";
@@ -112,6 +113,7 @@ function createHotelItem(address,name,imgName){
 	h3.className = "am-list-item-hd";
 	var a = document.createElement("a");
 	a.innerHTML = name;
+	a.id = "shopName-zty-"+name+"-zty-"+address+"-zty-"+orderTel;
 	a.style = "cursor:pointer";
 	h3.appendChild(a);
 	divMain.appendChild(h3);
@@ -131,7 +133,14 @@ function createHotelItem(address,name,imgName){
 	li.appendChild(divMain);
 	ul.appendChild(li);
 }
-function onclick_hotel(){
+function onclick_hotel(hotel){
+	var id = hotel.id.split("-zty-");
+	var shopName = id[1];
+    var address = id[2];
+    var orderTel = id[3];
+	saveCookie("shopName",shopName);
+	saveCookie("address",address);
+	saveCookie("orderTel",orderTel);
 	if((gcId != null && gcId != "" && gcId !== undefined)
 		&& (dinerId != null && dinerId != "" && dinerId !== undefined)
 		&& (openId == null || openId == "" || openId === undefined)

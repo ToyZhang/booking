@@ -10,15 +10,16 @@
             PHO_HT_ORDER_ROOMTYPE T,
             PHO_HT_ORDER r
         WHERE
-            T .orderid = r.orderid
-        AND r.mcid = #{MCID}
-        AND r.dinerid = #{DINERID}
-        AND r.stateid = #{STATEID}
+            T .ORDERID = r.ORDERID
+        AND r.MCID = #{MCID}
+        AND r.DINERID = #{DINERID}
+        AND r.STATEID = #{STATEID}
+        AND r.ICHECKFLG = #{ICHECKFLG}
         ORDER BY
-            r.dtorderdate DESC
+            r.DTORDERDATE DESC
     </select>
     <update id="changeOrderStatus">
-        UPDATE PHO_HT_ORDER SET stateid=#{STATUS} WHERE orderid= #{ORDERID}
+        UPDATE PHO_HT_ORDER SET stateid=#{STATUS},ICHECKFLG=#{ICHECKFLG} WHERE orderid= #{ORDERID}
     </update>
     <update id="changeRoomCount">
         UPDATE PHO_HT_ROOMTYPE
@@ -44,11 +45,11 @@
     <insert id="addOrder">
         INSERT INTO PHO_HT_ORDER (
             orderid,orderno,mcid,clinker,ilinktel,dtbegdate,
-            dtenddate,dtorderdate,stateid,dinerid,idcard
+            dtenddate,dtorderdate,stateid,dinerid,idcard,ICHECKFLG
         )
         VALUES(
             #{ORDERID},#{ORDERNO},#{MCID},#{CLINKER},#{ILINKTEL},#{BEGDATE},
-            #{ENDDATE},#{ORDERTIME},#{STATEID},#{DINERID},#{IDCARD}
+            #{ENDDATE},#{ORDERTIME},#{STATEID},#{DINERID},#{IDCARD},#{ICHECKFLG}
         )
     </insert>
     <insert id="addOrder_room">

@@ -15,6 +15,7 @@ public class TCSL_VO_OrderDetail {
     private String DTBEGDATE;//到店时间
     private String DTENDDATE; //离店时间
     private String STATEID; //订单状态
+    private String ICHECKFLG; //支付状态 0 未支付  1已支付
 
     public String getID() {
         return ID;
@@ -102,5 +103,13 @@ public class TCSL_VO_OrderDetail {
 
     public void setSTATEID(String STATEID) {
         this.STATEID = STATEID;
+    }
+
+    public String getICHECKFLG() {
+        return ICHECKFLG;
+    }
+
+    public void setICHECKFLG(String ICHECKFLG) {
+        this.ICHECKFLG = ICHECKFLG;
     }
 }

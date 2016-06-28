@@ -3,7 +3,14 @@ var dinerId;
 var openId;
 var mpId;
 window.onload = function(){
-	init();
+	var params = getRequestParam();
+	mcId = params["mcid"];
+	dinerId = params["dinerid"];
+	openId = params["openid"];
+	mpId = params["mpid"];
+    var startDate = currentTime();
+    var endDate = yestodayTime(startDate);
+	init(startDate,endDate);
 }
 /**
  * 初始化时间按钮
@@ -16,13 +23,8 @@ $(function() {
     var $alert = $('#my-alert');
     $('#my-start').datepicker().
       on('changeDate.datepicker.amui', function(event) {
-        if (event.date.valueOf() > endDate.valueOf()) {
-          $alert.find('p').text('开始日期应小于结束日期！').end().show();
-        } else {
-          $alert.hide();
-          startDate = new Date(event.date);
-          $('#my-startDate').text($('#my-start').data('date'));
-        }
+        $alert.hide();
+        $('#my-startDate').text($('#my-start').data('date'));
         $(this).datepicker('close');
   	});
 
@@ -31,22 +33,19 @@ $(function() {
         if (event.date.valueOf() < startDate.valueOf()) {
           $alert.find('p').text('结束日期应大于开始日期！').end().show();
         } else {
-          $alert.hide();
-          endDate = new Date(event.date);
-          $('#my-endDate').text($('#my-end').data('date'));
+            $alert.hide();
+            endDate = new Date(event.date);
+            $('#my-endDate').text($('#my-end').data('date'));
+            var start = $('#my-startDate').html();
+            var end = $('#my-endDate').html();
+            $("#myRoomList").empty();
+            init(start,end);
         }
         $(this).datepicker('close');
   	});
 });
 
-function init(){
-	var params = getRequestParam();
-	mcId = params["mcid"];
-	dinerId = params["dinerid"];
-	openId = params["openid"];
-	mpId = params["mpid"];
-	var startDate = currentTime();
-	var endDate = yestodayTime();
+function init(startDate,endDate){
 	var requestPath = getRequestPath();
 	$.ajax({
         //请求方式
@@ -58,8 +57,8 @@ function init(){
         //传参
         data:{
             mcId:mcId,
-            startDate:'2016-06-01',//startDate,
-            endDate:'2016-06-30'//endDate
+            startDate:startDate,
+            endDate:endDate
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },

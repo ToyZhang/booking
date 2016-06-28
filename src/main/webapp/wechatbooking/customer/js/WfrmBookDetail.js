@@ -26,8 +26,8 @@ function init(){
         data:{
             mcId:mcId,
             roomTypeId:roomTypeId,
-            startDate:"2016-06-29",//startDate,
-            endDate:"2016-06-30"//endDate
+            startDate:startDate,
+            endDate:endDate
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },

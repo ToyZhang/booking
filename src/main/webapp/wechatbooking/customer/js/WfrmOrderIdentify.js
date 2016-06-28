@@ -38,34 +38,8 @@ function init(){
  * 将该笔订单设置为未完成订单
  */
 function onclick_frontPay(){
-	var requestPath = getRequestPath();
     path = "../templates/WfrmBookStatus.html?frontPay=1";
     checkOrder(path);
-// 	$.ajax({
-//         //请求方式
-//         type:"post",
-//         //请求路径
-//         url:requestPath+'myOrder/noFinishPay',
-//         //是否异步请求
-//         async:true,
-//         //传参
-//         data:{
-//         	id:orderId,
-//             mcId:mcId,
-//             roomTypeId:roomTypeId,
-//             count:count,
-//             endDate:endDate,
-// 			startDate:startDate
-//         },
-//         //发送请求前执行方法
-// //		beforeSend:function(){ },
-//         //成功返回后调用函数
-//         success:function(data){
-//
-//         },
-//         //调用出错执行的函数
-// //		error:function(){ }
-//   });
 }
 /**
  * 立即支付
@@ -74,17 +48,19 @@ function onclick_frontPay(){
 function onclick_pay(id){	
 	var openId = getCookie("openId");
 	var mpid = getCookie("mpId");
+    var requestPath = getRequestPath();
+    var backPath = requestPath+"/wechatbooking/customer/templates/WfrmBookStatus.html";
 	if(id == "crm_pay"){ //crm支付 paytypeid:3
-		var data = "{+'openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':''"+",'money':'"+price
+		var data = "{'openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+backPath+"','money':'"+price
 				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"
-				+",'payFrom':3"+",'payMoney':'"+price+"','goods':[{'goodsName':'手机','price':'99'" +
+				+",'payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
 				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 		getPaySign(data);		
 	}
 	if(id == "wechat_pay"){ //微信支付 paytypeid:6
-		var data = "{'openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':''"+",'money':'"+price
+		var data = "{'openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+backPath+"'"+",'money':'"+price
 				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"
-				+",'payFrom':3"+",'payMoney':'"+price+"','goods':[{'goodsName':'手机','price':'99'" +
+				+",'payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
 				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 		getPaySign(data);
 	}
@@ -110,8 +86,8 @@ function getPaySign(param){
         success:function(data){
         	if(data.ret == 0){
         		param = param +"&sign="+ data.content;
-        		var path = "http://"+RESOURCE_PAY_COMMON_IP_PORT+"/api/tcsl/CommPayPage.htm?data="+param;
-        		path = "../templates/WfrmBookStatus.html?returnCode=1";//测试使用
+        		var path = RESOURCE_PAY_COMMON_IP_PORT+"tcsl/CommPayPage.htm?data="+param;
+        		// path = "../templates/WfrmBookStatus.html?";//测试使用
         		checkOrder(path);
         	}
         },
@@ -188,6 +164,7 @@ function payOrder(path){
         //成功返回后调用函数
         success:function(data){
         	saveCookie("pay_orderId",orderId);
+			saveCookie("pay_price",price);
     		window.location.href = path;
         },
         //调用出错执行的函数

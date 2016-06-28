@@ -12,4 +12,5 @@ public interface TCSL_DAO_OrderDetail {
     List<TCSL_VO_OrderDetail> query(
         @Param("MCID") String mcId
     );
+
 }

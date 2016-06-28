@@ -7,7 +7,6 @@ import com.vo.TCSL_VO_Result;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -26,13 +25,8 @@ public class TCSL_BO_MyOrder {
     public TCSL_VO_Result query(String mcId,String dinerId){
         TCSL_VO_Result result = new TCSL_VO_Result();
         TCSL_VO_MyOrder myorder = new TCSL_VO_MyOrder();
-        List<TCSL_VO_MyOrderInfo> noFinishList = daoMyOrder.query(mcId,dinerId,"1"); //未完成
+        List<TCSL_VO_MyOrderInfo> noFinishList = daoMyOrder.query(mcId,dinerId,"0","0"); //未入住  未支付
         for (TCSL_VO_MyOrderInfo voMyOrderInfo:noFinishList) {
-            //计算房费
-            Integer count = voMyOrderInfo.getICOUNT();
-            BigDecimal price = voMyOrderInfo.getMPRICE();
-            BigDecimal money = price.multiply(new BigDecimal(count));
-            voMyOrderInfo.setMoney(money);
             //计算住房天数
             SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
             String startDate = voMyOrderInfo.getDTBEGDATE();
@@ -45,13 +39,8 @@ public class TCSL_BO_MyOrder {
             long stayDay = (time / (1000 * 60 * 60 * 24));
             voMyOrderInfo.setStayDays(Math.round(stayDay));
         }
-        List<TCSL_VO_MyOrderInfo> finishList = daoMyOrder.query(mcId,dinerId,"2"); //已完成
+        List<TCSL_VO_MyOrderInfo> finishList = daoMyOrder.query(mcId,dinerId,"0","1"); // 未入住 已支付
         for (TCSL_VO_MyOrderInfo voMyOrderInfo:finishList) {
-            //计算房费
-            Integer count = voMyOrderInfo.getICOUNT();
-            BigDecimal price = voMyOrderInfo.getMPRICE();
-            BigDecimal money = price.multiply(new BigDecimal(count));
-            voMyOrderInfo.setMoney(money);
             //计算住房天数
             String startDate = voMyOrderInfo.getDTBEGDATE();
             startDate = startDate + " 00:00:00";
@@ -63,13 +52,8 @@ public class TCSL_BO_MyOrder {
             long stayDay = (time / (1000 * 60 * 60 * 24));
             voMyOrderInfo.setStayDays(Math.round(stayDay));
         }
-        List<TCSL_VO_MyOrderInfo> cancelList = daoMyOrder.query(mcId,dinerId,"3"); //取消
+        List<TCSL_VO_MyOrderInfo> cancelList = daoMyOrder.query(mcId,dinerId,"3","0"); //取消
         for (TCSL_VO_MyOrderInfo voMyOrderInfo:cancelList) {
-            //计算房费
-            Integer count = voMyOrderInfo.getICOUNT();
-            BigDecimal price = voMyOrderInfo.getMPRICE();
-            BigDecimal money = price.multiply(new BigDecimal(count));
-            voMyOrderInfo.setMoney(money);
             //计算住房天数
             String startDate = voMyOrderInfo.getDTBEGDATE();
             startDate = startDate + " 00:00:00";
@@ -90,7 +74,7 @@ public class TCSL_BO_MyOrder {
     }
     public TCSL_VO_Result cancelOrder(String id,String mcId,String roomTypeId,String count,String endDate,String startDate){
         TCSL_VO_Result result = new TCSL_VO_Result();
-        daoMyOrder.changeOrderStatus(id,"3"); //取消订单
+        daoMyOrder.changeOrderStatus(id,"3","0"); //取消订单
         startDate = startDate + " 00:00:00";
         endDate = endDate + " 00:00:00";
         Timestamp startTime = Timestamp.valueOf(startDate);
@@ -108,7 +92,7 @@ public class TCSL_BO_MyOrder {
     }
     public TCSL_VO_Result finishOrder(String id,String mcId,String roomTypeId,String count,String endDate,String startDate){
         TCSL_VO_Result result = new TCSL_VO_Result();
-        daoMyOrder.changeOrderStatus(id,"2"); //完成订单
+        daoMyOrder.changeOrderStatus(id,"0","0"); //未入住 未支付
         startDate = startDate + " 00:00:00";
         endDate = endDate + " 00:00:00";
         Timestamp startTime = Timestamp.valueOf(startDate);
@@ -127,7 +111,7 @@ public class TCSL_BO_MyOrder {
 
     public TCSL_VO_Result finishPay(String id){
         TCSL_VO_Result result = new TCSL_VO_Result();
-        daoMyOrder.changeOrderStatus(id,"2"); //完成订单支付
+        daoMyOrder.changeOrderStatus(id,"0","1"); //未入住 已支付
         result.setRet(0);
         return result;
     }
@@ -183,7 +167,7 @@ public class TCSL_BO_MyOrder {
                                    String roomTypeId,String count,String price,String roomName) {
         TCSL_VO_Result result = new TCSL_VO_Result();
         daoMyOrder.addOrder(orderId,orderId,mcId,
-                clinker,ilinktel,startDate,endDate,orderTime,"1",dinerid,idcard); //添加为未完成
+                clinker,ilinktel,startDate,endDate,orderTime,"0",dinerid,idcard,"0"); //未入住  未支付
         daoMyOrder.addOrder_room(orderId,roomTypeId,roomName,price,count); //向关联表中添加订单信息
         //减少该房间可预订房间数
         startDate = startDate + " 00:00:00";
@@ -206,10 +190,10 @@ public class TCSL_BO_MyOrder {
     public TCSL_VO_Result createPayMd5(String mcId, String data) {
         TCSL_VO_Result result = new TCSL_VO_Result();
         String param = md5(mcId,"MD5");
-        param = param + data;
-        param = md5(param,"MD5");
+        param = "data="+data + param;
+        String strResult = md5(param,"MD5");
         result.setRet(0);
-        result.setContent(param);
+        result.setContent(strResult);
         return  result;
     }
     private final char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd','e', 'f' };
@@ -234,4 +218,5 @@ public class TCSL_BO_MyOrder {
         }
         return "";
     }
+
 }

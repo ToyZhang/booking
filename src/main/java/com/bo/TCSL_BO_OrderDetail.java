@@ -28,4 +28,5 @@ public class TCSL_BO_OrderDetail {
         result.setRet(0);
         return result;
     }
+
 }

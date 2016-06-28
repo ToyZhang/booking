@@ -12,11 +12,13 @@ public interface TCSL_DAO_MyOrder {
     List<TCSL_VO_MyOrderInfo> query(
         @Param("MCID") String mcId,
         @Param("DINERID") String dinerId,
-        @Param("STATEID") String stateId
+        @Param("STATEID") String stateId,
+        @Param("ICHECKFLG") String payFlag
     );
     void changeOrderStatus(
         @Param("ORDERID") String orderId,
-        @Param("STATUS") String status
+        @Param("STATUS") String status,
+        @Param("ICHECKFLG") String payFlag
     );
     void changeRoomCount(
       @Param("MCID") String mcId,
@@ -42,7 +44,8 @@ public interface TCSL_DAO_MyOrder {
             @Param("ORDERTIME") String orderTime,
             @Param("STATEID") String stateId,
             @Param("DINERID") String dinerId,
-            @Param("IDCARD") String idCard
+            @Param("IDCARD") String idCard,
+            @Param("ICHECKFLG") String payFlag
     );
     void addOrder_room(
             @Param("ORDERID") String orderId,

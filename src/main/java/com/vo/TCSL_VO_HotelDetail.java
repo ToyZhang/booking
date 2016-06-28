@@ -12,6 +12,7 @@ public class TCSL_VO_HotelDetail extends TCSL_VO_Facilitys{
     private String DESP;
     private String hoteImg;
     private String phone;
+    private String ORDERTEL;
     private List<TCSL_VO_RoomInfo> roomInfoList;
     public String getMCID() {
         return MCID;
@@ -67,5 +68,13 @@ public class TCSL_VO_HotelDetail extends TCSL_VO_Facilitys{
 
     public void setDESP(String DESP) {
         this.DESP = DESP;
+    }
+
+    public String getORDERTEL() {
+        return ORDERTEL;
+    }
+
+    public void setORDERTEL(String ORDERTEL) {
+        this.ORDERTEL = ORDERTEL;
     }
 }

@@ -60,7 +60,7 @@ function init(dinerId){
                 	var id = noFinishList[i].id;
                 	var phone = noFinishList[i].ilinktel;
                 	var userName = noFinishList[i].clinker;
-                	var money = noFinishList[i].money;
+                	var money = noFinishList[i].mprice;
                 	var count = noFinishList[i].icount;
                 	var roomTypeId = noFinishList[i].croomtypeid;
                 	var type = "noFinish";
@@ -77,7 +77,7 @@ function init(dinerId){
                 	var id = finishList[i].id;
                 	var phone = finishList[i].ilinktel;
                 	var userName = finishList[i].clinker;
-                	var money = finishList[i].money;
+                	var money = finishList[i].mprice;
                 	var count = finishList[i].icount;
                 	var roomTypeId = finishList[i].croomtypeid;
                 	var type = "finish";
@@ -94,7 +94,7 @@ function init(dinerId){
                 	var id = cancelList[i].id;
                 	var phone = cancelList[i].ilinktel;
                 	var userName = cancelList[i].clinker;
-                	var money = cancelList[i].money;
+                	var money = cancelList[i].mprice;
                 	var count = cancelList[i].icount;
                 	var roomTypeId = cancelList[i].croomtypeid;
                 	var type = "cancel";
@@ -235,19 +235,19 @@ function createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,
 	
 }
 function onclick_pay(id){
+    var requestPath = getRequestPath();
+    var backPath = requestPath+"/wechatbooking/customer/templates/WfrmBookStatus.html";
 	if(id == "crm_pay"){ //crm支付 paytypeid:3
-		var requestPath = getRequestPath();
-		var backPath = requestPath+"/wechatbooking/customer/templates/WfrmBookStatus.html"
 		var data = "{'openid':'','mpid':'','udStateUrl':'"+backPath+"'"+",'money':'"+price
 				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"
-				+",'payFrom':3"+",'payMoney':'"+price+"','goods':[{'goodsName':'手机','price':'99'" +
+				+",'payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
 				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 		getPaySign(data);
 	}
 	if(id == "wechat_pay"){ //微信支付 paytypeid:6
 		var data = "{'openid':'','mpid':'','udStateUrl':'"+backPath+"'"+",'money':'"+price
 				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"
-				+",'payFrom':3"+",'payMoney':'"+price+"','goods':[{'goodsName':'手机','price':'99'" +
+				+",'payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
 				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 		getPaySign(data);
 	}
@@ -301,135 +301,14 @@ function getPaySign(param){
         success:function(data){
         	if(data.ret == 0){
         		param = param +"&sign="+ data.content;
-        		var path = "http://"+RESOURCE_PAY_COMMON_IP_PORT+"/api/tcsl/CommPayPage.htm?data="+param;
+        		var path = RESOURCE_PAY_COMMON_IP_PORT+"tcsl/CommPayPage.htm?data="+param;
         		saveCookie("pay_orderId",itemId);
-        		path = "../templates/WfrmBookStatus.html?returnCode=1";//测试使用
+				saveCookie("pay_price",price);
+        		// path = "../templates/WfrmBookStatus.html?returnCode=1";//测试使用
         		window.location.href = path;
         	}
         },
         //调用出错执行的函数
 //		error:function(){ }
   });
-}
-/**
- * 检查该房型是否可预订
- */
-function checkOrder(path){
-	var requestPath = getRequestPath();
-	//判断房间数量是否足够
-	$.ajax({
-        //请求方式
-        type:"post",
-        //请求路径
-        url:requestPath+'myOrder/checkOrder',
-        //是否异步请求
-        async:true,
-        //传参
-        data:{
-            mcId:mcId,
-            roomTypeId:itemRoomTypeId,
-            count:itemCount,
-            endDate:itemEndDate,
-			startDate:itemStartDate
-        },
-        //发送请求前执行方法
-//		beforeSend:function(){ },
-        //成功返回后调用函数
-        success:function(data){
-        	if(data.ret == 0){
-        		orderId = data.content;
-        		payOrder(path);
-        	}else{
-				alert("该房型已满");
-			}       	
-        },
-        //调用出错执行的函数
-//		error:function(){ }
-  });
-}
-/**
- * 添加订单
- */
-function payOrder(path){
-	var requestPath = getRequestPath();
-	var now = getNowTime();
-	var dinerId = getCookie("dinerId");
-	$.ajax({
-        //请求方式
-        type:"post",
-        //请求路径
-        url:requestPath+'myOrder/addOrder',
-        //是否异步请求
-        async:true,
-        //传参
-        data:{
-            orderId:orderId,
-			mcId:mcId,
-			clinker:clinker,
-			ilinktel:phoneNum,
-			startDate:itemStartDate,
-			endDate:itemEndDate,
-			orderTime:now,
-			dinerid:dinerId,
-			idcard:idNum,
-			roomTypeId:itemRoomTypeId,
-			count:itemCount
-        },
-        //发送请求前执行方法
-//		beforeSend:function(){ },
-        //成功返回后调用函数
-        success:function(data){
-        	saveCookie("pay_orderId",orderId);
-//  		saveCookie("pay_clinker",clinker);
-//			saveCookie("pay_ilinktel",phoneNum);
-//			saveCookie("pay_startDate",itemStartDate);
-//			saveCookie("pay_endDate",itemEndDate);
-//			saveCookie("pay_dinerid",dinerId);
-//			saveCookie("pay_idcard",idNum);
-//			saveCookie("pay_roomTypeId",itemRoomTypeId);
-//			saveCookie("pay_count",itemCount);
-			path = "../templates/WfrmBookStatus.html";//测试使用
-			window.location.href = path;
-        },
-        //调用出错执行的函数
-//		error:function(){ }
-  });
-}
-/**
- * 返回当前时间 YYYY-MM-DD HH:mm:ss
- */
-function getNowTime(){
-	var now = new Date();
-    var year = now.getFullYear();       //年
-    var month = now.getMonth() + 1;     //月
-    var day = now.getDate();
-    var hh = now.getHours();            //时
-    var mm = now.getMinutes();          //分
-    var ss = now.getSeconds();           //秒
-
-    var clock = year+"-";
-
-    if (month < 10)
-        clock += "0";
-
-    clock += month + "-";
-
-    if (day < 10)
-        clock += "0";
-
-    clock += day + " ";
-    
-    if(hh < 10)
-    	clock += "0";
-    clock += hh + ":";
-    
-    if(mm < 10)
-    	clock += "0";
-    clock += mm + ":";
-    
-    if(ss < 10)
-    	clock += "0";
-    clock += ss;
-
-    return (clock);
 }
