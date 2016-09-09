@@ -1,0 +1,55 @@
+微信预订后台管理系统
+1.登录 登录接口 参数:mcid(商户号id),password
+             返回值:0 成功  -1 失败
+2.首页  查询历史数据 参数 mcid
+                  返回值 : CLS_VO_BookInfo
+
+                  CLS_VO_BookInfo:
+                                    Integer finishOrderCount
+                                    Integer allOrderCount //不写stateid限制条件即为所有预约订单
+                                    Integer cancelOrderCount
+                                    list<CLS_VO_BookHistory> bookHistoryList
+                  CLS_VO_BookHistory:
+                                    String date
+                                    List<Integer>   notArriveValue
+                                    List<Integer>   arriveValue
+                                    List<Integer>   cancelValue
+                  sql:SELECT
+                      	count(*)
+                      FROM
+                      	PHO_HT_ORDER
+                      WHERE
+                      	DATE_FORMAT(DTORDERDATE, '%Y-%m-%d') = '日期'
+                      AND stateid = 0 //未到店  2 // 已入住  3//取消
+                      AND mcid = '商户号'
+
+                  example:2016-01-06
+                          2016-02-18
+                          2016-02-19
+                          2016-04-11
+                          2016-04-12
+                          2016-04-14
+                          2016-04-15
+                          2016-04-18
+3.首页 获取今日抵店数据   参数:mcid
+                        返回值:调研AmazeUI中是否有gridList相关控件，显示查询出来的内容
+                    sql:SELECT
+                        	t.ID,
+                        	t.ORDERID ROOMTYPE_ORDER_ID,
+                        	t.CROOMTYPEID,
+                        	t.CNAME,
+                        	r.ORDERNO,
+                        	t.MPRICE,
+                        	t.ICOUNT
+                        FROM
+                        	PHO_HT_ORDER_ROOMTYPE t,
+                        	PHO_HT_ORDER r
+                        WHERE
+                        	t.orderid = r.orderid
+                        -- AND r.mcid = '{0}'
+                        AND r.stateid = 0
+                        -- AND DATE_FORMAT(r.DTBEGDATE, '%Y-%m-%d') = '{1}'
+                        ORDER BY
+                        	r.dtorderdate DESC
+        获取新增订单数据
+                        去掉r.stateid = 0限制条件 即查询当天的所有记录

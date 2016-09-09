@@ -2,7 +2,8 @@ package com.rest;
 
 import com.dao.HTO_UPDATE_ACCOUNT_DAO;
 import com.po.HTO_UPDATE_ACCOUNT;
-import org.springframework.context.ApplicationContext;
+import com.vo.TCSL_VO_Result;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,10 +28,15 @@ public class HelloWorld {
 
     @RequestMapping("/queryAll")
     @ResponseBody
-    public void queryAll() {
-        List<HTO_UPDATE_ACCOUNT> books = hto_update_account_dao.queryAll();
-        for (HTO_UPDATE_ACCOUNT book : books) {
-            System.out.println(book.getCGUESTNAME());
-        }
+    public JSONObject queryAll() {
+        List<HTO_UPDATE_ACCOUNT> accounts = hto_update_account_dao.queryAll();
+//        for (HTO_UPDATE_ACCOUNT account : accounts) {
+//            System.out.println(account.getCGUESTNAME());
+//        }
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        result.setRet(0);
+        result.setContent(accounts);
+        JSONObject object = JSONObject.fromObject(result);
+        return object;
     }
 }
