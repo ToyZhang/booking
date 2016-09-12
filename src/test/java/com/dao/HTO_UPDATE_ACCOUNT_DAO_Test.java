@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
 
 /**

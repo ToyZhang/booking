@@ -34,10 +34,10 @@ jQuery(function(){
 
         // 选择文件的按钮
         pick: '#filePicker',
-        
+
 		//指明使用二进制方式上传文件
 //		sendAsBinary:true,
-		
+
         // 只允许选择文件，可选。
         accept: {
             title: 'Images',
@@ -45,7 +45,7 @@ jQuery(function(){
             mimeTypes: 'image/*'
         }
     });
-    
+
     // 当有文件添加进来的时候
     uploader.on('fileQueued', function (file) {
         var $li = $(
@@ -105,4 +105,4 @@ jQuery(function(){
     uploader.on('uploadComplete', function (file) {
         $('#' + file.id).find('.progress').remove();
     });
-});  
+});
