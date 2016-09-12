@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="description" content="上传图片">
+	    <meta name="description" content="房型图片管理-查上传图片">
 	    <meta name="keywords" content="index">
 	    <meta name="viewport" content="width=device-width, initial-scale=1, 			maximum-scale=1,user-scalable=no">
 	    <meta name="renderer" content="webkit">
@@ -13,7 +13,10 @@
 	    <link rel="apple-touch-icon-precomposed" href="../api/AmazeUI/i/app-icon72x72@2x.png">
 	    <link rel="stylesheet" href="../api/AmazeUI/css/amazeui.min.css" />
 	    <link rel="stylesheet" href="../api/AmazeUI/css/admin.css">
-	    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+	    <link rel="stylesheet" type="text/css" href="../api/webuploader/webuploader.css" />
+	    <script src="../api/jQuery/jquery.min.js"></script>
+	    <script src="../api/webuploader/webuploader.js"></script>
+	    <script src="../js/common.js"></script>
 	    <script src="../js/WfrmUploadPhoto.js"></script>
 	    <!--[if lt IE 9]>
 		<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
@@ -37,7 +40,7 @@
             <hr />
             <div class="am-g">
                 <div class="am-u-sm-12 am-u-sm-centered">
-                    <h2>
+                    <h2 id="roomName">
 						标准间
                     </h2>
                     <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list" id="fileList">

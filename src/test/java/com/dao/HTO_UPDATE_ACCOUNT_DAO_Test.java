@@ -7,6 +7,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -24,5 +27,18 @@ public class HTO_UPDATE_ACCOUNT_DAO_Test {
         for (HTO_UPDATE_ACCOUNT book : books) {
             System.out.println(book.getCGUESTNAME());
         }
+    }
+    @Test
+    public void testStream() throws Exception {
+        File sf = new File("C:\\Users\\Administrator\\Desktop\\yilianmengbi\\yilianmenbi\\123.jpg");
+        File df = new File("C:\\Users\\Administrator\\Desktop\\yilianmengbi\\yilianmenbi\\test.jpg");
+        byte[] buf = new byte[1024];
+        int len = 0;
+        FileInputStream in = new FileInputStream(sf);
+        FileOutputStream out = new FileOutputStream(df,true);
+        while( (len = in.read(buf)) != -1 ){
+            out.write(buf,0,len);
+        }
+        out.close();
     }
 }

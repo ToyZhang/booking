@@ -11,7 +11,7 @@ function init(){
 	onclick_topPage();
 }
 function loadPage(src){
-	 window.open(src,'displayContent');
+	window.open(src,'displayContent');
 }
 /**
  * 首页 点击事件
@@ -24,13 +24,15 @@ function onclick_topPage() {
  * 酒店信息维护 点击事件
  */
 function onclick_hotelInfoMaintain(){
-	console.info("点击酒店信息维护");
+	var displatSrc = "../templates/WfrmHotelInfo.html";
+	loadPage(displatSrc);
 }
 /**
  * 房型图片管理 点击事件
  */
 function onclick_roomCaptureManage(){
-	console.info("点击房型图片管理");
+	var displatSrc = "../templates/WfrmRoomPhoto.html";
+	loadPage(displatSrc);
 }
 /**
  * 酒店外景图管理 点击事件

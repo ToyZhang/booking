@@ -34,7 +34,8 @@ function login() {
     //TODO
     //查询后台获取商户名称
     document.cookie = "shopTitle=testZTY";
-    window.location.href = "../templates/WfrmMain.html"
+    window.location.href = "../templates/WfrmMain.html";
+    
 }
 document.onkeydown = function (event) {
     var e = event || window.event || arguments.callee.caller.arguments[0];
