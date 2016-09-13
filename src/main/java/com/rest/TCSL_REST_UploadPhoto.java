@@ -11,10 +11,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -36,12 +33,13 @@ public class TCSL_REST_UploadPhoto {
         String fileName = re.getParameter("name"); //图片名称
         CommonsMultipartFile cf = (CommonsMultipartFile) fileM;
         InputStream is = cf.getInputStream();
+        //读取上传路径配置文件
         Properties prop = new Properties();
-        InputStream ins = Object.class.getClass().getResourceAsStream(
-                "../uploadImgPath.properties");
+        String path = TCSL_REST_UploadPhoto.class.getResource("/").getPath() + "upload-path.properties";
+        InputStream ins = new BufferedInputStream(new FileInputStream(path));
         prop.load(ins);
         String savePath = prop.getProperty("SAVE_PATH").trim();
-        String folderPath = "D:\\java\\uploadImg"+"/"+shopName+"/"+roomType;
+        String folderPath = savePath+"/"+shopName+"/"+roomType;
         //判断文件夹是否存在
         File df = new File(folderPath);
         if(!df.exists()){
@@ -50,14 +48,10 @@ public class TCSL_REST_UploadPhoto {
         //判断文件是否存在
         String filePath = folderPath + "/" + fileName;
         File file = new File(filePath);
-        if(!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if(file.exists()){
+            file.delete();
         }
-
+        file.createNewFile();
         FileOutputStream out = new FileOutputStream(filePath,true);
         while( (len = is.read()) != -1 ){
             out.write(len);
@@ -65,5 +59,4 @@ public class TCSL_REST_UploadPhoto {
         out.close();
         is.close();
     }
-
 }
