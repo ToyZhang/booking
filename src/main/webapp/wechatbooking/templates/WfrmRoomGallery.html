@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="description" content="房型图片管理-上传图片">
+	    <meta name="description" content="房型图片管理-相册">
 	    <meta name="keywords" content="index">
 	    <meta name="viewport" content="width=device-width, initial-scale=1, 			maximum-scale=1,user-scalable=no">
 	    <meta name="renderer" content="webkit">
@@ -17,7 +17,7 @@
 	    <script src="../api/jQuery/jquery.min.js"></script>
 	    <script src="../api/webuploader/webuploader.js"></script>
 	    <script src="../js/common.js"></script>
-	    <script src="../js/WfrmUploadPhoto.js"></script>
+	    <script src="../js/WfrmRoomGallery.js"></script>
 	    <!--[if lt IE 9]>
 		<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 		<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
@@ -34,27 +34,39 @@
 	<body>
 		<div class="am-cf am-padding">
             <div class="am-fl am-cf">
-                <strong class="am-text-primary am-text-lg">图片上传</strong> / <small>Photo Upload</small>
+                <strong class="am-text-primary am-text-lg">相册</strong> / <small>Gallery</small>
             </div>
         </div>
-        <hr />
-        <div class="am-g">
-            <div class="am-u-sm-12 am-u-sm-centered">
-                <h2 id="roomName">
-                </h2>
-                <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list" id="fileList">
-                </ul>
-                <div id="filePicker">
-                	选择图片
-                </div>
-        	<hr />
-            </div>
-            <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
-                <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                <p>
-           			注：请上传 gif, jpg, jpeg, bmp, png 格式图片
-                </p>
-            </div>
-        </div>
+        <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list">
+         	<li>
+         		<a href="">
+         			<img class='am-img-thumbnail am-img-bdrs' src='{0}' onclick=""/>
+         			<div class='gallery-desc'>
+         				
+         			</div>
+         		</a>
+         		<div style='cursor:pointer' class='gallery-title' id='btndel' onclick="">
+         			<span class='am-icon-trash am-icon-sm'></span>
+         		</div>
+         	</li>
+            
+        </ul>
+        
+        <br />  <br />  <br />  <br />  <br />  <br />  <br />  <br />  <br />  <br />  <br />  <br />
+        
+        <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+	  		<div class="am-modal-dialog">
+	    		<div class="am-modal-hd">
+	    			微信预订后台管理系统
+	    		</div>
+	    		<div class="am-modal-bd">
+	      			您，确定要删除这张照片吗？
+	    		</div>
+	    		<div class="am-modal-footer">
+	      			<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+	      			<span class="am-modal-btn" data-am-modal-confirm>确定</span>
+	    		</div>
+	  		</div>
+  		</div>
 	</body>
 </html>

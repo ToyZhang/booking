@@ -6,7 +6,8 @@ window.onload=function(){
 function init(){
 	//1.查询后台获取数据
 	//2.商户名称赋值
-	$("#shopTitle").html("test");
+	var shopName = getCookie("shopName");
+	$("#shopTitle").html(shopName);
 	//3.加载首页
 	onclick_topPage();
 }

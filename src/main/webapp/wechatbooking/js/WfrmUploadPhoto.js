@@ -11,9 +11,9 @@ function initData(){
 jQuery(function(){
 	var $ = jQuery,
     $list = $('#fileList'),
-        // 优化retina, 在retina下这个值是2
+    // 优化retina, 在retina下这个值是2
     ratio = window.devicePixelRatio || 1,
-        // 缩略图大小
+    // 缩略图大小
     thumbnailWidth = 100 * ratio,
     thumbnailHeight = 100 * ratio,
 
@@ -34,10 +34,12 @@ jQuery(function(){
 
         // 选择文件的按钮
         pick: '#filePicker',
-
-		//指明使用二进制方式上传文件
-//		sendAsBinary:true,
-
+        
+        formData:{
+        	roomType:"",
+        	shopName:""
+        },
+		
         // 只允许选择文件，可选。
         accept: {
             title: 'Images',
@@ -46,6 +48,18 @@ jQuery(function(){
         }
     });
 
+    //设置上传图片携带参数
+    uploader.on( 'uploadBeforeSend', function( block, data ) {
+    	console.info("商户cookie",document.cookie);
+	    var type = getCookie("roomType");
+	    var name = getCookie("shopName");
+	    // block为分块数据。  
+	    // file为分块对应的file对象。  
+	    var file = block.file;
+	    // 修改data可以控制发送哪些携带数据。  
+	    data.roomType = type;
+	    data.shopName = name;
+	});  
     // 当有文件添加进来的时候
     uploader.on('fileQueued', function (file) {
         var $li = $(

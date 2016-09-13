@@ -33,7 +33,7 @@ function login() {
     $("#btnLogin").html("登录中 ... <i class='am-icon-spinner am-icon-spin'></i>");
     //TODO
     //查询后台获取商户名称
-    document.cookie = "shopTitle=testZTY";
+    document.cookie = "shopName=testZTY";
     window.location.href = "../templates/WfrmMain.html";
     
 }

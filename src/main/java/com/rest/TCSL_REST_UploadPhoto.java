@@ -2,13 +2,20 @@ package com.rest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Created by zhangtuoyu on 2016-09-12.
@@ -18,47 +25,45 @@ import java.io.*;
 public class TCSL_REST_UploadPhoto {
     @RequestMapping("/addPhoto")
     @ResponseBody
-    public Integer addPhoto(/*@RequestParam(value = "file", required = false) MultipartFile file,*/
-                            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("进入接口");
-        //1
-//        InputStream is =  request.getInputStream();
-//        String path = request.getSession().getServletContext().getRealPath("/wechatbooking/images/upload/123.jpg");
-//        FileOutputStream fos = new FileOutputStream(path);
-//        byte[] uploadImg = new byte[6 * 1024 * 1024];
-//        while((is.read(uploadImg)) != -1){
-//            fos.write(uploadImg);
-//        }
-//        is.close();
-//        fos.close();
-        //2 文件创建出来了 但是不能打开 因为不只有文件内容还有头
+    public void addPhoto(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //解析上传的图片
         int len = 0;
-        InputStream is =  request.getInputStream();
-//        FileInputStream in = new FileInputStream(String.valueOf(is));
-        String path = "C:\\Users\\zhangtuoyu\\Desktop\\test\\test.png";
-        File df = new File(path);
-        FileOutputStream out = new FileOutputStream(df,true);
+        MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        MultipartHttpServletRequest re = resolver.resolveMultipart(request);
+        MultipartFile fileM = re.getFile("file");
+        String shopName = re.getParameter("shopName"); //商户名称
+        String roomType = re.getParameter("roomType"); //房型名称
+        String fileName = re.getParameter("name"); //图片名称
+        CommonsMultipartFile cf = (CommonsMultipartFile) fileM;
+        InputStream is = cf.getInputStream();
+        Properties prop = new Properties();
+        InputStream ins = Object.class.getClass().getResourceAsStream(
+                "../uploadImgPath.properties");
+        prop.load(ins);
+        String savePath = prop.getProperty("SAVE_PATH").trim();
+        String folderPath = "D:\\java\\uploadImg"+"/"+shopName+"/"+roomType;
+        //判断文件夹是否存在
+        File df = new File(folderPath);
+        if(!df.exists()){
+            df.mkdirs();
+        }
+        //判断文件是否存在
+        String filePath = folderPath + "/" + fileName;
+        File file = new File(filePath);
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        FileOutputStream out = new FileOutputStream(filePath,true);
         while( (len = is.read()) != -1 ){
             out.write(len);
         }
-        System.out.println("文件传输完毕");
         out.close();
         is.close();
-        //3
-//        String path ="C:\\Users\\Administrator\\Desktop\\yilianmengbi\\yilianmenbi\\";
-//        String fileName = "test.jpg";//file.getOriginalFilename();
-//        File baseFile = new File(path);
-//        File targetFile = new File(baseFile, fileName);
-//        long size=0;
-//        //保存
-//        try {
-//            file.transferTo(targetFile);
-//            size  = file.getSize();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(path+fileName);
-        return 1;
     }
 
 }
