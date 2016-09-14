@@ -41,7 +41,7 @@ function getRequestPath(){
     var requestPath;
     for(var i = 0; i < localPaths.length; i++){
     	if(i == 2){
-    		requestPath = "http://"+localPaths[i]+"/"
+    		requestPath = "http://"+localPaths[i]+"/";
     	}
     }
     return requestPath;

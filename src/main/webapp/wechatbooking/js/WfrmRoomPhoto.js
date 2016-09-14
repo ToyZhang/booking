@@ -48,27 +48,27 @@ function onclick_btnLookPhoto(roomType){
 		console.error("WfrmRoomPhoto roomType is null");
 	}
 	if(roomType == "standard_room"){
-		var displatSrc = "../templates/WfrmLookPhoto.html";
+		var displatSrc = "../templates/WfrmRoomGallery.html";
 		document.cookie="roomType="+"standard_room";
 		loadPage(displatSrc);
 	}
 	if(roomType == "single_suite"){
-		var displatSrc = "../templates/WfrmLookPhoto.html";
+		var displatSrc = "../templates/WfrmRoomGallery.html";
 		document.cookie="roomType="+"single_suite";
 		loadPage(displatSrc);
 	}
 	if(roomType == "deluxe_single_room"){
-		var displatSrc = "../templates/WfrmLookPhoto.html";
+		var displatSrc = "../templates/WfrmRoomGallery.html";
 		document.cookie="roomType="+"deluxe_single_room";
 		loadPage(displatSrc);
 	}
 	if(roomType == "double_suite"){
-		var displatSrc = "../templates/WfrmLookPhoto.html";
+		var displatSrc = "../templates/WfrmRoomGallery.html";
 		document.cookie="roomType="+"double_suite";
 		loadPage(displatSrc);
 	}
 	if(roomType == "deluxe_commerce_room"){
-		var displatSrc = "../templates/WfrmLookPhoto.html";
+		var displatSrc = "../templates/WfrmRoomGallery.html";
 		document.cookie="roomType="+"deluxe_commerce_room";
 		loadPage(displatSrc);
 	}

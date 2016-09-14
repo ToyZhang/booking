@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -41,5 +40,20 @@ public class HTO_UPDATE_ACCOUNT_DAO_Test {
             out.write(buf,0,len);
         }
         out.close();
+    }
+    @Test
+    public void testQueryFile(){
+        String file_path = "D:\\java\\uploadImg\\testZTY\\standard_room";
+        File file = new File(file_path);
+        if(!file.exists()){
+            System.out.println("路径不存在");
+        }else{
+            File[] files = file.listFiles();
+            int i = files.length;
+            System.out.println("文件个数"+i);
+            for (File f : files) {
+                System.out.println(f.getName());
+            }
+        }
     }
 }

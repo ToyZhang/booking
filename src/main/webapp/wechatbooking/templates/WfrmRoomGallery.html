@@ -14,9 +14,8 @@
 	    <link rel="stylesheet" href="../api/AmazeUI/css/amazeui.min.css" />
 	    <link rel="stylesheet" href="../api/AmazeUI/css/admin.css">
 	    <link rel="stylesheet" type="text/css" href="../api/webuploader/webuploader.css" />
-	    <script src="../api/jQuery/jquery.min.js"></script>
-	    <script src="../api/webuploader/webuploader.js"></script>
 	    <script src="../js/common.js"></script>
+	    <script src="../api/jQuery/jquery.min.js"></script>
 	    <script src="../js/WfrmRoomGallery.js"></script>
 	    <!--[if lt IE 9]>
 		<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
@@ -37,18 +36,30 @@
                 <strong class="am-text-primary am-text-lg">相册</strong> / <small>Gallery</small>
             </div>
         </div>
-        <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list">
-         	<li>
-         		<a href="">
-         			<img class='am-img-thumbnail am-img-bdrs' src='{0}' onclick=""/>
+        <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list" id="imgList">
+         	<!--<li>
+         		<span>
+         			<img class='am-img-thumbnail am-img-bdrs' 						src='http://127.0.0.1:808/image/testZTY/standard_room/14541223424598127.jpg' onclick="detailImg()"/>
          			<div class='gallery-desc'>
          				
          			</div>
-         		</a>
-         		<div style='cursor:pointer' class='gallery-title' id='btndel' onclick="">
+         		</span>
+         		<div style='cursor:pointer' class='gallery-title' id='btndel' onclick="deleteImg()">
          			<span class='am-icon-trash am-icon-sm'></span>
          		</div>
          	</li>
+         	
+         	<li>
+         		<span>
+         			<img class='am-img-thumbnail am-img-bdrs' 						src='http://127.0.0.1:808/image/testZTY/standard_room/123.jpg' onclick="detailImg()"/>
+         			<div class='gallery-desc'>
+         				
+         			</div>
+         		</span>
+         		<div style='cursor:pointer' class='gallery-title' id='btndel' onclick="deleteImg()">
+         			<span class='am-icon-trash am-icon-sm'></span>
+         		</div>
+         	</li>-->
             
         </ul>
         
