@@ -1,7 +1,4 @@
 window.onload = function(){
-	init();
-}
-function init(){
 	initData();
 }
 function initData(){
@@ -17,7 +14,6 @@ jQuery(function(){
     thumbnailWidth = 100 * ratio,
     thumbnailHeight = 100 * ratio,
 
-    // Web Uploader实例
     uploader;
     var requestPath = getRequestPath(); //获取请求路径
     //初始化Web Uploader
@@ -50,7 +46,6 @@ jQuery(function(){
 
     //设置上传图片携带参数
     uploader.on( 'uploadBeforeSend', function( block, data ) {
-    	console.info("商户cookie",document.cookie);
 	    var type = getCookie("roomType");
 	    var name = getCookie("shopName");
 	    // block为分块数据。  

@@ -1,6 +1,5 @@
 window.onload=function(){
 	var value = document.cookie;
-	console.info("获取到的值",value);
 	init();
 }
 function init(){
@@ -8,6 +7,7 @@ function init(){
 	//2.商户名称赋值
 	var shopName = getCookie("shopName");
 	$("#shopTitle").html(shopName);
+	$("#announcement").html(RESOURCE_PUBLIC_ANNOUNCEMENT);
 	//3.加载首页
 	onclick_topPage();
 }

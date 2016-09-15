@@ -46,3 +46,18 @@ function getRequestPath(){
     }
     return requestPath;
 }
+/**
+ * 参数非空判断
+ * @param params 待检查参数
+ */
+function checkEmpty(params){
+	if(params == null || params === undefined){
+		return false;
+	}
+	for(var i=0; i<params.length; i++){
+		if(params[i] == null || params[i] == "" || params[i] === undefined){
+			return false;
+		}
+	}
+	return true;
+}

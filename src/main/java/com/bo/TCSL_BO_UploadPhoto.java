@@ -54,6 +54,14 @@ public class TCSL_BO_UploadPhoto {
         out.close();
         is.close();
     }
+
+    /**
+     * 查询已长传图片
+     * @param shopName
+     * @param roomType
+     * @return
+     * @throws Exception
+     */
     public List<String> queryPhoto(String shopName,String roomType) throws Exception {
         String savePath = utilCommon.getPropertyParam("upload-path.properties","upload.path");
         String folderPath = savePath+"/"+shopName+"/"+roomType;
@@ -66,5 +74,21 @@ public class TCSL_BO_UploadPhoto {
             }
         }
         return fileNames;
+    }
+
+    /**
+     * 删除已上传图片
+     * @param shopName
+     * @param roomType
+     * @param fileName
+     * @throws Exception
+     */
+    public void deletePhoto(String shopName, String roomType, String fileName) throws Exception {
+        String savePath = utilCommon.getPropertyParam("upload-path.properties","upload.path");
+        String filePath = savePath+"/"+shopName+"/"+roomType+"/"+fileName;
+        File file = new File(filePath);
+        if(file.exists()){
+            file.delete();
+        }
     }
 }

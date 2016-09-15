@@ -1,7 +1,29 @@
 window.onload = function(){
-	init();
+	//声明全局变量
+	var $confirm;
+	var $delImg;
+	var $confirmBtn;
+	var $cancelBtn;
+	//初始化方法
+	initConfirm();
+	initInfo();
 }
-function init(){
+/**
+ * 初始化确认窗口点击事件
+ */
+function initConfirm(){
+	$confirm = $('#my-confirm');
+	$confirmBtn = $confirm.find('[data-am-modal-confirm]');
+	$cancelBtn = $confirm.find('[data-am-modal-cancel]');
+	$confirmBtn.off('click.confirm.modal.amui').on('click', function() {
+		deleteImg($delImg);
+	});
+	$cancelBtn.off('click.cancel.modal.amui').on('click', function() {
+		
+	});
+}
+//获取需要显示图片信息
+function initInfo(){	
 	var requestPath = getRequestPath();
 	var type = getCookie("roomType");
 	var name = getCookie("shopName");
@@ -28,7 +50,14 @@ function init(){
 				createImgTag(name,type,imgName);
 			}
 			$('img').on('click',function(e){
-				detailImg(e);
+				var img = e.target;
+				detailImg(img);
+			});
+			$('span').on('click',function(e){
+				var delImg = e.target;
+				$delImg = delImg;
+				$confirm.modal();
+				//deleteImg(delImg);
 			});
 		},
 		//调用出错执行的函数
@@ -36,7 +65,7 @@ function init(){
 	});
 }
 /**
- * 
+ * 创建图片
  * @param {Object} shopName 商户名称
  * @param {Object} roomType 房间类型
  * @param {Object} imgName 图片名称
@@ -44,7 +73,6 @@ function init(){
 function createImgTag(shopName,roomType,imgName){
 	var ul = $("#imgList");
 	var li = document.createElement("li");
-	var span = document.createElement("span");
 	var img = document.createElement("img");
 	img.className = 'am-img-thumbnail am-img-bdrs';
 	//根据请求路径获取服务器所在ip
@@ -53,39 +81,85 @@ function createImgTag(shopName,roomType,imgName){
 	//拼接访问路径
 	var requestUrl = "http://"+ip+":808" +  //该端口号需与nginx设置一致
 						"/image/"+shopName+"/"+roomType+"/"+imgName;
+	img.id = "img-zty-"+shopName + "-zty-" + roomType + "-zty-" + imgName;
 	img.src = requestUrl;
-	span.appendChild(img);
+	img.style = "cursor:pointer";
+	
 	var descDiv = document.createElement("div");
 	descDiv.className = "gallery-desc";
-	span.appendChild(descDiv);
-	li.appendChild(span);
+	descDiv.innerHTML = imgName;
+	descDiv.style = "text-align:center";
+	li.appendChild(img);
+	li.appendChild(descDiv);
+	
 	var delDiv = document.createElement("div");
-	delDiv.style = "cursor:pointer";
 	delDiv.className = 'gallery-title';
-//	delDiv.id = "room_gallery_btnDel";
-//	$("#room_gallery_btnDel").click = deleteImg();
-//	delDiv.onclick = deleteImg();
 	var delIcon = document.createElement("span");
+	delIcon.style = "cursor:pointer";
+	delIcon.id = "btnDel-zty-"+shopName + "-zty-" + roomType + "-zty-" + imgName;
+	delIcon.className = "am-icon-trash am-icon-sm";
 	delDiv.appendChild(delIcon);
 	li.appendChild(delDiv);
 	ul.append(li);
 	/* Example:
 	<li>
- 		<span>
- 			<img class='am-img-thumbnail am-img-bdrs' 						src='http://127.0.0.1:808/image/testZTY/standard_room/14541223424598127.jpg' onclick="detailImg()"/>
- 			<div class='gallery-desc'>
- 				
- 			</div>
- 		</span>
+		<img class='am-img-thumbnail am-img-bdrs' src='http://127.0.0.1:808/image/testZTY/standard_room/14541223424598127.jpg' onclick="detailImg()"/>
+		<div class='gallery-desc'>
+			
+		</div>
  		<div style='cursor:pointer' class='gallery-title' id='btndel' onclick="deleteImg()">
  			<span class='am-icon-trash am-icon-sm'></span>
  		</div>
  	</li>*/
 }
+/**
+ * 图片详情
+ */
 function detailImg(){
-	
+	console.info("图片详情");
 }
-function deleteImg(){
-	console.info("删除图片");
+/**
+ * 删除图片
+ * @param {Object} delImg 删除图片Dom对象
+ */
+function deleteImg(delImg){
+	var id = delImg.id;
+	var imgInfo = id.split("-zty-");
+	var imgName = imgInfo[3];
+	var requestPath = getRequestPath();
+	var roomType = getCookie("roomType");
+	var shopName = getCookie("shopName");
+	var params = [];
+	params.push(shopName);
+	params.push(roomType);
+	params.push(imgName);
+	var result = checkEmpty(params);
+	if(!result){
+		console.error("deleteImg params is null");
+		return;
+	}
+	$.ajax({
+		//请求方式
+		type:"post",
+		//请求路径
+		url:requestPath+'uploadPhoto/deletePhoto',
+		//是否异步请求
+		async:true,
+		//传参
+		data:{
+			shopName:shopName,
+			roomType:roomType,
+			imgName:imgName
+		},
+		//发送请求前执行方法
+//		beforeSend:function(){ },
+		//成功返回后调用函数
+		success:function(data){
+			//刷新页面
+			location.reload();
+		},
+		//调用出错执行的函数
+//		error:function(){ }
+	});
 }
 

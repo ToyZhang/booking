@@ -39,13 +39,21 @@ public class TCSL_REST_UploadPhoto {
     }
     @RequestMapping("/queryPhoto")
     @ResponseBody
-    public JSONObject queryPhoto() throws Exception {
-        String shopName = "testZTY";
-        String roomType = "standard_room";
-        List<String> fileNames = boUploadPhoto.queryPhoto(shopName,roomType);
+    public JSONObject queryPhoto(HttpServletRequest request,HttpServletResponse response) throws Exception {
         TCSL_VO_Result result = new TCSL_VO_Result();
+        String shopName = request.getParameter("shopName"); //商户名称
+        String roomType = request.getParameter("roomType"); //房型名称
+        List<String> fileNames = boUploadPhoto.queryPhoto(shopName,roomType);
         result.setContent(fileNames);
         JSONObject json = JSONObject.fromObject(result);
         return json;
+    }
+    @RequestMapping("/deletePhoto")
+    @ResponseBody
+    public void deletePhoto(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        String shopName = request.getParameter("shopName"); //商户名称
+        String roomType = request.getParameter("roomType"); //房型名称
+        String fileName = request.getParameter("imgName"); //图片名称
+        boUploadPhoto.deletePhoto(shopName,roomType,fileName);
     }
 }
