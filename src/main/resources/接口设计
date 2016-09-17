@@ -11,9 +11,9 @@
                                     list<CLS_VO_BookHistory> bookHistoryList
                   CLS_VO_BookHistory:
                                     String date
-                                    List<Integer>   notArriveValue
-                                    List<Integer>   arriveValue
-                                    List<Integer>   cancelValue
+                                    Integer  notArriveValue
+                                    Integer  arriveValue
+                                    Integer  cancelValue
                   sql:SELECT
                       	count(*)
                       FROM

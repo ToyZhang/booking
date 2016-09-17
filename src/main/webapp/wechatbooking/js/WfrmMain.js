@@ -1,16 +1,17 @@
 window.onload=function(){
-	var value = document.cookie;
 	init();
 }
 function init(){
-	//1.查询后台获取数据
-	//2.商户名称赋值
 	var shopName = getCookie("shopName");
 	$("#shopTitle").html(shopName);
 	$("#announcement").html(RESOURCE_PUBLIC_ANNOUNCEMENT);
 	//3.加载首页
 	onclick_topPage();
 }
+/**
+ * 加载指定页面到 displayContent
+ * @param src
+ */
 function loadPage(src){
 	window.open(src,'displayContent');
 }

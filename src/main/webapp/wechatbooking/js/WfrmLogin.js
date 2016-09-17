@@ -18,7 +18,7 @@ function login() {
     $("#btnLogin").html("登录中 ... <i class='am-icon-spinner am-icon-spin'></i>");
 	
 	var id = $("#shopid").val();
-	var password = $("#password").val();
+	var pwd1 = $("#password").val();
 	var requestPath = getRequestPath();
 	console.info("请求路径",requestPath);
 	//后台查询
@@ -26,13 +26,13 @@ function login() {
 		//请求方式
 		type:"post",
 		//请求路径
-		url:requestPath+'Login/login',
+		url:requestPath+'login',
 		//是否异步请求
 		async:true,
 		//传参
 		data:{
 			shopId:id,
-			pwd:password
+			pwd:pwd1
 		},
 		//发送请求前执行方法
 //		beforeSend:function(){ },
@@ -40,7 +40,7 @@ function login() {
 		success:function(data){
 			if(data.ret == 0){
 				var shopName = data.content;
-				document.cookie = "shopName="+shopName;
+                saveCookie("shopName",shopName);
 				window.location.href = "../templates/WfrmMain.html";
 			}
 		},
@@ -54,4 +54,4 @@ document.onkeydown = function (event) {
     if (e && e.keyCode == 13) { // enter 键
         login();
     }
-}; 
+};

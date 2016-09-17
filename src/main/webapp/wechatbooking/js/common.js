@@ -1,6 +1,17 @@
 /**
+ * 保存cookie
+ * @param name
+ * @param value
+ * @returns {boolean}
+ */
+function  saveCookie(name,value) {
+    document.cookie = name + '=' +encodeURIComponent(value);
+    return true;
+}
+/**
  * 获取cookie中指定参数
- * @param {Object} cookieName
+ * @param cookieName
+ * @returns value
  */
 function getCookie(cookieName) {
     var strCookie = document.cookie;
@@ -8,7 +19,7 @@ function getCookie(cookieName) {
     for(var i = 0; i < arrCookie.length; i++){
         var arr = arrCookie[i].split("=");
         if(cookieName == arr[0]){
-            return arr[1];
+            return decodeURIComponent(arr[1]);
         }
     }
     return "";

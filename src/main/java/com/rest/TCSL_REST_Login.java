@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
  * Created by zhangtuoyu on 2016/9/15.
  */
 @Controller
-@RequestMapping("/login")
 public class TCSL_REST_Login {
     @Resource
     TCSL_BO_Login boLogin;
