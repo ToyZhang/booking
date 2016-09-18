@@ -43,7 +43,6 @@ function initInfo(){
 //		beforeSend:function(){ },
 		//成功返回后调用函数
 		success:function(data){
-			var imgList = $("#imgList");
 			var imgs = data.content;
 			for( var i=0; i < imgs.length;i++){
 				var imgName = imgs[i];
@@ -115,8 +114,13 @@ function createImgTag(shopName,roomType,imgName){
 /**
  * 图片详情
  */
-function detailImg(){
-	console.info("图片详情");
+function detailImg(detailImg){
+	var id = detailImg.id;
+	var imgInfo = id.split("-zty-");
+	var imgName = imgInfo[3];
+	saveCookie("detailImg",imgName);
+	var src = "../templates/WfrmPhotoDetail.html";
+	window.open(src,'displayContent');
 }
 /**
  * 删除图片

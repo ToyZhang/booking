@@ -40,6 +40,8 @@ function getRoomName(roomType){
 			return "双人套房";
 		case "deluxe_commerce_room":
 			return "豪华商务单人间";
+		case "outdoor_scene":
+			return "酒店外景";
 		default:
 			return "";
 	}

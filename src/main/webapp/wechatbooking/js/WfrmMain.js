@@ -40,7 +40,8 @@ function onclick_roomCaptureManage(){
  * 酒店外景图管理 点击事件
  */
 function onclick_hotelOutCaptureManage(){
-	console.info("点击酒店外景图管理");
+	var displatSrc = "../templates/WfrmOutdoorPhoto.html";
+	loadPage(displatSrc);
 }
 /**
  * 酒店服务设施维护 点击事件

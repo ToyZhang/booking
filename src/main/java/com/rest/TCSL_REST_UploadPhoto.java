@@ -56,4 +56,32 @@ public class TCSL_REST_UploadPhoto {
         String fileName = request.getParameter("imgName"); //图片名称
         boUploadPhoto.deletePhoto(shopName,roomType,fileName);
     }
+    @RequestMapping("/addOutdoorPhoto")
+    @ResponseBody
+    public void addOutdoorPhoto(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        //解析上传的图片参数
+        MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        MultipartHttpServletRequest re = resolver.resolveMultipart(request);
+        MultipartFile fileM = re.getFile("file");
+        String shopName = re.getParameter("shopName"); //商户名称
+        String fileName = re.getParameter("name"); //图片名称
+        boUploadPhoto.addOutdoorPhoto(shopName,fileName,fileM);
+    }
+    @RequestMapping("/queryOutdoorPhoto")
+    @ResponseBody
+    public JSONObject queryOutdoorPhoto(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        String shopName = request.getParameter("shopName"); //商户名称
+        List<String> fileNames = boUploadPhoto.queryOutdoorPhoto(shopName);
+        result.setContent(fileNames);
+        JSONObject json = JSONObject.fromObject(result);
+        return json;
+    }
+    @RequestMapping("/deleteOutdoorPhoto")
+    @ResponseBody
+    public void deleteOutdoorPhoto(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        String shopName = request.getParameter("shopName"); //商户名称
+        String fileName = request.getParameter("imgName"); //图片名称
+        boUploadPhoto.deleteOutdoorPhoto(shopName,fileName);
+    }
 }

@@ -13,7 +13,7 @@ public class TCSL_BO_Login {
         //调用dao层查询用户名密码是否正确
         //TODO
         result.setRet(0); //正确返回0 否则返回-1
-        result.setContent("后台测试");
+        result.setContent("testZTY");
         System.out.println("登录,商户id  "+shopId+"-----"+"密码  "+password);
         return result;
     }
