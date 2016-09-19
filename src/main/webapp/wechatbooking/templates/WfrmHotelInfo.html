@@ -5,7 +5,7 @@
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="description" content="酒店信息维护">
 	    <meta name="keywords" content="index">
-	    <meta name="viewport" content="width=device-width, initial-scale=1, 			maximum-scale=1,user-scalable=no">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
 	    <meta name="renderer" content="webkit">
 	    <meta http-equiv="Cache-Control" content="no-siteapp" />
 	    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
@@ -13,8 +13,11 @@
 	    <link rel="apple-touch-icon-precomposed" href="../api/AmazeUI/i/app-icon72x72@2x.png">
 	    <link rel="stylesheet" href="../api/AmazeUI/css/amazeui.min.css" />
 	    <link rel="stylesheet" href="../api/AmazeUI/css/admin.css">
-	    <script src="../js/common.js"></script>
+	    <link rel="stylesheet" type="text/css" href="../api/webuploader/webuploader.css" />
+        <script src="../api/jQuery/jquery.min.js"></script>
+	    <script src="../api/webuploader/webuploader.js"></script>
 	    <script src="../js/WfrmHotelInfo.js"></script>
+		<script src="../js/common.js"></script>
 	    <!--[if lt IE 9]>
 		<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 		<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
@@ -49,20 +52,21 @@
 					    	<div class="am-u-sm-4 am-u-md-2 am-text-right">
                             	酒店名称 
                         	</div>
-						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-4"> <!--am-form-success 整个输入框变为绿色，表示验证通过 -->
-						    	<input type="text" class="am-form-field am-input-sm" placeholder="请输入酒店名称   必填">
+						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-4" id="hotel_name_box"> 
+						    	
+						    	<input onblur="onblur_hotelName()" type="text" id="hotel_name" class="am-form-field am-input-sm " placeholder="请输入酒店名称   必填">
 							</div>
-							<div class="am-hide-sm-only am-u-md-6"> <!-- 酒店名称错误提示信息 -->
+							<div class="am-hide-sm-only am-u-md-6" id="hotel_name_msg"> <!-- 酒店名称错误提示信息 -->
                             	
 						    </div>
 						</div>
 						<!-- 联系电话 -->
                    		<div class="am-g am-margin-top">
-					    	<div class="am-u-sm-4 am-u-md-2 am-text-right">
+					    	<div  class="am-u-sm-4 am-u-md-2 am-text-right">
                             	联系电话 
                         	</div>
 						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-4">
-						    	<input type="text" class="am-form-field am-input-sm" placeholder="请输入联系电话">
+						    	<input id="phone_num" type="text" class="am-form-field am-input-sm" placeholder="请输入联系电话">
 							</div>
 							<div class="am-hide-sm-only am-u-md-6"> <!-- 酒店名称错误提示信息 -->
                             	
@@ -70,11 +74,11 @@
 						</div>
 						<!-- 酒店地址 -->
                    		<div class="am-g am-margin-top">
-					    	<div class="am-u-sm-4 am-u-md-2 am-text-right">
+					    	<div  class="am-u-sm-4 am-u-md-2 am-text-right">
                             	酒店地址
                         	</div>
 						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-4">
-						    	<input type="text" class="am-form-field am-input-sm" placeholder="请输入酒店地址">
+						    	<input id="hotel_address" type="text" class="am-form-field am-input-sm" placeholder="请输入酒店地址">
 							</div>
 							<div class="am-hide-sm-only am-u-md-6"> <!-- 酒店名称错误提示信息 -->
 
@@ -85,7 +89,7 @@
                                 内容描述
                             </div>
                             <div class="am-u-sm-12 am-u-md-10">
-                                <textarea runat="server" Rows="9" class="am-form-field am-input-sm" placeholder="请输入内容描述"></textarea>
+                                <textarea id="hotel_desp" runat="server" Rows="9" class="am-form-field am-input-sm" placeholder="请输入内容描述"></textarea>
                             </div>
                         </div>
                     </div>
@@ -96,7 +100,7 @@
         <div class="am-margin">
             <button type="button" onclick="onclick_btnSave()" class="am-btn am-btn-primary am-btn-xs">
             	保存
-            	<i class="am-icon-spinner am-icon-spin"></i>
+            	<i class="am-icon-spinner am-icon-spin" style="display:none" id="saveIcon"></i>
             </button>
         </div>
         </form>
