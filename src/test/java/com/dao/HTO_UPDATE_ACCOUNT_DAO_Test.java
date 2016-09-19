@@ -1,6 +1,7 @@
 package com.dao;
 
-import com.po.HTO_UPDATE_ACCOUNT;
+import com.dao.mysql.HTO_UPDATE_ACCOUNT_DAO;
+import com.po.mysql.HTO_UPDATE_ACCOUNT;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

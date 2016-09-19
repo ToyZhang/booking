@@ -16,7 +16,7 @@
 	    <link rel="stylesheet" type="text/css" href="../api/webuploader/webuploader.css" />
         <script src="../api/jQuery/jquery.min.js"></script>
 	    <script src="../api/webuploader/webuploader.js"></script>
-	    <script src="../js/WfrmServerInfoMatain.js"></script>
+	    <script src="../js/WfrmServerFacilityMatain.js"></script>
 		<script src="../js/common.js"></script>
 
 	    <!--[if lt IE 9]>
@@ -51,37 +51,6 @@
                     <form class="am-form">
                         <div class="am-g am-margin-top-sm">
                             <div id="myPanel">
-                                <div id='myDiv" + count + "'>
-									<div class='am-input-group am-u-sm-8 am-input-group-primary'>
-										<span class='am-input-group-label'>
-											<i class='am-icon-hotel am-icon-fw'></i>
-										</span>
-										<div id='titlePanel" + count + "'>
-											<input type='text' id='itemTitle" + count + "' class='am-form-field' placeholder='项目名称'>
-										</div>
-										
-										<span class='am-input-group-label'>
-											<i class='am-icon-bookmark am-icon-fw'>
-											</i>
-										</span>
-										<div id='despPanel" + count + "'>
-											<input type='text' id='itemDesp" + count + "' class='am-form-field' placeholder='项目备注'>
-										</div>
-									</div>
-									<!-- 确认 取消 按钮 -->
-									<div class='am-input-group am-u-sm-1 am-input-group-primary'>
-										<button type='button' onclick=save('" + count + "') id='btnSave" + count + "' class='am-btn am-btn-primary'>
-											<span class='am-icon-check'></span> 确认
-										</button>
-									</div>
-									
-									<div class='am-input-group am-u-sm-1 am-input-group-primary'>
-										<button type='button' onclick='remove(" + count + ")' id='btnRemove" + count + "' class='am-btn am-btn-default'>
-											<span class='am-icon-close'></span> 取消
-										</button>
-									</div>
-									<br/><br/><br/>
-                                </div>
                             </div>
                             <div class="am-input-group am-u-sm-12 am-input-group-primary">
                                 <button type="button" onclick="add('room_menu')" class="am-btn am-btn-default">
@@ -94,7 +63,6 @@
                     <form class="am-form">
                         <div class="am-g am-margin-top-sm">
                             <div id="myPanel1">
-                                <asp:Literal Text="text" ID="ltlHotelItemHtml1" runat="server" />
                             </div>
                             <div class="am-input-group am-u-sm-12 am-input-group-primary">
                                 <button type="button" onclick="add('multiple_menu')" class="am-btn am-btn-default">
@@ -107,7 +75,6 @@
                     <form class="am-form">
                         <div class="am-g am-margin-top-sm">
                             <div id="myPanel2">
-                                <asp:Literal Text="text" ID="ltlHotelItemHtml2" runat="server" />
                             </div>
                             <div class="am-input-group am-u-sm-12 am-input-group-primary">
                                 <button type="button" onclick="add('server_menu')" class="am-btn am-btn-default">
@@ -120,7 +87,6 @@
                     <form class="am-form">
                     <div class="am-g am-margin-top-sm">
                         <div id="myPanel3">
-                            <asp:Literal Text="text" ID="ltlHotelItemHtml3" runat="server" />
                         </div>
                         <div class="am-input-group am-u-sm-12 am-input-group-primary">
                             <button type="button" onclick="add('entertainment_menu')" class="am-btn am-btn-default">

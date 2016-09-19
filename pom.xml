@@ -11,7 +11,7 @@
   <repositories>
     <repository>
       <id>Nexus</id>
-      <url>http://192.168.4.17:8082/nexus/content/repositories/thirdparty/</url>
+      <url>http://192.168.4.17:8082/nexus/content/groups/public/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -95,6 +95,12 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.36</version>
+    </dependency>
+    <!-- oracle 驱动包-->
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc14</artifactId>
+      <version>10.2.0.4.0</version>
     </dependency>
     <!-- standard -->
     <dependency>

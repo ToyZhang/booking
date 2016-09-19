@@ -47,7 +47,8 @@ function onclick_hotelOutCaptureManage(){
  * 酒店服务设施维护 点击事件
  */
 function onclick_hotelServiceMatain(){
-	console.info("点击 酒店服务设施维护");
+	var displatSrc = "../templates/WfrmServerFacilityMatain.html";
+	loadPage(displatSrc);
 }
 /**
  * 订单统计

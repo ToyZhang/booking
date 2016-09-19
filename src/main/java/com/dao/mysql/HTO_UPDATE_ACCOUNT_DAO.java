@@ -1,7 +1,6 @@
-package com.dao;
+package com.dao.mysql;
 
-import com.po.HTO_UPDATE_ACCOUNT;
-import org.springframework.stereotype.Controller;
+import com.po.mysql.HTO_UPDATE_ACCOUNT;
 
 import java.util.List;
 

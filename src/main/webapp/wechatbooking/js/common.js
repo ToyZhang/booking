@@ -74,3 +74,50 @@ function checkEmpty(params){
 	}
 	return true;
 }
+/**
+ * 创建指定位数随机整数
+ * @param num 指定位数
+ */
+function  getRandomDigit(num) {
+	var rnd="";
+	for(var i=0;i<num;i++)
+		rnd+=Math.floor(Math.random()*10);
+	return rnd;
+}
+/**
+ * 获取设施类别名称
+ * @param name
+ */
+function getMantainName(name) {
+	switch(name){
+		case "room_menu":
+			return "客房设施";
+		case "multiple_menu":
+			return "综合设施";
+		case "server_menu":
+			return "服务项目";
+		case "entertainment_menu":
+			return "娱乐设施";
+		default:
+			return "";
+	}
+}
+/**
+ * 获取设施类别代号
+ * @param name
+ * @returns {*}
+ */
+function getEnName(name) {
+    switch(name){
+        case "客房设施":
+            return "room_menu";
+        case "综合设施":
+            return "multiple_menu";
+        case "服务项目":
+            return "server_menu";
+        case "娱乐设施":
+            return "entertainment_menu";
+        default:
+            return "";
+    }
+}

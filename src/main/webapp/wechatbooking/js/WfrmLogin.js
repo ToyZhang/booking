@@ -18,9 +18,8 @@ function login() {
     $("#btnLogin").html("登录中 ... <i class='am-icon-spinner am-icon-spin'></i>");
 	
 	var id = $("#shopid").val();
-	var pwd1 = $("#password").val();
+	var pwd = $("#password").val();
 	var requestPath = getRequestPath();
-	console.info("请求路径",requestPath);
 	//后台查询
 	$.ajax({
 		//请求方式
@@ -32,17 +31,24 @@ function login() {
 		//传参
 		data:{
 			shopId:id,
-			pwd:pwd1
+			pwd:pwd
 		},
 		//发送请求前执行方法
 //		beforeSend:function(){ },
 		//成功返回后调用函数
 		success:function(data){
+		    console.info("data",data);
+            debugger;
 			if(data.ret == 0){
 				var shopName = data.content;
                 saveCookie("shopName",shopName);
+				saveCookie("mcId",id);
 				window.location.href = "../templates/WfrmMain.html";
-			}
+			}else{
+                $('#my-alert').removeClass().addClass("am-alert am-alert-warning");
+                $('#my-msg').text("用户名或密码不正确");
+                $("#btnLogin").html("登录");
+            }
 		},
 		//调用出错执行的函数
 //		error:function(){ }

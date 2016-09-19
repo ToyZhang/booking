@@ -1,8 +1,10 @@
 package com.rest;
 
-import com.dao.HTO_UPDATE_ACCOUNT_DAO;
-import com.po.HTO_UPDATE_ACCOUNT;
-//import com.vo.TCSL_VO_Result;
+import com.dao.mysql.HTO_UPDATE_ACCOUNT_DAO;
+import com.dao.oracle.PHO_MC_O2O_DAO;
+import com.po.mysql.HTO_UPDATE_ACCOUNT;
+import com.po.oracle.PHO_MC_O2O;
+import com.vo.TCSL_VO_Result;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+//import com.vo.TCSL_VO_Result;
 
 /**
  * Created by zhangtuoyu on 2016-09-08.
@@ -25,19 +29,27 @@ public class HelloWorld {
 
     @Resource
     private HTO_UPDATE_ACCOUNT_DAO hto_update_account_dao;
+    @Resource
+    private PHO_MC_O2O_DAO pho_mc_o2O_dao;
 
-//    @RequestMapping("/queryAll")
-//    @ResponseBody
-//    public JSONObject queryAll() {
-//        List<HTO_UPDATE_ACCOUNT> accounts = hto_update_account_dao.queryAll();
-////        for (HTO_UPDATE_ACCOUNT account : accounts) {
-////            System.out.println(account.getCGUESTNAME());
-////        }
-//
-//        TCSL_VO_Result result = new TCSL_VO_Result();
-//        result.setRet(0);
-//        result.setContent(accounts);
-//        JSONObject object = JSONObject.fromObject(result);
-//        return object;
-//    }
+    @RequestMapping("/queryAll")
+    @ResponseBody
+    public JSONObject queryAll() {
+        List<HTO_UPDATE_ACCOUNT> accounts = hto_update_account_dao.queryAll();
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        result.setRet(0);
+        result.setContent(accounts);
+        JSONObject object = JSONObject.fromObject(result);
+        return object;
+    }
+    @RequestMapping("/queryAll2")
+    @ResponseBody
+    public JSONObject queryAll2() {
+        List<PHO_MC_O2O> accounts = pho_mc_o2O_dao.queryAll();
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        result.setRet(0);
+        result.setContent(accounts);
+        JSONObject object = JSONObject.fromObject(result);
+        return object;
+    }
 }

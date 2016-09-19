@@ -1,4 +1,4 @@
-package com.po;
+package com.po.mysql;
 
 import java.math.BigDecimal;
 
