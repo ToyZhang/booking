@@ -5,7 +5,6 @@ function init(){
 	var shopName = getCookie("shopName");
 	$("#shopTitle").html(shopName);
 	$("#announcement").html(RESOURCE_PUBLIC_ANNOUNCEMENT);
-	//3.加载首页
 	onclick_topPage();
 }
 /**
@@ -54,7 +53,8 @@ function onclick_hotelServiceMatain(){
  * 订单统计
  */
 function onClick_orderCount(){
-	console.info("订单统计");
+	var displatSrc = "../templates/WfrmOrderStatistics.html";
+	loadPage(displatSrc);
 }
 /**
  * 订单详情

@@ -21,6 +21,12 @@ public class TCSL_REST_HotelInfo {
     @Resource
     TCSL_BO_HotelInfo boHotelInfo;
 
+    /**
+     * 查询酒店信息维护内容
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/queryInfo")
     @ResponseBody
     public JSONObject queryInfo(HttpServletRequest request, HttpServletResponse response){
@@ -30,17 +36,24 @@ public class TCSL_REST_HotelInfo {
         result.setContent(voHotelInfo);
         return JSONObject.fromObject(result);
     }
-    @RequestMapping("/saveInfo")
+
+    /**
+     * 更新酒店信息维护内容
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/updateInfo")
     @ResponseBody
-    public JSONObject saveInfo(HttpServletRequest request, HttpServletResponse response){
+    public TCSL_VO_Result saveInfo(HttpServletRequest request, HttpServletResponse response){
         String mcId = request.getParameter("mcId");
         String hotelName = request.getParameter("hotelName");
         String phoneNum = request.getParameter("phoneNum");
         String address = request.getParameter("address");
-        String desp = request.getParameter("desp");
-        boHotelInfo.saveInfo(mcId,hotelName,phoneNum,address,desp);
+        String description = request.getParameter("description");
+        boHotelInfo.saveInfo(mcId,hotelName,phoneNum,address,description);
         TCSL_VO_Result result = new TCSL_VO_Result();
         result.setRet(0);
-        return JSONObject.fromObject(result);
+        return result;
     }
 }

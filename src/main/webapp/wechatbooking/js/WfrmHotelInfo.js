@@ -50,12 +50,12 @@ function onclick_btnSave(){
     
     var phoneNum = $("#phone_num").val();
     var address = $("#hotel_address").val();
-    var desp = $("#hotel_desp").val();
+    var description = $("#hotel_desp").val();
     $.ajax({
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'hotelInfo/saveInfo',
+        url:requestPath+'hotelInfo/updateInfo',
         //是否异步请求
         async:true,
         //传参
@@ -64,16 +64,17 @@ function onclick_btnSave(){
             hotelName:hotelName,
             phoneNum:phoneNum,
             address:address,
-            desp:desp
+            description:description
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },
         //成功返回后调用函数
         success:function(data){
-            console.info("返回值",data);
-//      	saveIcon.style = "display:none";
-//          var modal = $('#my-alert');
-//			modal.modal('toggle');
+            if(data.ret == 0){
+                saveIcon.style = "display:none";
+                var modal = $('#my-alert');
+                modal.modal('toggle');
+            }
         },
         //调用出错执行的函数
 //		error:function(){ }

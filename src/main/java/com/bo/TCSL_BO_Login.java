@@ -17,14 +17,14 @@ public class TCSL_BO_Login {
 
     public TCSL_VO_Result login(String shopId, String password){
         TCSL_VO_Result result = new TCSL_VO_Result();
-        PHO_MC_O2O shopInfo = dao_login.queryByMcid(shopId,password);
+        PHO_MC_O2O shopInfo = dao_login.queryByMcid(shopId);
         if(shopInfo == null){
             result.setRet(-1);
             return result;
         }
         String name = shopInfo.getNAME();
-        result.setRet(0);
-        result.setContent(name);
+        result.setRet(0); //正确返回0 否则返回-1
+        result.setContent("name");
         return result;
     }
 }

@@ -1,13 +1,19 @@
 package com.bo;
 
+import com.dao.oracle.TCSL_DAO_Login;
+import com.po.oracle.PHO_MC_O2O;
 import com.vo.TCSL_VO_HotelInfo;
 import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 
 /**
  * Created by zhangtuoyu on 2016/9/19.
  */
 @Repository
 public class TCSL_BO_HotelInfo {
+    @Resource
+    TCSL_DAO_Login daoLogin;
     /**
      * 查询酒店信息
      * @param mcId
@@ -15,17 +21,19 @@ public class TCSL_BO_HotelInfo {
      */
     public TCSL_VO_HotelInfo queryInfo(String mcId){
         TCSL_VO_HotelInfo voHotelInfo = new TCSL_VO_HotelInfo();
-        voHotelInfo.setHotelName("万丽天津宾馆");
-        voHotelInfo.setAddress("天津市河西区");
-        voHotelInfo.setDescription("非常好");
-        voHotelInfo.setPhoneNum("15900345728");
-        //TODO
-        System.out.println("调用dao层查询酒店信息内容"+mcId);
+        PHO_MC_O2O mcInfo = daoLogin.queryByMcid(mcId);
+        if(mcInfo == null){
+            return voHotelInfo;
+        }
+        voHotelInfo.setHotelName(mcInfo.getNAME());
+        voHotelInfo.setAddress(mcInfo.getADDRESS());
+        voHotelInfo.setDescription(mcInfo.getDESP());
+        voHotelInfo.setPhoneNum(mcInfo.getORDERTEL());
         return voHotelInfo;
     }
 
     /**
-     * 保存酒店信息
+     * 更新酒店信息
      * @param mcId
      * @param hotelName
      * @param phoneNum
@@ -33,10 +41,6 @@ public class TCSL_BO_HotelInfo {
      * @param desp
      */
     public void saveInfo(String mcId, String hotelName, String phoneNum, String address, String desp) {
-        System.out.println("mcId--"+mcId+"；hotelName--"+
-                hotelName+"；phoneNum--"+phoneNum+"；address---"+address+"；desp---"+desp);
-        //1.查询该酒店信息是否存在
-        //2.存在 执行dao更新
-        //3.不存在 执行dao添加
+        daoLogin.updateMc(hotelName,phoneNum,address,desp,mcId);
     }
 }

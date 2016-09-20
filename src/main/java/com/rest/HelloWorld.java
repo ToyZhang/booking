@@ -1,9 +1,8 @@
 package com.rest;
 
 import com.dao.mysql.HTO_UPDATE_ACCOUNT_DAO;
-import com.dao.oracle.PHO_MC_O2O_DAO;
+import com.dao.oracle.PHO_HT_HOTELITEM_DAO;
 import com.po.mysql.HTO_UPDATE_ACCOUNT;
-import com.po.oracle.PHO_MC_O2O;
 import com.vo.TCSL_VO_Result;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -30,7 +29,7 @@ public class HelloWorld {
     @Resource
     private HTO_UPDATE_ACCOUNT_DAO hto_update_account_dao;
     @Resource
-    private PHO_MC_O2O_DAO pho_mc_o2O_dao;
+    private PHO_HT_HOTELITEM_DAO pho_ht_hotelitem_dao;
 
     @RequestMapping("/queryAll")
     @ResponseBody
@@ -42,14 +41,14 @@ public class HelloWorld {
         JSONObject object = JSONObject.fromObject(result);
         return object;
     }
-    @RequestMapping("/queryAll2")
-    @ResponseBody
-    public JSONObject queryAll2() {
-        List<PHO_MC_O2O> accounts = pho_mc_o2O_dao.queryAll();
-        TCSL_VO_Result result = new TCSL_VO_Result();
-        result.setRet(0);
-        result.setContent(accounts);
-        JSONObject object = JSONObject.fromObject(result);
-        return object;
-    }
+//    @RequestMapping("/queryAll2")
+//    @ResponseBody
+//    public JSONObject queryAll2() {
+//        List<PHO_HT_HOTELITEM> accounts = pho_ht_hotelitem_dao.queryAll();
+//        TCSL_VO_Result result = new TCSL_VO_Result();
+//        result.setRet(0);
+//        result.setContent(accounts);
+//        JSONObject object = JSONObject.fromObject(result);
+//        return object;
+//    }
 }

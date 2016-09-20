@@ -7,7 +7,7 @@ public class TCSL_VO_HotelInfo {
     private String hotelName;
     private String phoneNum;
     private String address;
-        private String description;
+    private String description;
 
     public String getHotelName() {
         return hotelName;
@@ -40,4 +40,5 @@ public class TCSL_VO_HotelInfo {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

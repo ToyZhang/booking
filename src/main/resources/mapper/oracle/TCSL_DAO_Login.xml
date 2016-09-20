@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 命名空间mapper：com.model.professional -->
 <mapper namespace="com.dao.oracle.TCSL_DAO_Login">
-    <select id="queryByMcid" resultType="PHO_MC_O2O">
+    <select id="queryNameByMcid" resultType="PHO_MC_O2O">
         SELECT
             MCID,
             NAME,
@@ -13,5 +13,22 @@
         WHERE
             MCID = #{MCID}
         AND MCPWD = #{MCPWD}
+    </select>
+    <insert id="updateMc">
+        UPDATE pho_mc_o2o
+        SET NAME = #{NAME},
+         ORDERTEL = #{ORDERTEL},
+         ADDRESS = #{ADDRESS},
+         DESP = #{DESP}
+        WHERE
+            MCID = #{MCID}
+    </insert>
+    <select id="queryByMcid" resultType="PHO_MC_O2O">
+        SELECT
+            *
+        FROM
+            pho_mc_o2o
+        WHERE
+            MCID = #{MCID}
     </select>
 </mapper>
