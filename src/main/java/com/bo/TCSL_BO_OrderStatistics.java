@@ -22,7 +22,6 @@ public class TCSL_BO_OrderStatistics {
     /**
      * 查询订单分析结果
      * @param mcId
-     * @param startTime
      * @param interval
      * @param stateId
      * @return

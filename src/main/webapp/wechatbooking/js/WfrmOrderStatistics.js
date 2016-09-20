@@ -1,13 +1,19 @@
-window.onload = function(){
-	init();
+var interval;
+var type = 2;
+window.onload = function(){	
+	initDate(7);
+	queryInfo();
 }
-function init(){
+/**
+ * 查询显示数据
+ * @param {Object} $interval 查询时间段长度
+ * @param {Object} $type  0 未入住 2入住  3取消  1 未完成
+ */
+function queryInfo(){
 	var queryValue = [];
 	var queryDate = [];
 	var requestPath = getRequestPath();
-	var mcId = getCookie("mcId");
-	var interval = 7;
-	var stateId = 2;
+	var mcId = getCookie("mcId"); 
 	$.ajax({
 		//请求方式
 		type:"post",
@@ -19,13 +25,12 @@ function init(){
 		data:{
 			mcId:mcId,
 			interval:interval,
-			stateId:stateId
+			stateId:type
 		},
 		//发送请求前执行方法
 //		beforeSend:function(){ },
 		//成功返回后调用函数
 		success:function(data){
-		    debugger;
 			if(data.ret == 0){
 				var content = data.content;
 				var newOrderCount = content.newOrderCount;
@@ -48,6 +53,17 @@ function init(){
 //		error:function(){ }
 	});
 }
+/**
+ * 计算时间段显示内容
+ * @param {Object} intervalDay  显示数据时间段长度
+ */
+function initDate(intervalDay){
+	interval = intervalDay;
+	var now = (new Date()).Format("yyyy-MM-dd");
+	document.getElementById('my-endDate').innerHTML = now;
+	var backDate = getDay(-intervalDay);
+	document.getElementById('my-strDate').innerHTML = backDate;
+}
 function initEchart(queryValue,queryDate){
 	require.config({
                 paths: {
@@ -60,8 +76,6 @@ function initEchart(queryValue,queryDate){
                 'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
             ],
             function(ec){
-            	console.info("value",queryValue);
-				console.info("date",queryDate);
             	// 基于准备好的dom，初始化echarts图表
 	            var myChart = ec.init(document.getElementById('main'));
 	            var option = {
@@ -93,7 +107,7 @@ function initEchart(queryValue,queryDate){
 				        {
 				            type: 'value',
 				            axisLabel: {
-				                formatter: 0 //不写死报错
+				                formatter: 0
 				            }
 				        }
 					],
@@ -123,20 +137,38 @@ function initEchart(queryValue,queryDate){
     );
 }
 function onclick_btnDate_7(){
-	console.info("点击7天");
+	interval = 7;
+	initDate(7);
+	queryInfo();
 }
 function onclick_btnDate_14(){
-	console.info("点击14天");
+	interval = 14;
+	initDate(14);
+	queryInfo();
 }
 function onclick_btnDate_30(){
-	console.info("点击30天");
+	interval = 30;
+	initDate(30);
+	queryInfo();
 }
+/**
+ * 显示已入住数据
+ */
 function onclick_btnArrive(){
-	console.info("选择已到达");
+	type = 2;
+	queryInfo(2);
 }
+/**
+ * 显示取消数据
+ */
 function onclick_btnCancel(){
-	console.info("选择取消");
+	type = 3;
+	queryInfo(3);
 }
+/**
+ * 显示未入住数量
+ */
 function onclick_btnNoArrive(){
-	console.info("选择未到达");
+	type = 0;
+	queryInfo(0);
 }
