@@ -83,16 +83,16 @@ function initData(){
 function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard){
 	var stateName = getStatusName(stateid);
 	var detail =  createDetail(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateName,idcard);
-	$('#example').DataTable().row.add([
-		cname,
-		"<span class='am-active'>"+clinker+"</span>",
-		"<span class='am-active'><a>"+mprice+"</a></span>",
-		ilinktel,
-		dtbegdate + "~" + dtenddate,
-		stateName,
-		"<button class='am-btn am-btn-primary' id='my-popover'" +
+    $('#example').DataTable().row.add([
+        cname,
+        "<span class='am-active'>"+clinker+"</span>",
+        "<span class='am-active'><a>"+mprice+"</a></span>",
+        ilinktel,
+        dtbegdate + "~" + dtenddate,
+        stateName,
+        "<button class='am-btn am-btn-primary' id='my-popover'" +
         "data-am-popover=\"{content:"+detail+",trigger:\'hover\'}\">订单详情</button>"
-	]).draw();		
+    ]).draw();
 	/**
 	 * Example:
 	 * 	<tr>
@@ -107,7 +107,7 @@ function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdat
 			<td>123</td>
 			<td>1231</td>
 			<td>
-				<button class='am-btn am-btn-primary' id='my-popover' 
+				<button class='am-btn am-btn-primary' id='my-popover'
 					data-am-popover='{content:"订号&nbsp;:&nbsp;1231231",trigger:"hover"}'>订单详情</button>
 			</td>
 		</tr>
@@ -128,17 +128,17 @@ function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdat
  * @param {Object} idcard 身份证号
  */
 function createDetail(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateName,idcard){
-	var info = "\'订单号&nbsp;:&nbsp;"+ id
-		+"&lt;br&gt;身份证&nbsp;:&nbsp;" + idcard
-		+"&lt;br&gt;预订时间&nbsp;:&nbsp;" + dtorderdate
-		+"&lt;br&gt;客户姓名&nbsp;:&nbsp;" + clinker
-		+"&lt;br&gt;预订房型&nbsp;:&nbsp;" + cname
-		+"&lt;br&gt;预订价格&nbsp;:&nbsp;" + mprice
-		+"&lt;br&gt;预订数量&nbsp;:&nbsp;" + icount
-		+"&lt;br&gt;联系电话&nbsp;:&nbsp;" + ilinktel
-		+"&lt;br&gt;到店时间&nbsp;:&nbsp;" + dtbegdate
-		+"&lt;br&gt;离店时间&nbsp;:&nbsp;" + dtenddate+"\'";
-	return info;
+    var info = "\'订单号&nbsp;:&nbsp;"+ id
+        +"&lt;br&gt;身份证&nbsp;:&nbsp;" + idcard
+        +"&lt;br&gt;预订时间&nbsp;:&nbsp;" + dtorderdate
+        +"&lt;br&gt;客户姓名&nbsp;:&nbsp;" + clinker
+        +"&lt;br&gt;预订房型&nbsp;:&nbsp;" + cname
+        +"&lt;br&gt;预订价格&nbsp;:&nbsp;" + mprice
+        +"&lt;br&gt;预订数量&nbsp;:&nbsp;" + icount
+        +"&lt;br&gt;联系电话&nbsp;:&nbsp;" + ilinktel
+        +"&lt;br&gt;到店时间&nbsp;:&nbsp;" + dtbegdate
+        +"&lt;br&gt;离店时间&nbsp;:&nbsp;" + dtenddate+"\'";
+    return info;
 }
 /**
  * 获取订单状态名称
