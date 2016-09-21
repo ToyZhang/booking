@@ -60,7 +60,8 @@ function onClick_orderCount(){
  * 订单详情
  */
 function onclick_orderDetail(){
-	console.info("订单详情");
+	var displatSrc = "../templates/WfrmOrderDetail.html";
+	loadPage(displatSrc);
 }
 function logout() {
 	window.location.href='WfrmLogin.html';

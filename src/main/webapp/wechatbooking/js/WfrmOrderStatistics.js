@@ -65,6 +65,7 @@ function initDate(intervalDay){
 	document.getElementById('my-strDate').innerHTML = backDate;
 }
 function initEchart(queryValue,queryDate){
+	var typeName = getTypeName(type);
 	require.config({
                 paths: {
                     echarts: '../api/Echart/dist'
@@ -83,7 +84,7 @@ function initEchart(queryValue,queryDate){
 	                    trigger: 'axis'
 	                },
 	                legend: {
-	                    data: ['已入住订单']
+	                    data: [typeName]
 	                },
 	                toolbox: {
 	                    show: false,
@@ -113,7 +114,7 @@ function initEchart(queryValue,queryDate){
 					],
 	                series: [
 				        {
-				            name: '已入住订单',
+				            name: typeName,
 				            type: 'line',
 				            data: queryValue,
 				            markPoint: {
@@ -171,4 +172,18 @@ function onclick_btnCancel(){
 function onclick_btnNoArrive(){
 	type = 0;
 	queryInfo(0);
+}
+function getTypeName(type){
+	switch(type){
+		case 0:
+			return "未到店订单";
+		case 1:
+			return "未完成订单";
+		case 2:
+			return "已入住订单";
+		case 3:
+			return "取消订单";
+		default:
+			return "";
+	}
 }

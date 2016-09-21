@@ -37,8 +37,6 @@ function login() {
 //		beforeSend:function(){ },
 		//成功返回后调用函数
 		success:function(data){
-		    console.info("data",data);
-            debugger;
 			if(data.ret == 0){
 				var shopName = data.content;
                 saveCookie("shopName",shopName);

@@ -24,7 +24,7 @@ public class TCSL_BO_Login {
         }
         String name = shopInfo.getNAME();
         result.setRet(0); //正确返回0 否则返回-1
-        result.setContent("name");
+        result.setContent(name);
         return result;
     }
 }
