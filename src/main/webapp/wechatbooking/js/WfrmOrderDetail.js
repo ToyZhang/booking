@@ -91,7 +91,7 @@ function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdat
 		dtbegdate + "~" + dtenddate,
 		stateName,
 		"<button class='am-btn am-btn-primary' id='my-popover'" +
-        "data-am-popover='{"+"content:"+detail+",trigger:'hover'}'>订单详情</button>"
+        "data-am-popover=\"{content:"+detail+",trigger:\'hover\'}\">订单详情</button>"
 	]).draw();		
 	/**
 	 * Example:
@@ -128,7 +128,7 @@ function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdat
  * @param {Object} idcard 身份证号
  */
 function createDetail(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateName,idcard){
-	var info = "订单号&nbsp;:&nbsp;"+ id
+	var info = "\'订单号&nbsp;:&nbsp;"+ id
 		+"&lt;br&gt;身份证&nbsp;:&nbsp;" + idcard
 		+"&lt;br&gt;预订时间&nbsp;:&nbsp;" + dtorderdate
 		+"&lt;br&gt;客户姓名&nbsp;:&nbsp;" + clinker
@@ -137,11 +137,7 @@ function createDetail(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegd
 		+"&lt;br&gt;预订数量&nbsp;:&nbsp;" + icount
 		+"&lt;br&gt;联系电话&nbsp;:&nbsp;" + ilinktel
 		+"&lt;br&gt;到店时间&nbsp;:&nbsp;" + dtbegdate
-		+"&lt;br&gt;离店时间&nbsp;:&nbsp;" + dtenddate;
-//	var result = {
-//		content:info,
-//		trigger:'hover'
-//	};
+		+"&lt;br&gt;离店时间&nbsp;:&nbsp;" + dtenddate+"\'";
 	return info;
 }
 /**
