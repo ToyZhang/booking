@@ -24,7 +24,9 @@ $().ready(function(){
 		        });
 		   }
 });
-	initData();
+    //test
+	createItem("123","123","1231","1231","123","1231","1231","12312","12312","1231","1231");
+	//initData();
 })
 function initData(){
 	var requestPath = getRequestPath();
@@ -58,7 +60,7 @@ function initData(){
                 	var dtenddate = content[i].dtenddate;
                 	var stateid = content[i].stateid;
                 	var idcard = content[i].idcard;
-                  	createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard)
+                  	createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard);
                 }
             }
         },
