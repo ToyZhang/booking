@@ -17,7 +17,7 @@ public class TCSL_BO_Login {
 
     public TCSL_VO_Result login(String shopId, String password){
         TCSL_VO_Result result = new TCSL_VO_Result();
-        PHO_MC_O2O shopInfo = dao_login.queryByMcid(shopId);
+        PHO_MC_O2O shopInfo = dao_login.queryNameByMcid(shopId,password);
         if(shopInfo == null){
             result.setRet(-1);
             return result;

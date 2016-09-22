@@ -12,7 +12,7 @@ $().ready(function(){
 	        api.columns().indexes().flatten().each(function (i) {                     
 	
 	            var column = api.column(5);
-	            var select = $('<select><option value=""></option></select>').appendTo($(column.footer()).empty()).on('change', function () {
+	            var select = $('<select><option value=""></option></select>').on('change', function () {
 	            	var val = $.fn.dataTable.util.escapeRegex(
 	                	$(this).val()
 	            	);
@@ -22,11 +22,15 @@ $().ready(function(){
 	                select.append('<option value="' + d + '">' + d + '</option>')
 		            });
 		        });
-		   }
+		    },
+		    //创建列时数据处理
+            createdRow: function ( row, data, index ) {
+                $('td', row).eq(1).css("background-color","#FFFFDD");
+                $('td', row).eq(2).css("background-color","#FFFFDD");
+            },
 });
-    //test
-	createItem("123","123","1231","1231","123","1231","1231","12312","12312","1231","1231");
-	//initData();
+    initData();
+      // createItem("WX-201604181634553455-124","豪华单间","1231","1231","123","1231","1231","12312","12312","0","1231");
 })
 function initData(){
 	var requestPath = getRequestPath();
@@ -49,7 +53,7 @@ function initData(){
             if(data.ret == 0){
                 var content = data.content;
                 for(var i=0; i<content.length; i++){
-                	var id = content[i].id;
+                	var id= content[i].id;
                 	var icount = content[i].icount;
                 	var dtorderdate = content[i].dtorderdate;
                 	var cname = content[i].cname;
@@ -85,6 +89,8 @@ function initData(){
 function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard){
 	var stateName = getStatusName(stateid);
 	var detail =  createDetail(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateName,idcard);
+    var count = getRandomDigit(5);
+
     $('#example').DataTable().row.add([
         cname,
         "<span class='am-active'>"+clinker+"</span>",
@@ -92,9 +98,12 @@ function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdat
         ilinktel,
         dtbegdate + "~" + dtenddate,
         stateName,
-        "<button class='am-btn am-btn-primary' id='my-popover'" +
-        "data-am-popover=\"{content:"+detail+",trigger:\'hover\'}\">订单详情</button>"
+        "<button class='am-btn am-btn-primary' id=\'"+count+"\'>订单详情</button>"
     ]).draw();
+    $("#"+count).popover({
+        content:detail,
+        trigger:'hover'
+    });
 	/**
 	 * Example:
 	 * 	<tr>
@@ -130,16 +139,16 @@ function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdat
  * @param {Object} idcard 身份证号
  */
 function createDetail(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateName,idcard){
-    var info = "\'订单号&nbsp;:&nbsp;"+ id
-        +"&lt;br&gt;身份证&nbsp;:&nbsp;" + idcard
-        +"&lt;br&gt;预订时间&nbsp;:&nbsp;" + dtorderdate
-        +"&lt;br&gt;客户姓名&nbsp;:&nbsp;" + clinker
-        +"&lt;br&gt;预订房型&nbsp;:&nbsp;" + cname
-        +"&lt;br&gt;预订价格&nbsp;:&nbsp;" + mprice
-        +"&lt;br&gt;预订数量&nbsp;:&nbsp;" + icount
-        +"&lt;br&gt;联系电话&nbsp;:&nbsp;" + ilinktel
-        +"&lt;br&gt;到店时间&nbsp;:&nbsp;" + dtbegdate
-        +"&lt;br&gt;离店时间&nbsp;:&nbsp;" + dtenddate+"\'";
+    var info = "订单号 : "+ id
+        +"<br/>身份证 : " + idcard
+        +"<br/>预订时间 : " + dtorderdate
+        +"<br/>客户姓名 : " + clinker
+        +"<br/>预订房型 : " + cname
+        +"<br/>预订价格 : " + mprice
+        +"<br/>预订数量 : " + icount
+        +"<br/>联系电话 : " + ilinktel
+        +"<br/>到店时间 : " + dtbegdate
+        +"<br/>离店时间 : " + dtenddate;
     return info;
 }
 /**
@@ -152,7 +161,7 @@ function getStatusName(status) {
         case 0:
             return "未到店";
         case 1:
-            return "未已入住";
+            return "未完成";
         case 2:
             return "已入住";
         case 3:

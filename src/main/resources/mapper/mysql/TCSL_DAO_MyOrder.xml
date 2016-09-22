@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间mapper：com.model.professional -->
+<mapper namespace="com.dao.mysql.TCSL_DAO_MyOrder">
+    <select id="query" resultType="com.vo.TCSL_VO_MyOrderInfo">
+        SELECT
+            T .*, r.*
+        FROM
+            PHO_HT_ORDER_ROOMTYPE T,
+            PHO_HT_ORDER r
+        WHERE
+            T .orderid = r.orderid
+        AND r.mcid = #{MCID}
+        AND r.dinerid = #{DINERID}
+        AND r.stateid = #{STATEID}
+        ORDER BY
+            r.dtorderdate DESC
+    </select>
+</mapper>
