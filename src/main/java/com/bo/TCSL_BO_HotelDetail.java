@@ -74,7 +74,6 @@ public class TCSL_BO_HotelDetail {
         voHotelDetail.setMCID(mc.getMCID()); //商户mcId
         voHotelDetail.setPhone(mc.getORDERTEL()); //联系电话
         List<TCSL_VO_RoomInfo> roomList = daoHotelDetailMysql.queryRoomList(mcId,startDate,endDate);
-
         voHotelDetail.setRoomInfoList(roomList);
         result.setRet(0);
         result.setContent(voHotelDetail);
