@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -67,14 +67,17 @@ public class TCSL_BO_HotelDetail {
     public TCSL_VO_Result queryHotelDetail(String mcId,String startDate,String endDate){
         TCSL_VO_Result result = new TCSL_VO_Result();
         TCSL_VO_HotelDetail voHotelDetail = new TCSL_VO_HotelDetail(); //酒店信息
-        PHO_MC_O2O mc = daoMc.queryAll();
+        Iterator<PHO_MC_O2O> iterator = daoMc.queryAll().iterator();
+        PHO_MC_O2O mc = iterator.next();
         voHotelDetail.setNAME(mc.getNAME()); //商户名称
         voHotelDetail.setADDRESS(mc.getADDRESS()); //商户地址
         voHotelDetail.setMCID(mc.getMCID()); //商户mcId
         voHotelDetail.setPhone(mc.getORDERTEL()); //联系电话
-        List<TCSL_VO_RoomInfo> roomList = new ArrayList<TCSL_VO_RoomInfo>();
-        daoHotelDetailMysql.queryRoomList(mcId,startDate,endDate);
+        List<TCSL_VO_RoomInfo> roomList = daoHotelDetailMysql.queryRoomList(mcId,startDate,endDate);
+
         voHotelDetail.setRoomInfoList(roomList);
+        result.setRet(0);
+        result.setContent(voHotelDetail);
         return result;
     }
 }
