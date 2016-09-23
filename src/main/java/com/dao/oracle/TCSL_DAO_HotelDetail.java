@@ -9,7 +9,7 @@ import java.util.List;
  * Created by zhangtuoyu on 2016-09-22.
  */
 public interface TCSL_DAO_HotelDetail {
-    List<TCSL_VO_HotelDetail> query(
+    List<TCSL_VO_HotelDetail> queryHotelList(
         @Param("GCID") String gcId
     );
 }

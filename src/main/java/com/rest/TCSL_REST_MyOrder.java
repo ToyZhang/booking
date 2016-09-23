@@ -27,4 +27,27 @@ public class TCSL_REST_MyOrder {
         TCSL_VO_Result result = boMyOrder.query(mcId,dinerId);
         return result;
     }
+
+    @RequestMapping("/cancelOrder")
+    @ResponseBody
+    public TCSL_VO_Result cancelOrder(HttpServletRequest request, HttpServletResponse response){
+        String id = request.getParameter("id");
+        String mcId = request.getParameter("mcId");
+        String roomTypeId = request.getParameter("roomTypeId");
+        String count = request.getParameter("count");
+        String endDate = request.getParameter("endDate");
+        TCSL_VO_Result result = boMyOrder.cancelOrder(id,mcId,roomTypeId,count,endDate);
+        return result;
+    }
+    @RequestMapping("/finishOrder")
+    @ResponseBody
+    public TCSL_VO_Result finishOrder(HttpServletRequest request, HttpServletResponse response){
+        String id = request.getParameter("id");
+        String mcId = request.getParameter("mcId");
+        String roomTypeId = request.getParameter("roomTypeId");
+        String count = request.getParameter("count");
+        String endDate = request.getParameter("endDate");
+        TCSL_VO_Result result = boMyOrder.finishOrder(id,mcId,roomTypeId,count,endDate);
+        return result;
+    }
 }

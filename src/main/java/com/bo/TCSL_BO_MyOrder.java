@@ -87,4 +87,18 @@ public class TCSL_BO_MyOrder {
         result.setRet(0);
         return result;
     }
+    public TCSL_VO_Result cancelOrder(String id,String mcId,String roomTypeId,String count,String endDate){
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        daoMyOrder.changeOrderStatus(id,"3"); //取消订单
+        daoMyOrder.changeRoomCount(mcId,roomTypeId,count,endDate); //增加可预订数
+        result.setRet(0);
+        return result;
+    }
+    public TCSL_VO_Result finishOrder(String id,String mcId,String roomTypeId,String count,String endDate){
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        daoMyOrder.changeOrderStatus(id,"2"); //完成订单
+        daoMyOrder.changeRoomCount(mcId,roomTypeId,count,endDate); //增加可预订数
+        result.setRet(0);
+        return result;
+    }
 }

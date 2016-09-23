@@ -18,11 +18,20 @@ import javax.servlet.http.HttpServletResponse;
 public class TCSL_REST_HotelDetail {
     @Resource
     TCSL_BO_HotelDetail boHotelDetail;
-    @RequestMapping("/query")
+    @RequestMapping("/queryHotelList")
     @ResponseBody
-    public TCSL_VO_Result query(HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public TCSL_VO_Result queryHotelList(HttpServletRequest request,HttpServletResponse response) throws Exception {
         String gcId = request.getParameter("gcId");
-        TCSL_VO_Result result = boHotelDetail.query(gcId);
+        TCSL_VO_Result result = boHotelDetail.queryHotelList(gcId);
+        return result;
+    }
+    @RequestMapping("/queryHotelDetail")
+    @ResponseBody
+    public TCSL_VO_Result queryHotelDetail(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        String mcId = request.getParameter("mcId");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        TCSL_VO_Result result = boHotelDetail.queryHotelDetail(mcId,startDate,endDate);
         return result;
     }
 }

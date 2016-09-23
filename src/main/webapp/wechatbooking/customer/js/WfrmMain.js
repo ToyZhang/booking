@@ -1,4 +1,8 @@
 var mcId;
+var gcId;
+var dinerId;
+var openId;
+var mpId;
 window.onload = function(){
 	query();
 }
@@ -6,11 +10,13 @@ window.onload = function(){
  * 查询显示数据
  */
 function query(){
-	debugger;
+	//获取请求参数
 	var params = getRequestParam();
-	var gcId = params["gcid"];
-	var dinerId = params["dinerid"];
-	var values = [gcId,dinerId];
+	gcId = params["gcid"];
+	dinerId = params["dinerid"];
+	openId = params["openid"];
+	mpId = params["mpid"];
+	var values = [gcId,dinerId,openId,mpId];
 	if(!checkEmpty(values)){
 		return;
 	}
@@ -37,7 +43,7 @@ function query(){
                 	mcId = content[i].mcid;
                 	var name = content[i].name;
                 	var imgName = content[i].hoteImg;
-                	createHotelItem(address,name,imgName,dinerId);
+                	createHotelItem(address,name,imgName);
                 }
                 $('a').on('click',function(e){
 					var hotel = e.target;
@@ -74,7 +80,7 @@ function query(){
 	                    </div>
                 	</li>
  */
-function createHotelItem(address,name,imgName,dinerId){
+function createHotelItem(address,name,imgName){
 	var ul = document.getElementById("hotel_list");
 	var li = document.createElement("li");
 	li.className = "am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left";
@@ -103,7 +109,6 @@ function createHotelItem(address,name,imgName,dinerId){
 	h3.className = "am-list-item-hd";
 	var a = document.createElement("a");
 	a.innerHTML = name;
-	a.id = dinerId;
 	a.style = "cursor:pointer";
 	h3.appendChild(a);
 	divMain.appendChild(h3);
@@ -123,9 +128,17 @@ function createHotelItem(address,name,imgName,dinerId){
 	li.appendChild(divMain);
 	ul.appendChild(li);
 }
-function onclick_hotel(hotel){
-	var dinerId = hotel.id;
-	saveCookie("customer-mcId",mcId);
-	saveCookie("dinerId",dinerId);
-	window.location.href = "../templates/WfrmMyOrder.html";
+function onclick_hotel(){
+	if((gcId != null && gcId != "" && gcId !== undefined)
+		&& (dinerId != null && dinerId != "" && dinerId !== undefined)
+		&& (openId == null || openId == "" || openId === undefined)
+		&& (mpId == null || mpId == "" || mpId === undefined)){
+		saveCookie("customer-mcId",mcId);
+		saveCookie("dinerId",dinerId);
+		window.location.href = "../templates/WfrmMyOrder.html";
+	}else{
+		var url = "../templates/WfrmHotelDetail.html?mcid="+mcId+"&dinerid="+dinerId+"&openid="+openId+"&mpid="+mpId;
+		window.location.href = url;
+	}
+	
 }

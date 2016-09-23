@@ -14,4 +14,14 @@ public interface TCSL_DAO_MyOrder {
         @Param("DINERID") String dinerId,
         @Param("STATEID") String stateId
     );
+    void changeOrderStatus(
+        @Param("ORDERID") String orderId,
+        @Param("STATUS") String status
+    );
+    void changeRoomCount(
+      @Param("MCID") String mcId,
+      @Param("ROOMTYPEID") String roomId,
+      @Param("ROOMNUM") String roomNum,
+      @Param("ENDDATE") String endDate
+    );
 }

@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 命名空间mapper：com.model.professional -->
 <mapper namespace="com.dao.oracle.TCSL_DAO_HotelDetail">
-    <select id="query" resultType="com.vo.TCSL_VO_HotelDetail">
+    <select id="queryHotelList" resultType="com.vo.TCSL_VO_HotelDetail">
         SELECT
             *
         FROM

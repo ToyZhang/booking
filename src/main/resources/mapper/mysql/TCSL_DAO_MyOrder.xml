@@ -17,4 +17,15 @@
         ORDER BY
             r.dtorderdate DESC
     </select>
+    <update id="changeOrderStatus">
+        UPDATE PHO_HT_ORDER SET stateid=#{STATUS} WHERE orderid= #{ORDERID}
+    </update>
+    <update id="changeRoomCount">
+        UPDATE PHO_HT_ROOMTYPE
+        SET icount = icount + #{ROOMNUM}
+        WHERE
+            mcid = #{MCID}
+        AND croomtypeid = #{ROOMTYPEID}
+        AND cstrdate = #{ENDDATE}
+    </update>
 </mapper>
