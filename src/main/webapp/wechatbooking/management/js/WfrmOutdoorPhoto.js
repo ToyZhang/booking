@@ -194,7 +194,7 @@ function detailImg(detailImg){
     var imgName = imgInfo[3];
     saveCookie("detailImg",imgName);
     var src = "../templates/WfrmPhotoDetail.html";
-    saveCookie("roomType","outdoor_scene");
+    saveCookie("roomName","outdoor_scene");
     window.open(src,'displayContent');
 }
 function deleteImg(delImg){

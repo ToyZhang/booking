@@ -63,7 +63,7 @@ function  getRandomDigit(num) {
 	return rnd;
 }
 /**
- * Description:重写格式化时间方法
+ * 重写格式化时间方法
  * Example:
  * 		var now = new Date();
  * 		var nowFmt = now.Format("yyyy-MM-dd hh:mm:ss");
@@ -89,7 +89,7 @@ Date.prototype.Format = function (fmt) {
     return fmt;
 }
 /**
- * Description:获得指定变化值后的时间
+ * 获得指定变化值后的时间
  * @param {Object} day变化的时间长度
  * Example:
  * 		var date = getDay(-30);
@@ -114,7 +114,7 @@ function doHandleMonth(month) {
     return m;
 }
 /**
- * Description:获取请求页面中的参数
+ * 获取请求页面中的参数
  * Example:http://requestPath/WfrmMain.html?参数一=123&参数二=456
  * 方法返回参数数组,console结果为:[参数一:"123",参数二:"456"]
  */
@@ -128,4 +128,49 @@ function getRequestParam(){
 		paramArray[key] = value;
 	}
 	return paramArray;
+}
+/**
+ * 获取指定时间后一天时间
+ * @param {Object} now 指定时间的年月日字符串格式
+ * Example: var time = yestoday('2016-09-24')  返回值为 '2016-09-25'
+ */
+function yestodayTime(now) {
+	var time = new Date(now);
+	time = +time + 1000*60*60*24;
+	time = new Date(time);
+	var month = time.getMonth();
+	if(month < 10){
+		month = "0" + (month+1);
+	}
+	var day = time.getDate();
+	if(day < 10){
+		day = "0" + day;
+	}
+	return time.getFullYear() + "-" + month + "-" + day;
+}/**
+  * 获取当前时间 YYYY-MM-DD
+  * Example:var now = currentTime();  返回值 "2016-09-24"
+  */
+function currentTime() {
+    var now = new Date();
+    var year = now.getFullYear();       //年
+    var month = now.getMonth() + 1;     //月
+    var day = now.getDate();
+    var hh = now.getHours();            //时
+    var mm = now.getMinutes();          //分
+    var ss = now.getSeconds();           //秒
+
+    var clock = year+"-";
+
+    if (month < 10)
+        clock += "0";
+
+    clock += month + "-";
+
+    if (day < 10)
+        clock += "0";
+
+    clock += day + " ";
+
+    return (clock);
 }

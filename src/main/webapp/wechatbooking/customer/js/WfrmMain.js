@@ -16,7 +16,7 @@ function query(){
 	dinerId = params["dinerid"];
 	openId = params["openid"];
 	mpId = params["mpid"];
-	var values = [gcId,dinerId,openId,mpId];
+	var values = [gcId,dinerId];
 	if(!checkEmpty(values)){
 		return;
 	}
@@ -25,7 +25,7 @@ function query(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'hotelDetail/query',
+        url:requestPath+'hotelDetail/queryHotelList',
         //是否异步请求
         async:true,
         //传参
@@ -129,6 +129,7 @@ function createHotelItem(address,name,imgName){
 	ul.appendChild(li);
 }
 function onclick_hotel(){
+	debugger;
 	if((gcId != null && gcId != "" && gcId !== undefined)
 		&& (dinerId != null && dinerId != "" && dinerId !== undefined)
 		&& (openId == null || openId == "" || openId === undefined)

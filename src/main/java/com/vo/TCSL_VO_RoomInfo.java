@@ -7,6 +7,8 @@ public class TCSL_VO_RoomInfo {
     private String CNAME;
     private String CROOMTYPEID;
     private String MPRICE;
+    private String imgName;
+    private String shopName;
 
     public String getCNAME() {
         return CNAME;
@@ -30,5 +32,21 @@ public class TCSL_VO_RoomInfo {
 
     public void setMPRICE(String MPRICE) {
         this.MPRICE = MPRICE;
+    }
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 }

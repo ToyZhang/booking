@@ -172,3 +172,64 @@ function doHandleMonth(month) {
     }
     return m;
 }
+/**
+ * 获取请求页面中的参数
+ * Example:http://requestPath/WfrmMain.html?参数一=123&参数二=456
+ * 方法返回参数数组,console结果为:[参数一:"123",参数二:"456"]
+ */
+function getRequestParam(){
+	var url = location.search;
+	var paramArray = [];
+	var params = url.substring(1).split("&");
+	for(var i=0;i<params.length;i++){
+		var key = params[i].split("=")[0];
+		var value = params[i].split("=")[1];
+		paramArray[key] = value;
+	}
+	return paramArray;
+}
+/**
+ * 获取指定时间后一天时间
+ * @param {Object} now 指定时间的年月日字符串格式
+ * Example: var time = yestoday('2016-09-24')  返回值为 '2016-09-25'
+ */
+function yestodayTime(now) {
+	var time = new Date(now);
+	time = +time + 1000*60*60*24;
+	time = new Date(time);
+	var month = time.getMonth();
+	if(month < 10){
+		month = "0" + (month+1);
+	}
+	var day = time.getDate();
+	if(day < 10){
+		day = "0" + day;
+	}
+	return time.getFullYear() + "-" + month + "-" + day;
+}/**
+  * 获取当前时间 YYYY-MM-DD
+  * Example:var now = currentTime();  返回值 "2016-09-24"
+  */
+function currentTime() {
+    var now = new Date();
+    var year = now.getFullYear();       //年
+    var month = now.getMonth() + 1;     //月
+    var day = now.getDate();
+    var hh = now.getHours();            //时
+    var mm = now.getMinutes();          //分
+    var ss = now.getSeconds();           //秒
+
+    var clock = year+"-";
+
+    if (month < 10)
+        clock += "0";
+
+    clock += month + "-";
+
+    if (day < 10)
+        clock += "0";
+
+    clock += day + " ";
+
+    return (clock);
+}

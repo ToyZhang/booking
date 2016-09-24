@@ -1,11 +1,6 @@
-window.onload = function(){
-	initData();
-}
-function initData(){
-	var roomName = getRoomName(getCookie("roomType"));
-	$("#roomName").html(roomName);
-}
 jQuery(function(){
+	var name = getCookie("roomName");
+	jQuery("#roomTypeName").html(name);
 	var $ = jQuery,
     $list = $('#fileList'),
     // 优化retina, 在retina下这个值是2
@@ -32,8 +27,7 @@ jQuery(function(){
         pick: '#filePicker',
         
         formData:{
-        	roomType:"",
-        	shopName:""
+        	roomType:""
         },
 		
         // 只允许选择文件，可选。
@@ -46,14 +40,13 @@ jQuery(function(){
 
     //设置上传图片携带参数
     uploader.on( 'uploadBeforeSend', function( block, data ) {
-	    var type = getCookie("roomType");
-	    var name = getCookie("shopName");
+	    var shopName = getCookie("shopName");
 	    // block为分块数据。  
 	    // file为分块对应的file对象。  
 	    var file = block.file;
 	    // 修改data可以控制发送哪些携带数据。  
-	    data.roomType = type;
-	    data.shopName = name;
+	    data.roomType = name;
+	    data.shopName = shopName;
 	});  
     // 当有文件添加进来的时候
     uploader.on('fileQueued', function (file) {

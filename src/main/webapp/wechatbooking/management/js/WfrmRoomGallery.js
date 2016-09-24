@@ -23,9 +23,9 @@ function initConfirm(){
 	});
 }
 //获取需要显示图片信息
-function initInfo(){	
+function initInfo(){
 	var requestPath = getRequestPath();
-	var type = getCookie("roomType");
+	var type = getCookie("roomName");
 	var name = getCookie("shopName");
 	$.ajax({
 		//请求方式
@@ -56,7 +56,6 @@ function initInfo(){
 				var delImg = e.target;
 				$delImg = delImg;
 				$confirm.modal();
-				//deleteImg(delImg);
 			});
 		},
 		//调用出错执行的函数
@@ -131,7 +130,7 @@ function deleteImg(delImg){
 	var imgInfo = id.split("-zty-");
 	var imgName = imgInfo[3];
 	var requestPath = getRequestPath();
-	var roomType = getCookie("roomType");
+	var roomType = getCookie("roomName");
 	var shopName = getCookie("shopName");
 	var params = [];
 	params.push(shopName);
