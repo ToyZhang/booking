@@ -5,10 +5,11 @@ import java.util.List;
 /**
  * Created by zhangtuoyu on 2016-09-22.
  */
-public class TCSL_VO_HotelDetail {
+public class TCSL_VO_HotelDetail extends TCSL_VO_Facilitys{
     private String MCID;
     private String NAME;
     private String ADDRESS;
+    private String DESP;
     private String hoteImg;
     private String phone;
     private List<TCSL_VO_RoomInfo> roomInfoList;
@@ -58,5 +59,13 @@ public class TCSL_VO_HotelDetail {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getDESP() {
+        return DESP;
+    }
+
+    public void setDESP(String DESP) {
+        this.DESP = DESP;
     }
 }

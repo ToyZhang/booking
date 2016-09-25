@@ -44,7 +44,7 @@
 				</a>
 		  	</div>
 		  	<h1 class="am-header-title">
-			    <a href="#title-link" class="">酒店详情</a>
+			    <a onclick="onclick_hotel()" class="">酒店详情</a>
 		  	</h1>
 	  		<div class="am-header-right am-header-nav">
 	    		<a href="#right-link" class="">
@@ -53,23 +53,23 @@
 	  		</div>
 		</header>
 	    <ul class="am-list am-list-static am-list-border">
-	        <li>
+	        <li onclick="onclick_hotel()">
 	        	<span class="am-badge am-badge-default am-text-lg">
 	        		<i class="am-icon-angle-right"></i>
 	        	</span>
 	        	<strong id="hotel_name">
-	            	<!--天财大酒店-->
+
 	        	</strong>
 	        </li>
 	        <li>
 	        	<i class="am-icon-map-marker am-icon-sm"></i>
         		<span class="am-badge am-badge-default am-text-lg"><i class="am-icon-angle-right "></i></span>
-        		<span id="hotel_address"><!--12312--></span>
+        		<span id="hotel_address"></span>
 	        </li>
 	        <li>
 	        	<i class="am-icon-phone am-icon-sm"></i><span class="am-badge am-badge-default am-text-lg">
-	            <i class="am-icon-angle-right"></i></span><strong>
-            	<a data-icon='phone' class='ui-btn-right' id="hotel_phone"><!--15900345728--></a>
+	            <i class="am-icon-angle-right"></i></span>
+            	<a data-icon='phone' class='ui-btn-right' id="hotel_phone"></a>
 	        </li>
 	    </ul>
 	    <div class="am-alert am-alert-danger" id="my-alert" style="display: none">

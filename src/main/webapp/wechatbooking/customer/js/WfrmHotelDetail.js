@@ -3,7 +3,6 @@ var dinerId;
 var openId;
 var mpId;
 window.onload = function(){
-	//test();
 	init();
 }
 /**
@@ -158,4 +157,11 @@ function onclick_order(roomTypeId){
 		//TODO 跳转到订单页面 去支付
 		console.info("要去支付");
 	}
+}
+/*
+ * 显示酒店设施页面
+ */
+function onclick_hotel(){
+	var url = "../templates/WfrmHotelFacility.html?mcId="+mcId;
+	window.location.href = url;
 }

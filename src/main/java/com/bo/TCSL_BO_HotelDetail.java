@@ -1,8 +1,10 @@
 package com.bo;
 
 import com.dao.mysql.TCSL_DAO_HotelDetail_mysql;
+import com.dao.mysql.TCSL_DAO_HotelFacility_mysql;
 import com.dao.oracle.TCSL_DAO_HotelDetail;
 import com.dao.oracle.TCSL_DAO_MC_orl;
+import com.po.oracle.PHO_HT_HOTELITEM;
 import com.po.oracle.PHO_MC_O2O;
 import com.util.TCSL_UTIL_Common;
 import com.vo.TCSL_VO_HotelDetail;
@@ -27,9 +29,11 @@ public class TCSL_BO_HotelDetail {
     TCSL_UTIL_Common utilCommon;
     @Resource
     TCSL_DAO_MC_orl daoMc_orl; //查询商户信息
+    @Resource
+    TCSL_DAO_HotelFacility_mysql daoHotelFacility_mysql;
 
     /**
-     * 查询酒店信息
+     * 查询酒店列表
      * @param gcId
      * @return
      * @throws Exception
@@ -62,7 +66,15 @@ public class TCSL_BO_HotelDetail {
         result.setRet(0);
         return result;
     }
-    //查询酒店详情
+
+    /**
+     * 查询酒店详情
+     * @param mcId
+     * @param startDate
+     * @param endDate
+     * @return
+     * @throws Exception
+     */
     public TCSL_VO_Result queryHotelDetail(String mcId,String startDate,String endDate) throws Exception {
         TCSL_VO_Result result = new TCSL_VO_Result();
         TCSL_VO_HotelDetail voHotelDetail = new TCSL_VO_HotelDetail(); //酒店信息
@@ -91,6 +103,34 @@ public class TCSL_BO_HotelDetail {
         voHotelDetail.setRoomInfoList(roomList);
         result.setRet(0);
         result.setContent(voHotelDetail);
+        return result;
+    }
+
+    /**
+     * 查询商户设施
+     * @param mcId
+     * @return
+     */
+    public TCSL_VO_Result queryFacility(String mcId) {
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        TCSL_VO_HotelDetail voHotelDetail = new TCSL_VO_HotelDetail(); //酒店信息
+        PHO_MC_O2O mc = daoMc_orl.queryByMcId(mcId);
+        voHotelDetail.setNAME(mc.getNAME()); //商户名称
+        voHotelDetail.setDESP(mc.getDESP()); //商户描述
+        List<PHO_HT_HOTELITEM> roomList =
+                daoHotelFacility_mysql.queryRoomFacility(mcId,"客房设施");
+        List<PHO_HT_HOTELITEM> multipleList =
+                daoHotelFacility_mysql.queryRoomFacility(mcId,"综合设施");
+        List<PHO_HT_HOTELITEM> serverList =
+                daoHotelFacility_mysql.queryRoomFacility(mcId,"服务项目");
+        List<PHO_HT_HOTELITEM> toyList =
+                daoHotelFacility_mysql.queryRoomFacility(mcId,"娱乐设施");
+        voHotelDetail.setRoomList(roomList);
+        voHotelDetail.setMultipleList(multipleList);
+        voHotelDetail.setServerList(serverList);
+        voHotelDetail.setToyList(toyList);
+        result.setContent(voHotelDetail);
+        result.setRet(0);
         return result;
     }
 }

@@ -34,4 +34,19 @@ public class TCSL_REST_HotelDetail {
         TCSL_VO_Result result = boHotelDetail.queryHotelDetail(mcId,startDate,endDate);
         return result;
     }
+
+    /**
+     * 查询酒店设施
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/queryFacility")
+    @ResponseBody
+    public TCSL_VO_Result queryFacility(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        String mcId = request.getParameter("mcId");
+        TCSL_VO_Result result = boHotelDetail.queryFacility(mcId);
+        return result;
+    }
 }
