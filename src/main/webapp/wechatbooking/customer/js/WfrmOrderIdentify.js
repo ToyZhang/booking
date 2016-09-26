@@ -20,9 +20,26 @@ function init(){
 	$("#my-phone").html(phone);
 	$("#my-idCard").html(idNum);
 }
+/**
+ * 前台支付
+ * 将该笔订单设置为未完成订单
+ */
 function onclick_frontPay(){
+	//TODO
 	console.info("前台支付");
 }
-function onclick_pay(){
-	console.info("立即支付");
+/**
+ * 立即支付
+ * @param {Object} id 支付方式的id
+ */
+function onclick_pay(id){
+	if(id == "crm_pay"){
+		console.info("crm支付");
+	}
+	if(id == "wechat_pay"){
+		console.info("微信支付");
+	}
+	if(id == "alibaba_pay"){
+		console.info("支付宝支付");
+	}
 }

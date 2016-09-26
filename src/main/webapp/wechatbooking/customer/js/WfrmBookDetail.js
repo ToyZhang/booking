@@ -41,6 +41,7 @@ function init(){
             	var shopName = content.shopName;
             	var imgName = content.imgName;
             	var img = document.createElement("img");
+            	
             	var request = getRequestPath().split(":");
 				var ip = request[1].substring(2);
 				//拼接访问路径

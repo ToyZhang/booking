@@ -42,7 +42,7 @@ public class TCSL_REST_MyOrder {
     @RequestMapping("/finishOrder")
     @ResponseBody
     public TCSL_VO_Result finishOrder(HttpServletRequest request, HttpServletResponse response){
-        String id = request.getParameter("id");
+        String id = request.getParameter("id");//订单id
         String mcId = request.getParameter("mcId");
         String roomTypeId = request.getParameter("roomTypeId");
         String count = request.getParameter("count");
