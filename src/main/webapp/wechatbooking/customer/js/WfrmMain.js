@@ -129,7 +129,6 @@ function createHotelItem(address,name,imgName){
 	ul.appendChild(li);
 }
 function onclick_hotel(){
-	debugger;
 	if((gcId != null && gcId != "" && gcId !== undefined)
 		&& (dinerId != null && dinerId != "" && dinerId !== undefined)
 		&& (openId == null || openId == "" || openId === undefined)

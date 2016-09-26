@@ -28,9 +28,9 @@ function init(){
             var hotelDesp = content.desp;
             $("#hotel_desp").html(hotelDesp);
             //客房设施
-            var roomList = content.roonList;
+            var roomList = content.roomList;
             for (var i=0;i<roomList.length;i++){
-                var itemName = roomlist[i].itemname;
+                var itemName = roomList[i].itemname;
                 var itemDesp = roomList[i].itendesp;
                 var li = createItem(itemName,itemDesp);
                 $("#room_menu").append(li);

@@ -49,4 +49,11 @@ public class TCSL_REST_HotelDetail {
         TCSL_VO_Result result = boHotelDetail.queryFacility(mcId);
         return result;
     }
+    @RequestMapping("/queryRoomList")
+    @ResponseBody
+    public TCSL_VO_Result queryRoomList(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        String mcId = request.getParameter("mcId");
+        TCSL_VO_Result result = boHotelDetail.queryRoomList(mcId);
+        return result;
+    }
 }

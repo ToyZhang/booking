@@ -150,18 +150,19 @@ function createItem(roomTypeId,price,roomName,imgName,shopName){
 	$("#myRoomList").append(li);
 }
 function onclick_order(roomTypeId){
-	var begDate = $('#my-startDate').text();
-	var endDate = $('#my-endDate').text();
+	var begDate = $('#my-startDate').text().trim();
+	var endDate = $('#my-endDate').text().trim();
 	var errStatus = $('#my-alert').css('display');  //错误提示信息 none 隐藏   block 显示
 	if(errStatus == "none"){
-		//TODO 跳转到订单页面 去支付
-		console.info("要去支付");
+		var url = "../templates/WfrmBookDetail.html?mcId="+mcId
+		+"&roomTypeId="+roomTypeId+"&begDate="+begDate+"&endDate="+endDate;
+		window.location.href = url;
 	}
 }
 /*
  * 显示酒店设施页面
  */
 function onclick_hotel(){
-	var url = "../templates/WfrmHotelFacility.html?mcId="+mcId;
+	var url = "../templates/WfrmHotelFacility.html?mcid="+mcId;
 	window.location.href = url;
 }

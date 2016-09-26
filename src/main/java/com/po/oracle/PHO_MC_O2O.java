@@ -11,7 +11,6 @@ public class PHO_MC_O2O {
     private String ADDRESS;
     private String ORDERTEL;
 
-
     public String getMCID() {
         return MCID;
     }

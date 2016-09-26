@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <title>提交订单</title>
+	    <meta name="description" content="提交订单">
+	    <meta name="keywords" content="index">
+	    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	    <meta name="renderer" content="webkit">
+	    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+	    <link rel="icon" type="image/png" href="../api/AmazeUI/i/favicon.png">
+	    <link rel="apple-touch-icon-precomposed" href="../api/AmazeUI/i/app-icon72x72@2x.png">
+	    <link rel="stylesheet" href="../api/AmazeUI/css/amazeui.min.css" />
+	    <link rel="stylesheet" href="../api/AmazeUI/css/admin.css">
+	    <link rel="stylesheet" type="text/css" href="../api/webuploader/webuploader.css" />
+	    <script src="../api/jQuery/jquery.min.js"></script>
+	    <script src="../api/Echart/dist/echarts.js"></script>	    
+	    <script src="../js/WfrmBookDetail.js"></script>
+	    <script src="../js/common.js"></script>
+	    <!--[if lt IE 9]>
+	    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+	    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+	    <script src="assets/js/polyfill/rem.min.js"></script>
+	    <script src="assets/js/polyfill/respond.min.js"></script>
+	    <script src="assets/js/amazeui.legacy.js"></script>
+	    <![endif]-->
+	    <!--[if (gte IE 9)|!(IE)]><!-->
+	    <script src="../api/AmazeUI/js/jquery.min.js"></script>
+	    <script src="../api/AmazeUI/js/amazeui.min.js"></script>
+	    <!--<![endif]-->
+	    <script src="../api/AmazeUI/js/app.js"></script>
+	</head>
+	<body style="background-color: Menu;">
+		<div class=" am-g">
+        	<div class="am-u-sm-12">
+        		<div id="room_img">
+        			<!--<img src='../images/hotelDefault.jpg' class='am-img-responsive' style="margin:auto"/>-->
+        		</div>
+	            <div class="am-panel am-panel-default">
+	                <div class="am-panel-bd">
+	                    <strong id="room_name">
+                        	
+	                    </strong>
+	                    <br />
+	                    <p>
+	                    	入住
+	                    	<strong id="my-startDate">
+	                        	<!--2016-09-26-->
+	                    	</strong> 
+	                    	离店 
+	                    	<strong id="my-endDate">
+	                        	<!--2016-09-27-->
+	                    	</strong> 
+	                    	(住
+	                    	<span id="stayDay"></span>
+	                    	晚)
+	                    </p>
+	                </div>
+	            </div>
+	            <div class="am-g">
+	                <div class="am-u-md-8 am-u-sm-centered">
+	                    <form class="am-form">
+		                    <select id="doc-select-2" onchange="selectRoomCount()">
+		                        <!--<option value='1'>1间</option>
+		                        <option value='2'>2间</option>-->
+		                    </select>
+		                    <span class="am-form-caret"></span>
+		                    <input type="text" id="orderName" placeholder="联系人">
+		                    <input type="text" id="orderTel" placeholder="手机号">
+		                    <input type="text" id="orderIDCard" placeholder="身份证">
+	                    </form>
+	                </div>
+	            </div>
+            	<br />
+        	</div>
+	        <div class="am-btn-group am-btn-group-justify am-btn-group-xl">
+	            <button type='button' id='orderPrice'  class='am-btn am-btn-default'><!--总价:￥165--></button>
+	            <button type='button' class='am-btn am-btn-warning am-btn-xl'  onclick='onclick_order()' id="roomTypeId">提交订单</button>
+	        </div>
+    	</div>
+	</body>
+</html>

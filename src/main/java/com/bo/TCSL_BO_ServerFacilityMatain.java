@@ -33,6 +33,12 @@ public class TCSL_BO_ServerFacilityMatain {
     public void deleteFacility(String itemName,String itemClass,String itemId,String mcId) {
         daoServerFacility.deleteFacilityItem(itemId,itemName,itemClass,mcId);
     }
+
+    /**
+     * 查询设施
+     * @param mcId
+     * @return
+     */
     public TCSL_VO_Facilitys queryFacility(String mcId) {
         TCSL_VO_Facilitys facilities = new TCSL_VO_Facilitys();
         facilities.setRoomList(daoServerFacility.queryRoomItems(mcId,"客房设施"));
