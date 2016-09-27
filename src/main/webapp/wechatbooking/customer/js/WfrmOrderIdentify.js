@@ -39,31 +39,33 @@ function init(){
  */
 function onclick_frontPay(){
 	var requestPath = getRequestPath();
-	$.ajax({
-        //请求方式
-        type:"post",
-        //请求路径
-        url:requestPath+'myOrder/noFinishPay',
-        //是否异步请求
-        async:true,
-        //传参
-        data:{
-        	id:orderId,
-            mcId:mcId,
-            roomTypeId:roomTypeId,
-            count:count,
-            endDate:endDate,
-			startDate:startDate
-        },
-        //发送请求前执行方法
-//		beforeSend:function(){ },
-        //成功返回后调用函数
-        success:function(data){
-            alert("下单完成，请前往前台支付");
-        },
-        //调用出错执行的函数
-//		error:function(){ }
-  });
+    path = "../templates/WfrmBookStatus.html?frontPay=1";
+    checkOrder(path);
+// 	$.ajax({
+//         //请求方式
+//         type:"post",
+//         //请求路径
+//         url:requestPath+'myOrder/noFinishPay',
+//         //是否异步请求
+//         async:true,
+//         //传参
+//         data:{
+//         	id:orderId,
+//             mcId:mcId,
+//             roomTypeId:roomTypeId,
+//             count:count,
+//             endDate:endDate,
+// 			startDate:startDate
+//         },
+//         //发送请求前执行方法
+// //		beforeSend:function(){ },
+//         //成功返回后调用函数
+//         success:function(data){
+//
+//         },
+//         //调用出错执行的函数
+// //		error:function(){ }
+//   });
 }
 /**
  * 立即支付
@@ -144,7 +146,6 @@ function checkOrder(path){
         success:function(data){
         	if(data.ret == 0){
         		orderId = data.content;
-        		console.info("orderId后台给的",orderId);
         		payOrder(path);
         	}
         },

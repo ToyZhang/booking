@@ -1,5 +1,6 @@
 var orderId;
 var returnCode;
+var frontPay;
 window.onload = function(){
 	console.info("订单状态页面");
 	init();
@@ -7,12 +8,17 @@ window.onload = function(){
 function init(){
 	var params = getRequestParam();
 	returnCode = params["returnCode"];
+    frontPay = params["frontPay"];
 	orderId = getCookie("pay_orderId");
 	finishPay();
 }
 function finishPay(){
+    if(frontPay != null && frontPay != "" && frontPay !== undefined){
+        alert("预订成功，请前往前台支付");
+        return;
+    }
 	var requestPath = getRequestPath();
-	if(returnCode == 1){
+	if(returnCode != null && returnCode !="" && returnCode!==undefined && returnCode == 1){
 		$.ajax({
         //请求方式
         type:"post",

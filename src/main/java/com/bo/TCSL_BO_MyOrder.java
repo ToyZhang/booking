@@ -127,7 +127,7 @@ public class TCSL_BO_MyOrder {
     }
 
     /**
-     * 设置订单为未完成订单
+     * 创建未完成支付订单(前台支付)
      * @param id
      * @param mcId
      * @param roomTypeId
@@ -136,25 +136,25 @@ public class TCSL_BO_MyOrder {
      * @param startDate
      * @return
      */
-    public TCSL_VO_Result noFinishPay(String id,String mcId,String roomTypeId,String count,String endDate,String startDate){
-        TCSL_VO_Result result = new TCSL_VO_Result();
-        daoMyOrder.changeOrderStatus(id,"1"); //未完成支付订单
-        startDate = startDate + " 00:00:00";
-        endDate = endDate + " 00:00:00";
-        Timestamp startTime = Timestamp.valueOf(startDate);
-        Timestamp endTime = Timestamp.valueOf(endDate);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        count = "-"+count;
-        while (!startTime.equals(endTime)){
-            String today = format.format(startTime.getTime());
-            daoMyOrder.changeRoomCount(mcId,roomTypeId,count,today); //减少可预订数
-            long time = startTime.getTime() + (1000 * 60 * 60 * 24);
-            Timestamp tomorrow = new Timestamp(time);
-            startTime = tomorrow;
-        }
-        result.setRet(0);
-        return result;
-    }
+//    public TCSL_VO_Result noFinishPay(String id,String mcId,String roomTypeId,String count,String endDate,String startDate){
+//        TCSL_VO_Result result = new TCSL_VO_Result();
+//        daoMyOrder.changeOrderStatus(id,"1"); //未完成支付订单
+//        startDate = startDate + " 00:00:00";
+//        endDate = endDate + " 00:00:00";
+//        Timestamp startTime = Timestamp.valueOf(startDate);
+//        Timestamp endTime = Timestamp.valueOf(endDate);
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        count = "-"+count;
+//        while (!startTime.equals(endTime)){
+//            String today = format.format(startTime.getTime());
+//            daoMyOrder.changeRoomCount(mcId,roomTypeId,count,today); //减少可预订数
+//            long time = startTime.getTime() + (1000 * 60 * 60 * 24);
+//            Timestamp tomorrow = new Timestamp(time);
+//            startTime = tomorrow;
+//        }
+//        result.setRet(0);
+//        return result;
+//    }
 
     public TCSL_VO_Result finishPay(String id){
         TCSL_VO_Result result = new TCSL_VO_Result();
@@ -216,6 +216,20 @@ public class TCSL_BO_MyOrder {
         daoMyOrder.addOrder(orderId,orderId,mcId,
                 clinker,ilinktel,startDate,endDate,orderTime,"1",dinerid,idcard); //添加为未完成
         daoMyOrder.addOrder_room(orderId,roomTypeId,roomName,price,count); //向关联表中添加订单信息
+        //减少该房间可预订房间数
+        startDate = startDate + " 00:00:00";
+        endDate = endDate + " 00:00:00";
+        Timestamp startTime = Timestamp.valueOf(startDate);
+        Timestamp endTime = Timestamp.valueOf(endDate);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        count = "-"+count;
+        while (!startTime.equals(endTime)){
+            String today = format.format(startTime.getTime());
+            daoMyOrder.changeRoomCount(mcId,roomTypeId,count,today); //减少可预订数
+            long time = startTime.getTime() + (1000 * 60 * 60 * 24);
+            Timestamp tomorrow = new Timestamp(time);
+            startTime = tomorrow;
+        }
         result.setRet(0);
         return  result;
     }
