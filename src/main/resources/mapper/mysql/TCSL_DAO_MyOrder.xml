@@ -51,4 +51,19 @@
             #{ENDDATE},#{ORDERTIME},#{STATEID},#{DINERID},#{IDCARD}
         )
     </insert>
+    <insert id="addOrder_room">
+        INSERT INTO PHO_HT_ORDER_ROOMTYPE
+        VALUES
+            (
+                #{ORDERID},
+                #{ORDERID},
+                #{ROOMTYPEID},
+                #{ROOMNAME},
+                #{PRICE},
+                #{COUNT}
+            )
+    </insert>
+    <delete id="deleteOrder_room">
+        DELETE FROM PHO_HT_ORDER_ROOMTYPE WHERE ID = #{ORDERID}
+    </delete>
 </mapper>

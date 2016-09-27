@@ -44,4 +44,14 @@ public interface TCSL_DAO_MyOrder {
             @Param("DINERID") String dinerId,
             @Param("IDCARD") String idCard
     );
+    void addOrder_room(
+            @Param("ORDERID") String orderId,
+            @Param("ROOMTYPEID") String roomTypeId,
+            @Param("ROOMNAME") String roomName,
+            @Param("PRICE") String price,
+            @Param("COUNT") String count
+    );
+    void deleteOrder_room(
+            @Param("ORDERID") String orderId
+    );
 }

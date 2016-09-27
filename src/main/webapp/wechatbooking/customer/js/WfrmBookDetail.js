@@ -43,7 +43,6 @@ function init(){
             	var shopName = content.shopName;
             	var imgName = content.imgName;
             	var img = document.createElement("img");
-            	
             	var request = getRequestPath().split(":");
 				var ip = request[1].substring(2);
 				//拼接访问路径
@@ -88,7 +87,6 @@ function onclick_order(){
 		return;
 	}
 	$("#customer-msg").html("");
-	var customerReg = "";
 	var phoneReg = /^[0-9]{11,12}$/; //验证电话号码有效性
 	var phone = $("#orderTel").val();
 	if(!phoneReg.exec(phone)){

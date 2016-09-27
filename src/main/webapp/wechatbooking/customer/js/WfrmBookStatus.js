@@ -1,32 +1,13 @@
-//var mcId;
 var orderId;
 var returnCode;
-//var clinker;
-//var phone;
-//var itemStartDate;
-//var itemEndDate;
-//var dinerid;
-//var idNum;
-//var itemRoomTypeId;
-//var itemCount;
 window.onload = function(){
 	console.info("订单状态页面");
 	init();
 }
 function init(){
-	debugger;
 	var params = getRequestParam();
 	returnCode = params["returnCode"];
 	orderId = getCookie("pay_orderId");
-//	mcId = getCookie("customer-mcId");	
-//	clinker = getCookie("pay_clinker");
-//	phone = getCookie("pay_ilinktel");
-//	itemStartDate = getCookie("pay_startDate");
-//	itemEndDate = getCookie("pay_endDate");
-//	dinerid = getCookie("pay_dinerid");
-//	idNum = getCookie("pay_idcard");
-//	itemRoomTypeId = getCookie("pay_roomTypeId");
-//	itemCount = getCookie("pay_count");
 	finishPay();
 }
 function finishPay(){
@@ -52,6 +33,8 @@ function finishPay(){
         //调用出错执行的函数
 //		error:function(){ }
   });
+	}else {
+		alert("支付失败");
 	}
 	
 }

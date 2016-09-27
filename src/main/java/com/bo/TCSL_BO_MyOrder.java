@@ -103,6 +103,7 @@ public class TCSL_BO_MyOrder {
             Timestamp tomorrow = new Timestamp(time);
             startTime = tomorrow;
         }
+        daoMyOrder.deleteOrder_room(id); //删除关联表中的订单信息
         result.setRet(0);
         return result;
     }
@@ -125,6 +126,16 @@ public class TCSL_BO_MyOrder {
         return result;
     }
 
+    /**
+     * 设置订单为未完成订单
+     * @param id
+     * @param mcId
+     * @param roomTypeId
+     * @param count
+     * @param endDate
+     * @param startDate
+     * @return
+     */
     public TCSL_VO_Result noFinishPay(String id,String mcId,String roomTypeId,String count,String endDate,String startDate){
         TCSL_VO_Result result = new TCSL_VO_Result();
         daoMyOrder.changeOrderStatus(id,"1"); //未完成支付订单
@@ -200,10 +211,11 @@ public class TCSL_BO_MyOrder {
      */
     public TCSL_VO_Result addOrder(String orderId, String mcId, String clinker,
            String ilinktel, String startDate, String endDate, String orderTime, String dinerid, String idcard,
-                                   String roomTypeId,String count) {
+                                   String roomTypeId,String count,String price,String roomName) {
         TCSL_VO_Result result = new TCSL_VO_Result();
         daoMyOrder.addOrder(orderId,orderId,mcId,
-                clinker,ilinktel,startDate,endDate,orderTime,"1",dinerid,idcard);
+                clinker,ilinktel,startDate,endDate,orderTime,"1",dinerid,idcard); //添加为未完成
+        daoMyOrder.addOrder_room(orderId,roomTypeId,roomName,price,count); //向关联表中添加订单信息
         result.setRet(0);
         return  result;
     }

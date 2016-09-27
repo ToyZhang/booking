@@ -8,13 +8,14 @@ var clinker;
 var ilinktel;
 var idNum;
 var price;
+var roomName;
 window.onload = function(){
 	init();
 }
 function init(){
 	var params = getRequestParam();
 	price = params["price"];
-	var roomName = getCookie("roomName");
+	roomName = getCookie("roomName");
 	startDate = params["startDate"];
 	endDate = params["endDate"];
 	count = params["count"];
@@ -177,7 +178,9 @@ function payOrder(path){
 			dinerid:dinerId,
 			idcard:idNum,
 			roomTypeId:roomTypeId,
-			count:count
+			count:count,
+			price:price,
+            roomName:roomName
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },
