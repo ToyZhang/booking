@@ -147,7 +147,8 @@ function yestodayTime(now) {
 		day = "0" + day;
 	}
 	return time.getFullYear() + "-" + month + "-" + day;
-}/**
+}
+/**
   * 获取当前时间 YYYY-MM-DD
   * Example:var now = currentTime();  返回值 "2016-09-24"
   */
@@ -171,6 +172,44 @@ function currentTime() {
         clock += "0";
 
     clock += day + " ";
+
+    return (clock);
+}
+/**
+ * 返回当前时间 YYYY-MM-DD HH:mm:ss
+ */
+function getNowTime(){
+	var now = new Date();
+    var year = now.getFullYear();       //年
+    var month = now.getMonth() + 1;     //月
+    var day = now.getDate();
+    var hh = now.getHours();            //时
+    var mm = now.getMinutes();          //分
+    var ss = now.getSeconds();           //秒
+
+    var clock = year+"-";
+
+    if (month < 10)
+        clock += "0";
+
+    clock += month + "-";
+
+    if (day < 10)
+        clock += "0";
+
+    clock += day + " ";
+    
+    if(hh < 10)
+    	clock += "0";
+    clock += hh + ":";
+    
+    if(mm < 10)
+    	clock += "0";
+    clock += mm + ":";
+    
+    if(ss < 10)
+    	clock += "0";
+    clock += ss;
 
     return (clock);
 }

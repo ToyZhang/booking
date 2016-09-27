@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by zhangtuoyu on 2016-09-08.
@@ -56,5 +57,10 @@ public class HTO_UPDATE_ACCOUNT_DAO_Test {
                 System.out.println(f.getName());
             }
         }
+    }
+    @Test
+    public void testRandom(){
+        Random r = new Random();
+        System.out.println(r.nextInt(10)+1);
     }
 }

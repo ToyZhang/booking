@@ -4,8 +4,14 @@ var itemMcId;
 var itemRoomTypeId;
 var itemCount;
 var itemEndDate;
+var itemStartDate;
+var clinker;
+var phoneNum;
+var idNum;
+var price;
+var dinerId;
 window.onload = function(){
-	var dinerId = getCookie("dinerId");
+	dinerId = getCookie("dinerId");
 	mcId = getCookie("customer-mcId");
 	initConfirm();
 	init(dinerId);
@@ -18,7 +24,7 @@ function initConfirm(){
 	$confirmBtn = $confirm.find('[data-am-modal-confirm]');
 	$cancelBtn = $confirm.find('[data-am-modal-cancel]');
 	$confirmBtn.off('click.confirm.modal.amui').on('click', function() {
-		onclick_cancel(itemId,itemMcId,itemRoomTypeId,itemCount,itemEndDate);
+		onclick_cancel(itemId,itemMcId,itemRoomTypeId,itemCount,itemEndDate,itemStartDate);
 	});
 	$cancelBtn.off('click.cancel.modal.amui').on('click', function() {
 		
@@ -58,7 +64,8 @@ function init(dinerId){
                 	var count = noFinishList[i].icount;
                 	var roomTypeId = noFinishList[i].croomtypeid;
                 	var type = "noFinish";
-					var div = createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,type,count,roomTypeId);
+                	var idCard = noFinishList[i].idcard;
+					var div = createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,type,count,roomTypeId,idCard);
 					var tab1 = document.getElementById("tab2-1");
 					tab1.appendChild(div);
                 }
@@ -74,7 +81,8 @@ function init(dinerId){
                 	var count = finishList[i].icount;
                 	var roomTypeId = finishList[i].croomtypeid;
                 	var type = "finish";
-					var div = createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,type,count,roomTypeId);
+                	var idCard = finishList[i].idcard;
+					var div = createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,type,count,roomTypeId,idCard);
 					var tab1 = document.getElementById("tab2-2");
 					tab1.appendChild(div);
                 }
@@ -90,7 +98,8 @@ function init(dinerId){
                 	var count = cancelList[i].icount;
                 	var roomTypeId = cancelList[i].croomtypeid;
                 	var type = "cancel";
-					var div = createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,type,count,roomTypeId);
+                	var idCard = cancelList[i].idcard;
+					var div = createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,type,count,roomTypeId,idCard);
 					var tab1 = document.getElementById("tab2-3");
 					tab1.appendChild(div);
                 }
@@ -104,6 +113,7 @@ function init(dinerId){
 					itemRoomTypeId = params[3];
 					itemCount = params[4];
 					itemEndDate = params[5];
+					itemStartDate = params[6];
 					$confirm.modal();
 				}
 				if(params[0] == "payBtn"){
@@ -112,7 +122,11 @@ function init(dinerId){
 					itemRoomTypeId = params[3];
 					itemCount = params[4];
 					itemEndDate = params[5];
-					onclick_pay(itemId,itemMcId,itemRoomTypeId,itemCount,itemEndDate);
+					itemStartDate = params[6];
+					clinker = params[7];
+					phoneNum = params[8];
+					idNum = params[9];
+					price = params[10];
 				}
 			});
         },
@@ -134,6 +148,7 @@ function init(dinerId){
  * @param {Object} type 菜单类别  finish noFinish cancel
  * @param {Object} count 订房个数
  * @param {Object} roomTypeId 房间类型id
+ * @param {Object} idCard 身份证号
  * Example:
  *    <div class='am-panel am-panel-default'>
                     <div class='am-panel-bd'>
@@ -161,7 +176,7 @@ function init(dinerId){
                     </div>
                 </div>
  */
-function createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,type,count,roomTypeId){
+function createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,type,count,roomTypeId,idCard){
 	var div = document.createElement("div");
 	div.className = "am-panel am-panel-default";
 	var panelDiv = document.createElement("div");
@@ -194,13 +209,14 @@ function createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,
 		var payBtn = document.createElement("button");
 		payBtn.type = "button";
 		payBtn.className = "am-btn am-btn-warning am-btn-xl am-btn-block";
-		payBtn.id = "payBtn-zty-"+ id +"-zty-" + mcId + "-zty-" + roomTypeId + "-zty-" + count + "-zty-"+endDate;
+		payBtn.id = "payBtn-zty-"+ id +"-zty-" + mcId + "-zty-" + roomTypeId + "-zty-" + count + "-zty-"+endDate +"-zty-"+startDate+"-zty-"+userName+"-zty-"+phone+"-zty-"+idCard +"-zty-"+money;
+		payBtn.setAttribute("data-am-modal","{target: '#my-actions'}");
 		payBtn.innerHTML = "立即支付";
 		panelDiv.appendChild(payBtn);
 		var cancelBtn = document.createElement("button");
 		cancelBtn.type = "button";
 		cancelBtn.className = "am-btn am-btn-warning am-btn-xl am-btn-block";
-		cancelBtn.id = "cancelBtn-zty-"+ id +"-zty-" + mcId + "-zty-" + roomTypeId + "-zty-" + count + "-zty-"+endDate;
+		cancelBtn.id = "cancelBtn-zty-"+ id +"-zty-" + mcId + "-zty-" + roomTypeId + "-zty-" + count + "-zty-"+endDate + "-zty-"+startDate;
 		cancelBtn.innerHTML = "取消订单";
 		panelDiv.appendChild(cancelBtn);
 	}
@@ -218,36 +234,25 @@ function createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,
 	return div;
 	
 }
-function onclick_pay(id,mcId,roomTypeId,count,endDate){
-	//TODO 缺少支付回调
-	
-	var requestPath = getRequestPath();
-	$.ajax({
-        //请求方式
-        type:"post",
-        //请求路径
-        url:requestPath+'myOrder/finishOrder',
-        //是否异步请求
-        async:true,
-        //传参
-        data:{
-        	id:id,
-            mcId:mcId,
-            roomTypeId:roomTypeId,
-            count:count,
-            endDate:endDate
-        },
-        //发送请求前执行方法
-//		beforeSend:function(){ },
-        //成功返回后调用函数
-        success:function(data){
-            window.location.reload();
-        },
-        //调用出错执行的函数
-//		error:function(){ }
-   });
+function onclick_pay(id){
+	if(id == "crm_pay"){ //crm支付 paytypeid:3
+		var requestPath = getRequestPath();
+		var backPath = requestPath+"/wechatbooking/customer/templates/WfrmBookStatus.html"
+		var data = "{'openid':'','mpid':'','udStateUrl':'"+backPath+"'"+",'money':'"+price
+				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"
+				+",'payFrom':3"+",'payMoney':'"+price+"','goods':[{'goodsName':'手机','price':'99'" +
+				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
+		getPaySign(data);
+	}
+	if(id == "wechat_pay"){ //微信支付 paytypeid:6
+		var data = "{'openid':'','mpid':'','udStateUrl':'"+backPath+"'"+",'money':'"+price
+				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"
+				+",'payFrom':3"+",'payMoney':'"+price+"','goods':[{'goodsName':'手机','price':'99'" +
+				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
+		getPaySign(data);
+	}
 }
-function onclick_cancel(id,mcId,roomTypeId,count,endDate){
+function onclick_cancel(id,mcId,roomTypeId,count,endDate,begDate){
 	var requestPath = getRequestPath();
 	$.ajax({
         //请求方式
@@ -262,7 +267,8 @@ function onclick_cancel(id,mcId,roomTypeId,count,endDate){
             mcId:mcId,
             roomTypeId:roomTypeId,
             count:count,
-            endDate:endDate
+            endDate:endDate,
+			startDate:begDate
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },
@@ -273,4 +279,157 @@ function onclick_cancel(id,mcId,roomTypeId,count,endDate){
         //调用出错执行的函数
 //		error:function(){ }
     });
+}
+function getPaySign(param){
+	var requestPath = getRequestPath();
+	//判断房间数量是否足够
+	$.ajax({
+        //请求方式
+        type:"post",
+        //请求路径
+        url:requestPath+'myOrder/createPayMd5',
+        //是否异步请求
+        async:true,
+        //传参
+        data:{
+            mcId:mcId,
+            data:param
+        },
+        //发送请求前执行方法
+//		beforeSend:function(){ },
+        //成功返回后调用函数
+        success:function(data){
+        	if(data.ret == 0){
+        		param = param +"&sign="+ data.content;
+        		var path = "http://"+RESOURCE_PAY_COMMON_IP_PORT+"/api/tcsl/CommPayPage.htm?data="+param;
+        		saveCookie("pay_orderId",itemId);
+        		path = "../templates/WfrmBookStatus.html?returnCode=1";//测试使用
+        		window.location.href = path;
+        	}
+        },
+        //调用出错执行的函数
+//		error:function(){ }
+  });
+}
+/**
+ * 检查该房型是否可预订
+ */
+function checkOrder(path){
+	var requestPath = getRequestPath();
+	//判断房间数量是否足够
+	$.ajax({
+        //请求方式
+        type:"post",
+        //请求路径
+        url:requestPath+'myOrder/checkOrder',
+        //是否异步请求
+        async:true,
+        //传参
+        data:{
+            mcId:mcId,
+            roomTypeId:itemRoomTypeId,
+            count:itemCount,
+            endDate:itemEndDate,
+			startDate:itemStartDate
+        },
+        //发送请求前执行方法
+//		beforeSend:function(){ },
+        //成功返回后调用函数
+        success:function(data){
+        	if(data.ret == 0){
+        		orderId = data.content;
+        		payOrder(path);
+        	}else{
+				alert("该房型已满");
+			}       	
+        },
+        //调用出错执行的函数
+//		error:function(){ }
+  });
+}
+/**
+ * 添加订单
+ */
+function payOrder(path){
+	var requestPath = getRequestPath();
+	var now = getNowTime();
+	var dinerId = getCookie("dinerId");
+	$.ajax({
+        //请求方式
+        type:"post",
+        //请求路径
+        url:requestPath+'myOrder/addOrder',
+        //是否异步请求
+        async:true,
+        //传参
+        data:{
+            orderId:orderId,
+			mcId:mcId,
+			clinker:clinker,
+			ilinktel:phoneNum,
+			startDate:itemStartDate,
+			endDate:itemEndDate,
+			orderTime:now,
+			dinerid:dinerId,
+			idcard:idNum,
+			roomTypeId:itemRoomTypeId,
+			count:itemCount
+        },
+        //发送请求前执行方法
+//		beforeSend:function(){ },
+        //成功返回后调用函数
+        success:function(data){
+        	saveCookie("pay_orderId",orderId);
+//  		saveCookie("pay_clinker",clinker);
+//			saveCookie("pay_ilinktel",phoneNum);
+//			saveCookie("pay_startDate",itemStartDate);
+//			saveCookie("pay_endDate",itemEndDate);
+//			saveCookie("pay_dinerid",dinerId);
+//			saveCookie("pay_idcard",idNum);
+//			saveCookie("pay_roomTypeId",itemRoomTypeId);
+//			saveCookie("pay_count",itemCount);
+			path = "../templates/WfrmBookStatus.html";//测试使用
+			window.location.href = path;
+        },
+        //调用出错执行的函数
+//		error:function(){ }
+  });
+}
+/**
+ * 返回当前时间 YYYY-MM-DD HH:mm:ss
+ */
+function getNowTime(){
+	var now = new Date();
+    var year = now.getFullYear();       //年
+    var month = now.getMonth() + 1;     //月
+    var day = now.getDate();
+    var hh = now.getHours();            //时
+    var mm = now.getMinutes();          //分
+    var ss = now.getSeconds();           //秒
+
+    var clock = year+"-";
+
+    if (month < 10)
+        clock += "0";
+
+    clock += month + "-";
+
+    if (day < 10)
+        clock += "0";
+
+    clock += day + " ";
+    
+    if(hh < 10)
+    	clock += "0";
+    clock += hh + ":";
+    
+    if(mm < 10)
+    	clock += "0";
+    clock += mm + ":";
+    
+    if(ss < 10)
+    	clock += "0";
+    clock += ss;
+
+    return (clock);
 }

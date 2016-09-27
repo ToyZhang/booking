@@ -1,13 +1,15 @@
 var price;
 var totalPrice;
 var selectCount;
+var mcId;
+var roomTypeId;
 window.onload = function(){
 	init();
 }
 function init(){
 	var params = getRequestParam();
-	var mcId = params["mcId"];
-	var roomTypeId = params["roomTypeId"];
+	mcId = params["mcId"];
+	roomTypeId = params["roomTypeId"];
 	var startDate = params["begDate"];
 	$("#my-startDate").html(startDate);
 	var endDate = params["endDate"];
@@ -81,11 +83,30 @@ function onclick_order(){
 	var endDate = $("#my-endDate").html();
 	var count = selectCount;
 	var customer = $("#orderName").val();
+	if(customer == null || customer == "" || customer === undefined){
+		$("#customer-msg").html("联系人信息为空");
+		return;
+	}
+	$("#customer-msg").html("");
+	var customerReg = "";
+	var phoneReg = /^[0-9]{11,12}$/; //验证电话号码有效性
 	var phone = $("#orderTel").val();
+	if(!phoneReg.exec(phone)){
+		$("#phone-msg").html("联系电话信息有误");
+		return;	
+	}
+	$("#phone-msg").html("");
 	var idNum = $("#orderIDCard").val();
+	var idNumReg = /^[0-9]{17}[a-zA-Z0-9]$/;
+	if(!idNumReg.exec(idNum)){
+		$("#idCard-msg").html("身份证信息有误");
+		return;
+	}
+	$("#idCard-msg").html("");
 	saveCookie("roomName",roomName);
 	saveCookie("customer",customer);
 	var url = "../templates/WfrmOrderIdentify.html?price="+price
-	+"&startDate="+startDate+"&endDate="+endDate+"&count="+count+"&phone="+phone+"&idNum="+idNum;
+	+"&startDate="+startDate+"&endDate="+endDate+"&count="+count+"&phone="+phone+"&idNum="+idNum
+	+"&mcId="+mcId+"&roomTypeId="+roomTypeId;
 	window.location.href = url;
 }

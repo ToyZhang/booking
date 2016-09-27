@@ -18,6 +18,7 @@ public class TCSL_VO_MyOrderInfo {
     private int stayDays; //入住天数
     private BigDecimal money; //房费
     private String CROOMTYPEID; //房型id
+    private String IDCARD; //身份证号
     public String getCNAME() {
         return CNAME;
     }
@@ -112,5 +113,13 @@ public class TCSL_VO_MyOrderInfo {
 
     public void setCROOMTYPEID(String CROOMTYPEID) {
         this.CROOMTYPEID = CROOMTYPEID;
+    }
+
+    public String getIDCARD() {
+        return IDCARD;
+    }
+
+    public void setIDCARD(String IDCARD) {
+        this.IDCARD = IDCARD;
     }
 }

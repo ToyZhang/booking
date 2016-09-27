@@ -28,4 +28,27 @@
         AND croomtypeid = #{ROOMTYPEID}
         AND cstrdate = #{ENDDATE}
     </update>
+    <select id="checkOrder" resultType="int">
+        SELECT
+        MIN(icount)
+        FROM
+        PHO_HT_ROOMTYPE
+        WHERE
+        <![CDATA[
+            croomtypeid = #{ROOMTYPEID}
+            AND cstrdate >= #{STARTDATE}
+            AND cenddate <= #{ENDDATE}
+            AND mcid = #{MCID}
+        ]]>
+    </select>
+    <insert id="addOrder">
+        INSERT INTO PHO_HT_ORDER (
+            orderid,orderno,mcid,clinker,ilinktel,dtbegdate,
+            dtenddate,dtorderdate,stateid,dinerid,idcard
+        )
+        VALUES(
+            #{ORDERID},#{ORDERNO},#{MCID},#{CLINKER},#{ILINKTEL},#{BEGDATE},
+            #{ENDDATE},#{ORDERTIME},#{STATEID},#{DINERID},#{IDCARD}
+        )
+    </insert>
 </mapper>

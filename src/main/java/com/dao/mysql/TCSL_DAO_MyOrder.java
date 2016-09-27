@@ -24,4 +24,24 @@ public interface TCSL_DAO_MyOrder {
       @Param("ROOMNUM") String roomNum,
       @Param("ENDDATE") String endDate
     );
+    Integer checkOrder(
+        @Param("MCID") String mcId,
+        @Param("ROOMTYPEID") String roomId,
+        @Param("COUNT") String count,
+        @Param("STARTDATE") String startDate,
+        @Param("ENDDATE") String endDate
+    );
+    void addOrder(
+            @Param("ORDERID") String orderId,
+            @Param("ORDERNO") String orderNo,
+            @Param("MCID") String mcId,
+            @Param("CLINKER") String clinker,
+            @Param("ILINKTEL") String linkTel,
+            @Param("BEGDATE") String startDate,
+            @Param("ENDDATE") String endDate,
+            @Param("ORDERTIME") String orderTime,
+            @Param("STATEID") String stateId,
+            @Param("DINERID") String dinerId,
+            @Param("IDCARD") String idCard
+    );
 }
