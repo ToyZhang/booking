@@ -63,7 +63,4 @@
                 #{COUNT}
             )
     </insert>
-    <delete id="deleteOrder_room">
-        DELETE FROM PHO_HT_ORDER_ROOMTYPE WHERE ID = #{ORDERID}
-    </delete>
 </mapper>

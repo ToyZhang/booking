@@ -60,24 +60,6 @@ public class TCSL_REST_MyOrder {
         return result;
     }
 
-    /**
-     * 未完成支付订单
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping("/noFinishPay")
-    @ResponseBody
-    public TCSL_VO_Result noFinishPay(HttpServletRequest request, HttpServletResponse response){
-        String id = request.getParameter("id");//订单id
-        String mcId = request.getParameter("mcId");
-        String roomTypeId = request.getParameter("roomTypeId");
-        String count = request.getParameter("count");
-        String endDate = request.getParameter("endDate");
-        String startDate = request.getParameter("startDate");
-        TCSL_VO_Result result = boMyOrder.noFinishPay(id,mcId,roomTypeId,count,endDate,startDate);
-        return result;
-    }
     @RequestMapping("/finishPay")
     @ResponseBody
     public TCSL_VO_Result finishPay(HttpServletRequest request, HttpServletResponse response){

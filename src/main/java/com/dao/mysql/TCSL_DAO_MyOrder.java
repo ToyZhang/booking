@@ -51,7 +51,4 @@ public interface TCSL_DAO_MyOrder {
             @Param("PRICE") String price,
             @Param("COUNT") String count
     );
-    void deleteOrder_room(
-            @Param("ORDERID") String orderId
-    );
 }
