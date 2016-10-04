@@ -27,6 +27,13 @@ $().ready(function(){
             createdRow: function ( row, data, index ) {
                 $('td', row).eq(1).css("background-color","#FFFFDD");
                 $('td', row).eq(2).css("background-color","#FFFFDD");
+                $('td', row).eq(0).css("text-align","center");
+                $('td', row).eq(1).css("text-align","center");
+                $('td', row).eq(2).css("text-align","center");
+                $('td', row).eq(3).css("text-align","center");
+                $('td', row).eq(4).css("text-align","center");
+                $('td', row).eq(5).css("text-align","center");
+                $('td', row).eq(6).css("text-align","center");
             },
 });
     initData();
@@ -85,11 +92,10 @@ function initData(){
  * @param {Object} dtenddate 离店时间
  * @param {Object} stateid 订单状态
  * @param {Object} idcard 身份证号
- * @param {Object} payFlag 支付标志量   0 未支付  1已支付
+ * @param {Object} payFlag 支付标志量   0未支付  1已支付
  */
 function createItem(id,icount,dtorderdate,cname,clinker,mprice,ilinktel,dtbegdate,dtenddate,stateid,idcard,payFlag){
 	var stateName = getStatusName(stateid);
-    debugger;
     if( stateid == "0" && payFlag == "0"){
         stateName = stateName + "(未支付)";
     }
