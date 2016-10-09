@@ -138,9 +138,9 @@ function yestodayTime(now) {
 	var time = new Date(now);
 	time = +time + 1000*60*60*24;
 	time = new Date(time);
-	var month = time.getMonth();
+	var month = time.getMonth()+1;
 	if(month < 10){
-		month = "0" + (month+1);
+		month = "0" + month;
 	}
 	var day = time.getDate();
 	if(day < 10){

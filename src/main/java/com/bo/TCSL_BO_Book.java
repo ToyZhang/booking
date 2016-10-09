@@ -64,8 +64,8 @@ public class TCSL_BO_Book {
         voOrderFormInfo.setDays(String.valueOf(stayDay));
         List<BigDecimal> priceList = daoBookMysql.queryPrice(roomTypeId,mcId,startDate,endDate);
         BigDecimal price = new BigDecimal(0);
-        for (BigDecimal p :priceList) {
-            price = price.add(p);
+        for (int i = 0; i< (priceList.size()-1); i++) {
+            price = price.add(priceList.get(i));
         }
         price =   price.multiply(new BigDecimal(stayDay));
         voOrderFormInfo.setTotalPrice(price.toString());

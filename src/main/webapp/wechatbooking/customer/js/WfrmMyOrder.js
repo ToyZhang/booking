@@ -236,7 +236,7 @@ function createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,
 }
 function onclick_pay(id){
     var requestPath = getRequestPath();
-    var backPath = requestPath+"/wechatbooking/customer/templates/WfrmBookStatus.html";
+    var backPath = requestPath+"wechatbooking/customer/templates/WfrmBookStatus.html";
 	if(id == "crm_pay"){ //crm支付 paytypeid:3
 		var data = "{'openid':'','mpid':'','udStateUrl':'"+backPath+"'"+",'money':'"+price
 				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"

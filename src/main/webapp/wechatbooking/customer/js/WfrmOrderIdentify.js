@@ -49,7 +49,7 @@ function onclick_pay(id){
 	var openId = getCookie("openId");
 	var mpid = getCookie("mpId");
     var requestPath = getRequestPath();
-    var backPath = requestPath+"/wechatbooking/customer/templates/WfrmBookStatus.html";
+    var backPath = requestPath+"wechatbooking/customer/templates/WfrmBookStatus.html";
 	if(id == "crm_pay"){ //crm支付 paytypeid:3
 		var data = "{'openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+backPath+"','money':'"+price
 				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"

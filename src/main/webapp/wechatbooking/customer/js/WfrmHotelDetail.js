@@ -8,6 +8,7 @@ window.onload = function(){
 	dinerId = params["dinerid"];
 	openId = params["openid"];
 	mpId = params["mpid"];
+	debugger;
     var startDate = currentTime();
     var endDate = yestodayTime(startDate);
 	init(startDate,endDate);
@@ -16,6 +17,7 @@ window.onload = function(){
  * 初始化时间按钮
  */
 $(function() {
+	debugger;
     var startDate = currentTime();
     var endDate = yestodayTime(startDate);
     $('#my-startDate').text(startDate);

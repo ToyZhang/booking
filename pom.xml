@@ -7,19 +7,19 @@
   <version>1.0-SNAPSHOT</version>
   <name>booking Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  <!-- 公司maven库 -->
-  <repositories>
-    <repository>
-      <id>Nexus</id>
-      <url>http://192.168.4.17:8082/nexus/content[i]/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+  <!--&lt;!&ndash; 公司maven库 &ndash;&gt;-->
+  <!--<repositories>-->
+    <!--<repository>-->
+      <!--<id>Nexus</id>-->
+      <!--<url>http://192.168.4.17:8082/nexus/content[i]/groups/public/</url>-->
+      <!--<releases>-->
+        <!--<enabled>true</enabled>-->
+      <!--</releases>-->
+      <!--<snapshots>-->
+        <!--<enabled>false</enabled>-->
+      <!--</snapshots>-->
+    <!--</repository>-->
+  <!--</repositories>-->
 
   <dependencies>
     <dependency>
