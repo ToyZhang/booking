@@ -22,16 +22,31 @@ public class TCSL_BO_SendMessage {
         TCSL_VO_Result result = new TCSL_VO_Result();
         //模板消息
         TCSL_VO_WeChatTemplate template = new TCSL_VO_WeChatTemplate();
+        //获取微信接口token
+        String grantType = "client_credential";
+        String appid = "wx50c2ff2ef1979402"; //公众号appid
+        String secret = "c6bcf9884e29799f2913c903deb16ede"; //公众号secret
+        String token = getWeChatToken(grantType,appid,secret);
+        if(token.isEmpty()){
+            result.setRet(-1);
+            result.setContent("TCSL_BO_SendMessage sendWelcome get token error");
+            return result;
+        }
+        String openId = "oC9iLv-jdd28i0X7pNS1xosEZ9lI";
+        String templateId = "yAumrSw7Y9yDOUhXwuE8CxXI7WUb3gmMVeJqri6xB_M";
+        template.setTouser(openId);
+        template.setTemplate_id(templateId);
+        template.setTopcolor("#000000");
+        //模板内容
         Map<String,TCSL_VO_WechatTemplateData> data = template.getData();
-        //第一个参数
-        TCSL_VO_WechatTemplateData param1 = new TCSL_VO_WechatTemplateData("param1","#ffffff");
-        data.put("param1",param1);
-        template.setTemplate_id("bGblXs86Ov8Zblg8tIMYOKgesLVL_tJnAVu22nO3rXQ");//测试消息模板id
-//        M5J5ySBzZaldpPwc-o9fcPa9Uto5q6cz3ifhAJTwpDMmXUj5D3wDYphQRL-dC7Rbn_dQBa8Sprtj65CLvOszFta5HjlOo3xre7fl0znDIbBtjbqDmpUpV2LIjUxOkxOdVOOfAIAQJJ
-        JSONObject jsonobj = utilCommon.httpRequest(
-                "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=rNdcZ5iFOfjgjc-6seJUYo9HYt0oOAmKYeP2hp9T-9FxSVjYnXSYDBU85bLMn0jA0sG7VDP6knwlP6EFylqLhAmjdVSpzRYS726m9ObJwioPMObABALIK",
-                "POST",
-                JSONObject.fromObject(template).toString());
+        TCSL_VO_WechatTemplateData name = new TCSL_VO_WechatTemplateData("张拓宇","#000000");
+        data.put("name",name);
+        TCSL_VO_WechatTemplateData price = new TCSL_VO_WechatTemplateData("￥123.00","#000000");
+        data.put("price",price);
+        template.setData(data);
+        String sendMessageUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+token;
+        String dataStr = JSONObject.fromObject(template).toString();
+        JSONObject jsonobj = utilCommon.httpsRequest(sendMessageUrl, "POST", dataStr);
         result.setRet(0);
         result.setContent(jsonobj);
         return result;
@@ -42,5 +57,23 @@ public class TCSL_BO_SendMessage {
         result.setRet(0);
         result.setContent("发送告别语成功");
         return result;
+    }
+
+    /**
+     * 获取微信公众号接口token
+     * @param grant_type
+     * @param appid
+     * @param secret
+     * @return
+     */
+    public String getWeChatToken(String grant_type,String appid,String secret){
+        String getTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type="+grant_type +
+                "&appid="+appid+"&secret="+secret;
+        JSONObject result = utilCommon.httpsRequest(getTokenUrl, "GET", null);
+        String token = "";
+        if(!result.isEmpty()){
+            token = result.get("access_token").toString();
+        }
+        return token;
     }
 }

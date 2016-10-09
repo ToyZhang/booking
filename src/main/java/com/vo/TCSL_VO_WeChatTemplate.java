@@ -9,7 +9,7 @@ import java.util.Map;
 public class TCSL_VO_WeChatTemplate {
     private String touser; //用户openId
     private String template_id; //微信消息模板id
-    private String url; //URL置空，则在发送后，点击模板消息会进入一个空白页面（ios），或无法点击（android）
+    private String url = ""; //URL置空，则在发送后，点击模板消息会进入一个空白页面（ios），或无法点击（android）
     private String topcolor; //标题颜色
     private Map<String,TCSL_VO_WechatTemplateData> data = new HashMap<String,TCSL_VO_WechatTemplateData>(); //模板消息内容
 

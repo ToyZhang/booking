@@ -40,7 +40,7 @@ public class TCSL_UTIL_Common {
      * @param outputStr 提交的数据
      * @return
      */
-    public JSONObject httpRequest(String requestUrl,String requestMethod,String outputStr){
+    public JSONObject httpsRequest(String requestUrl,String requestMethod,String outputStr){
         JSONObject jsonObject = null;
         StringBuffer buffer = new StringBuffer();
         try {
@@ -86,56 +86,6 @@ public class TCSL_UTIL_Common {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return jsonObject;
-    }
-
-    /**
-     * 发送https GET请求
-     * @param url
-     * @param outputStr
-     * @return
-     * @throws Exception
-     */
-    public JSONObject sendHTTPSGet(String url,String outputStr) throws Exception {
-        SSLContext sc = SSLContext.getInstance("SSL");
-        sc.init(null, new TrustManager[]{new MyX509TrustManager()}, new java.security.SecureRandom());
-        URL console = new URL(url);
-        HttpsURLConnection conn = (HttpsURLConnection) console.openConnection();
-        conn.setSSLSocketFactory(sc.getSocketFactory());
-        // conn.connect();
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-        conn.setDoInput(true);
-        conn.setDoOutput(true);
-        conn.setUseCaches(false);
-
-        if(null != outputStr){
-            OutputStream outputStream = conn.getOutputStream();
-            //设置编码格式，防止中文乱码
-            outputStream.write(outputStr.getBytes("UTF-8"));
-            outputStream.close();
-        }
-        StringBuffer buffer = new StringBuffer();
-        try {
-            //将返回的输入流转换成字符串
-            InputStream inputStream = conn.getInputStream();
-            InputStreamReader inputStreamReader =
-                    new InputStreamReader(inputStream,"utf-8");
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String str = null;
-            while ((str = bufferedReader.readLine()) != null){
-                buffer.append(str);
-            }
-            bufferedReader.close();
-            inputStreamReader.close();
-            //释放资源
-            inputStream.close();
-            inputStream = null;
-            conn.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        JSONObject jsonObject = JSONObject.fromObject(buffer.toString());
         return jsonObject;
     }
 }
