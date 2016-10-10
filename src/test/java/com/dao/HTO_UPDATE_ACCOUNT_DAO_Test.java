@@ -1,5 +1,6 @@
 package com.dao;
 
+import com.bo.TCSL_BO_SendMessage;
 import com.dao.mysql.HTO_UPDATE_ACCOUNT_DAO;
 import com.po.mysql.HTO_UPDATE_ACCOUNT;
 import org.junit.Test;
@@ -22,6 +23,8 @@ import java.util.Random;
 public class HTO_UPDATE_ACCOUNT_DAO_Test {
     @Resource
     private HTO_UPDATE_ACCOUNT_DAO hto_update_account_dao;
+    @Resource
+    private TCSL_BO_SendMessage boSendMessage;
 
     @Test
     public void queryAll() {

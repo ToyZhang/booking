@@ -17,6 +17,7 @@ import java.util.Properties;
  */
 @Repository
 public class TCSL_UTIL_Common {
+    public static String weChat_token = "";
     /**
      * 获取配置文件中参数
      * @param propertyName 配置文件路径及名称
