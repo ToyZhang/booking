@@ -45,11 +45,11 @@
     <insert id="addOrder">
         INSERT INTO PHO_HT_ORDER (
             orderid,orderno,mcid,clinker,ilinktel,dtbegdate,
-            dtenddate,dtorderdate,stateid,dinerid,idcard,ICHECKFLG
+            dtenddate,dtorderdate,stateid,dinerid,idcard,ICHECKFLG,COPENID
         )
         VALUES(
             #{ORDERID},#{ORDERNO},#{MCID},#{CLINKER},#{ILINKTEL},#{BEGDATE},
-            #{ENDDATE},#{ORDERTIME},#{STATEID},#{DINERID},#{IDCARD},#{ICHECKFLG}
+            #{ENDDATE},#{ORDERTIME},#{STATEID},#{DINERID},#{IDCARD},#{ICHECKFLG},#{COPENID}
         )
     </insert>
     <insert id="addOrder_room">

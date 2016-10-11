@@ -136,6 +136,13 @@ function payOrder(path){
 	var requestPath = getRequestPath();
 	var now = getNowTime();
 	var dinerId = getCookie("dinerId");
+    var shopName = getCookie("shopName");
+    var shopTel = getCookie("orderTel");
+	var openId = getCookie("openId");
+    if(openId == null || openId == "" || openId === undefined){
+        alert("WfrmOrderIdentify payOrder() openId is null");
+        return;
+    }
 	$.ajax({
         //请求方式
         type:"post",
@@ -157,7 +164,10 @@ function payOrder(path){
 			roomTypeId:roomTypeId,
 			count:count,
 			price:price,
-            roomName:roomName
+            roomName:roomName,
+            openId:openId,
+            shopName:shopName,
+            shopTel:shopTel
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },

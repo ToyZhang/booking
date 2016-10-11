@@ -14,7 +14,6 @@ function query(){
 	var params = getRequestParam();
 	gcId = params["gcid"];
 	dinerId = params["dinerid"];
-	saveCookie("dinerId",dinerId);
 	openId = params["openid"];
 	mpId = params["mpid"];
 	var values = [gcId,dinerId];

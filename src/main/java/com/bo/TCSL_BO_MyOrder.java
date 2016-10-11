@@ -4,6 +4,7 @@ import com.dao.mysql.TCSL_DAO_MyOrder;
 import com.vo.TCSL_VO_MyOrder;
 import com.vo.TCSL_VO_MyOrderInfo;
 import com.vo.TCSL_VO_Result;
+import com.vo.TCSL_VO_SendMessageContent;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -21,6 +22,8 @@ import java.util.Random;
 public class TCSL_BO_MyOrder {
     @Resource
     TCSL_DAO_MyOrder daoMyOrder;
+    @Resource
+    TCSL_BO_SendMessage boSendMessage;
 
     public TCSL_VO_Result query(String mcId,String dinerId){
         TCSL_VO_Result result = new TCSL_VO_Result();
@@ -164,10 +167,10 @@ public class TCSL_BO_MyOrder {
      */
     public TCSL_VO_Result addOrder(String orderId, String mcId, String clinker,
            String ilinktel, String startDate, String endDate, String orderTime, String dinerid, String idcard,
-                                   String roomTypeId,String count,String price,String roomName) {
+                                   String roomTypeId,String count,String price,String roomName,String openId,String shopName,String shopTel) {
         TCSL_VO_Result result = new TCSL_VO_Result();
         daoMyOrder.addOrder(orderId,orderId,mcId,
-                clinker,ilinktel,startDate,endDate,orderTime,"0",dinerid,idcard,"0"); //未入住  未支付
+                clinker,ilinktel,startDate,endDate,orderTime,"0",dinerid,idcard,"0",openId); //未入住  未支付
         daoMyOrder.addOrder_room(orderId,roomTypeId,roomName,price,count); //向关联表中添加订单信息
         //减少该房间可预订房间数
         startDate = startDate + " 00:00:00";
@@ -183,7 +186,20 @@ public class TCSL_BO_MyOrder {
             Timestamp tomorrow = new Timestamp(time);
             startTime = tomorrow;
         }
-        result.setRet(0);
+        //给用户发送订房成功消息
+        try {
+            TCSL_VO_SendMessageContent sendContent = new TCSL_VO_SendMessageContent();
+            sendContent.setStatus("0");
+            sendContent.setStartDate(startDate);
+            sendContent.setOpenId(openId);
+            sendContent.setRoomName(roomName);
+            sendContent.setShopName(shopName);
+            sendContent.setPrice(price);
+            sendContent.setShopTel(shopTel);
+            result = boSendMessage.sendMessage(sendContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return  result;
     }
 

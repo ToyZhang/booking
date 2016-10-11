@@ -45,7 +45,8 @@ public interface TCSL_DAO_MyOrder {
             @Param("STATEID") String stateId,
             @Param("DINERID") String dinerId,
             @Param("IDCARD") String idCard,
-            @Param("ICHECKFLG") String payFlag
+            @Param("ICHECKFLG") String payFlag,
+            @Param("COPENID") String openId
     );
     void addOrder_room(
             @Param("ORDERID") String orderId,

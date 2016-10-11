@@ -94,8 +94,11 @@ public class TCSL_REST_MyOrder {
         String count = request.getParameter("count");
         String price = request.getParameter("price");
         String roomName = request.getParameter("roomName");
+        String openId = request.getParameter("openId");
+        String shopName = request.getParameter("shopName");
+        String shopTel = request.getParameter("shopTel");
         TCSL_VO_Result result = boMyOrder.addOrder(
-                orderId,mcId,clinker,ilinktel,startDate,endDate,orderTime,dinerid,idcard,roomTypeId,count,price,roomName);
+                orderId,mcId,clinker,ilinktel,startDate,endDate,orderTime,dinerid,idcard,roomTypeId,count,price,roomName,openId,shopName,shopTel);
         return result;
     }
     @RequestMapping("/createPayMd5")

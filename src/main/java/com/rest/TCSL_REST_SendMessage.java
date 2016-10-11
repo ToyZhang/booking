@@ -2,6 +2,7 @@ package com.rest;
 
 import com.bo.TCSL_BO_SendMessage;
 import com.vo.TCSL_VO_Result;
+import com.vo.TCSL_VO_SendMessageContent;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,31 +20,19 @@ public class TCSL_REST_SendMessage {
     @Resource
     TCSL_BO_SendMessage boSendMessage;
     /**
-     * 发送欢迎语
+     * 公众号向指定用户发送信息
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping("/sendWelcome")
+    @RequestMapping("/send")
     @ResponseBody
-    public TCSL_VO_Result sendWelcome(HttpServletRequest request, HttpServletResponse response){
-        String a = request.getParameter("a");
-        String b = request.getParameter("b");
-        System.out.println("a:"+a+","+"b:"+b);
-        TCSL_VO_Result result = boSendMessage.sendWelcome();
-        return result;
-    }
-
-    /**
-     * 发送告别语
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping("/sendLeave")
-    @ResponseBody
-    public TCSL_VO_Result sendLeave(HttpServletRequest request, HttpServletResponse response){
-        TCSL_VO_Result result = boSendMessage.sendLeave();
+    public TCSL_VO_Result sendMessage(HttpServletRequest request, HttpServletResponse response,TCSL_VO_SendMessageContent content) throws Exception {
+        //订单状态
+        String status = request.getParameter("status");
+        //订单号
+        content.setOpenId("WX-20161008135000-852");
+        TCSL_VO_Result result = boSendMessage.sendMessage(content);
         return result;
     }
 }
