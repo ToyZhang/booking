@@ -7,11 +7,21 @@ public class TCSL_VO_SendMessageContent {
     private String status;
     private String orderId;
     private String startDate;
+    private String endDate;
     private String roomName;
     private String price;
     private String openId;
     private String shopName;
     private String shopTel;
+    private String customerName;
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
     public String getShopTel() {
         return shopTel;
@@ -75,5 +85,13 @@ public class TCSL_VO_SendMessageContent {
 
     public void setShopName(String shopName) {
         this.shopName = shopName;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }

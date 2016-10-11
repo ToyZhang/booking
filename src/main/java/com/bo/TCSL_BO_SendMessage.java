@@ -28,9 +28,9 @@ public class TCSL_BO_SendMessage implements ApplicationListener<ContextRefreshed
 
     /**
      * 向指定微信用户发送酒店入住信息
-     * @param status 订单状态  0 客人下单  1 客人入住  2 客人离店
-     * @param orderId 订单号
+     * @param content
      * @return
+     * @throws Exception
      */
     public TCSL_VO_Result sendMessage(TCSL_VO_SendMessageContent content) throws Exception {
         TCSL_VO_Result result = new TCSL_VO_Result();
@@ -73,26 +73,50 @@ public class TCSL_BO_SendMessage implements ApplicationListener<ContextRefreshed
             template.setTemplate_id(templateId);
         }
         if("1".equals(status)){ //用户入住
-            //daoSendMessageMysql.getOpenIdByOrderId(orderId);
-            String templateId = utilCommon.getPropertyParam("weChat.properties","weChat.templateId.in");
+            String templateId = utilCommon.getPropertyParam("weChat.properties","weChat.templateId.checkIn");
             String shopName = content.getShopName(); //酒店名称
+            String orderId = content.getOrderId(); //订单号
+            String openId = daoSendMessageMysql.getOpenIdByOrderId(orderId);
+            template.setTouser(openId);
+            String startDate = content.getStartDate(); //入住时间
+            String endDate = content.getEndDate(); //离店时间
+            String shopTel = content.getShopTel(); //酒店联系电话
             //模板内容
             Map<String,TCSL_VO_WechatTemplateData> data = template.getData();
             TCSL_VO_WechatTemplateData first = new TCSL_VO_WechatTemplateData("欢迎入住 "+shopName,"#000000");
             data.put("first",first);
-
-
+            TCSL_VO_WechatTemplateData orderIdData = new TCSL_VO_WechatTemplateData(shopName,"#000000");
+            data.put("OrderID",orderIdData);
+            TCSL_VO_WechatTemplateData hotelName = new TCSL_VO_WechatTemplateData(shopName,"#000000");
+            data.put("HotelName",hotelName);
+            TCSL_VO_WechatTemplateData checkInDate = new TCSL_VO_WechatTemplateData(startDate,"#000000");
+            data.put("CheckInDate",checkInDate);
+            TCSL_VO_WechatTemplateData checkOutDate = new TCSL_VO_WechatTemplateData(endDate,"#000000");
+            data.put("CheckOutDate",checkOutDate);
+            TCSL_VO_WechatTemplateData remark = new TCSL_VO_WechatTemplateData("如有疑问，请咨询"+shopTel,"#000000");
+            data.put("remark",remark);
             template.setData(data);
             template.setTemplate_id(templateId);
         }
         if("2".equals(status)){ //用户离店
-            String templateId = utilCommon.getPropertyParam("weChat.properties","weChat.templateId.order");
+            String orderId = content.getOrderId(); //订单号
+            String shopTel = content.getShopTel(); //酒店电话
+            String shopName = content.getShopName(); //酒店名称
+            String customerName = content.getCustomerName(); //顾客名称
+            String openId = daoSendMessageMysql.getOpenIdByOrderId(orderId);
+            template.setTouser(openId);
+            String templateId = utilCommon.getPropertyParam("weChat.properties","weChat.templateId.checkOut");
             //模板内容
             Map<String,TCSL_VO_WechatTemplateData> data = template.getData();
-            TCSL_VO_WechatTemplateData name = new TCSL_VO_WechatTemplateData("张拓宇","#000000");
-            data.put("name",name);
-            TCSL_VO_WechatTemplateData price = new TCSL_VO_WechatTemplateData("￥123.00","#000000");
-            data.put("price",price);
+
+            TCSL_VO_WechatTemplateData first = new TCSL_VO_WechatTemplateData("您好，你已成功退房，欢迎再次光临！","#000000");
+            data.put("first",first);
+            TCSL_VO_WechatTemplateData keyword1 = new TCSL_VO_WechatTemplateData(shopName,"#000000");
+            data.put("keyword1",keyword1);
+            TCSL_VO_WechatTemplateData keyword2 = new TCSL_VO_WechatTemplateData(customerName,"#000000");
+            data.put("keyword2",keyword2);
+            TCSL_VO_WechatTemplateData remark = new TCSL_VO_WechatTemplateData("如有疑问，请咨询"+shopTel,"#000000");
+            data.put("remark",remark);
             template.setData(data);
             template.setTemplate_id(templateId);
         }
