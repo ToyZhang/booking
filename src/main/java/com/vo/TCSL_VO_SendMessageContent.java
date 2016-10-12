@@ -14,6 +14,8 @@ public class TCSL_VO_SendMessageContent {
     private String shopName;
     private String shopTel;
     private String customerName;
+    private String count;
+    private String address;
 
     public String getEndDate() {
         return endDate;
@@ -93,5 +95,21 @@ public class TCSL_VO_SendMessageContent {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -139,6 +139,7 @@ function payOrder(path){
     var shopName = getCookie("shopName");
     var shopTel = getCookie("orderTel");
 	var openId = getCookie("openId");
+    var address = getCookie("address",address);
     if(openId == null || openId == "" || openId === undefined){
         alert("WfrmOrderIdentify payOrder() openId is null");
         return;
@@ -167,7 +168,8 @@ function payOrder(path){
             roomName:roomName,
             openId:openId,
             shopName:shopName,
-            shopTel:shopTel
+            shopTel:shopTel,
+            address:address
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },

@@ -20,6 +20,7 @@ function query(){
 	if(!checkEmpty(values)){
 		return;
 	}
+    saveCookie("dinerId",dinerId);
 	saveCookie("openId",openId);
 	saveCookie("mpId",mpId);
 	var requestPath = getRequestPath();
@@ -144,8 +145,8 @@ function onclick_hotel(hotel){
 		&& (dinerId != null && dinerId != "" && dinerId !== undefined)
 		&& (openId == null || openId == "" || openId === undefined)
 		&& (mpId == null || mpId == "" || mpId === undefined)){
+		debugger;
 		saveCookie("customer-mcId",mcId);
-		saveCookie("dinerId",dinerId);
 		window.location.href = "../templates/WfrmMyOrder.html";
 	}else{
 		var url = "../templates/WfrmHotelDetail.html?mcid="+mcId+"&dinerid="+dinerId+"&openid="+openId+"&mpid="+mpId;

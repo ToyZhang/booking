@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by zhangtuoyu on 2016-10-08.
  */
 @Controller
-@RequestMapping("/sendMessage")
+@RequestMapping("/send")
 public class TCSL_REST_SendMessage {
     @Resource
     TCSL_BO_SendMessage boSendMessage;
@@ -25,13 +25,9 @@ public class TCSL_REST_SendMessage {
      * @param response
      * @return
      */
-    @RequestMapping("/send")
+    @RequestMapping("/sendMessage")
     @ResponseBody
     public TCSL_VO_Result sendMessage(HttpServletRequest request, HttpServletResponse response,TCSL_VO_SendMessageContent content) throws Exception {
-        //订单状态
-        String status = request.getParameter("status");
-        //订单号
-        content.setOpenId("WX-20161008135000-852");
         TCSL_VO_Result result = boSendMessage.sendMessage(content);
         return result;
     }

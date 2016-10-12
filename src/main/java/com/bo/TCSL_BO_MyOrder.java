@@ -167,21 +167,21 @@ public class TCSL_BO_MyOrder {
      */
     public TCSL_VO_Result addOrder(String orderId, String mcId, String clinker,
            String ilinktel, String startDate, String endDate, String orderTime, String dinerid, String idcard,
-                                   String roomTypeId,String count,String price,String roomName,String openId,String shopName,String shopTel) {
+                                   String roomTypeId,String count,String price,String roomName,String openId,String shopName,String shopTel,String address) {
         TCSL_VO_Result result = new TCSL_VO_Result();
         daoMyOrder.addOrder(orderId,orderId,mcId,
                 clinker,ilinktel,startDate,endDate,orderTime,"0",dinerid,idcard,"0",openId); //未入住  未支付
         daoMyOrder.addOrder_room(orderId,roomTypeId,roomName,price,count); //向关联表中添加订单信息
         //减少该房间可预订房间数
-        startDate = startDate + " 00:00:00";
-        endDate = endDate + " 00:00:00";
-        Timestamp startTime = Timestamp.valueOf(startDate);
-        Timestamp endTime = Timestamp.valueOf(endDate);
+        String startDateTime = startDate + " 00:00:00";
+        String endDateTime = endDate + " 00:00:00";
+        Timestamp startTime = Timestamp.valueOf(startDateTime);
+        Timestamp endTime = Timestamp.valueOf(endDateTime);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        count = "-"+count;
+        String num  = "-"+count;
         while (!startTime.equals(endTime)){
             String today = format.format(startTime.getTime());
-            daoMyOrder.changeRoomCount(mcId,roomTypeId,count,today); //减少可预订数
+            daoMyOrder.changeRoomCount(mcId,roomTypeId,num,today); //减少可预订数
             long time = startTime.getTime() + (1000 * 60 * 60 * 24);
             Timestamp tomorrow = new Timestamp(time);
             startTime = tomorrow;
@@ -196,6 +196,10 @@ public class TCSL_BO_MyOrder {
             sendContent.setShopName(shopName);
             sendContent.setPrice(price);
             sendContent.setShopTel(shopTel);
+            sendContent.setOrderId(orderId);
+            sendContent.setEndDate(endDate);
+            sendContent.setCount(count);
+            sendContent.setAddress(address);
             result = boSendMessage.sendMessage(sendContent);
         } catch (Exception e) {
             e.printStackTrace();

@@ -53,6 +53,10 @@ public class TCSL_BO_SendMessage implements ApplicationListener<ContextRefreshed
             String shopName = content.getShopName(); //酒店名称
             String orderPrice = content.getPrice(); //消费金额
             String shopTel = content.getShopTel(); //酒店联系电话
+            String orderId = content.getOrderId(); //订单id
+            String endDate = content.getEndDate(); //预订离店时间
+            String count = content.getCount(); //预订数量
+            String address = content.getAddress(); //酒店地址
             template.setTouser(openId);
             String templateId = utilCommon.getPropertyParam("weChat.properties","weChat.templateId.order");
             //模板内容
@@ -65,6 +69,7 @@ public class TCSL_BO_SendMessage implements ApplicationListener<ContextRefreshed
             data.put("roomName",roomName);
             TCSL_VO_WechatTemplateData pay = new TCSL_VO_WechatTemplateData(orderPrice,"#000000");
             data.put("pay",pay);
+            startDate = startDate + "\r离店日期："+endDate+"\r订单编号："+orderId+"\r房间数量："+count+"\r酒店地址："+address;
             TCSL_VO_WechatTemplateData date = new TCSL_VO_WechatTemplateData(startDate,"#000000");
             data.put("date",date);
             TCSL_VO_WechatTemplateData remark = new TCSL_VO_WechatTemplateData("如有疑问，请咨询"+shopTel,"#000000");
@@ -85,7 +90,7 @@ public class TCSL_BO_SendMessage implements ApplicationListener<ContextRefreshed
             Map<String,TCSL_VO_WechatTemplateData> data = template.getData();
             TCSL_VO_WechatTemplateData first = new TCSL_VO_WechatTemplateData("欢迎入住 "+shopName,"#000000");
             data.put("first",first);
-            TCSL_VO_WechatTemplateData orderIdData = new TCSL_VO_WechatTemplateData(shopName,"#000000");
+            TCSL_VO_WechatTemplateData orderIdData = new TCSL_VO_WechatTemplateData(orderId,"#000000");
             data.put("OrderID",orderIdData);
             TCSL_VO_WechatTemplateData hotelName = new TCSL_VO_WechatTemplateData(shopName,"#000000");
             data.put("HotelName",hotelName);
