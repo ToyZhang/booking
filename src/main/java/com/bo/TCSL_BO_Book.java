@@ -64,7 +64,15 @@ public class TCSL_BO_Book {
         voOrderFormInfo.setDays(String.valueOf(stayDay));
         List<BigDecimal> priceList = daoBookMysql.queryPrice(roomTypeId,mcId,startDate,endDate);
         BigDecimal price = new BigDecimal(0);
-        for (int i = 0; i< (priceList.size()-1); i++) {
+        /**
+         * 计算房费规则：订单房费总额 = 入住当晚房费 + 离店日前一晚房费
+         * 例如：10-13入住 10-15日离店  房费 = 13日房费+14日房费
+         */
+        int length = priceList.size();
+        if(length >1){
+            length = length -1;
+        }
+        for (int i = 0; i< length; i++) {
             price = price.add(priceList.get(i));
         }
         price =   price.multiply(new BigDecimal(stayDay));

@@ -3,25 +3,21 @@ var dinerId;
 var openId;
 var mpId;
 window.onload = function(){
-	var params = getRequestParam();
-	mcId = params["mcid"];
-	dinerId = params["dinerid"];
-	openId = params["openid"];
-	mpId = params["mpid"];
-	debugger;
-    var startDate = currentTime();
-    var endDate = yestodayTime(startDate);
-	init(startDate,endDate);
+
 }
 /**
  * 初始化时间按钮
  */
 $(function() {
-	debugger;
-    var startDate = currentTime();
-    var endDate = yestodayTime(startDate);
+	var params = getRequestParam();
+	mcId = params["mcid"];
+	dinerId = params["dinerid"];
+	openId = params["openid"];
+	mpId = params["mpid"];
+	var startDate = currentTime();
+	var endDate = yestodayTime(startDate);
+	init(startDate,endDate);
     $('#my-startDate').text(startDate);
-    $('#my-endDate').text(endDate);
     var $alert = $('#my-alert');
     $('#my-start').datepicker().
       on('changeDate.datepicker.amui', function(event) {

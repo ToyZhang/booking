@@ -33,7 +33,8 @@ function init(){
         return;
     }
 	returnCode = params["returnCode"];
-    if(returnCode != null && returnCode !="" && returnCode!==undefined && returnCode == 1){
+    var errorCode = params["errorCode"];
+    if(returnCode != null && returnCode !="" && returnCode!==undefined && errorCode == "1"){
         $("#pay_type").html("网上支付");
         finishPay();
     }else{

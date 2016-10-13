@@ -45,22 +45,22 @@ function onclick_frontPay(){
  * 立即支付
  * @param {Object} id 支付方式的id
  */
-function onclick_pay(id){	
+function onclick_pay(id){
 	var openId = getCookie("openId");
 	var mpid = getCookie("mpId");
     var requestPath = getRequestPath();
-    var backPath = requestPath+"wechatbooking/customer/templates/WfrmBookStatus.html";
+    var finishPath = requestPath+"myOrder/finishPay";
 	if(id == "crm_pay"){ //crm支付 paytypeid:3
-		var data = "{'openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+backPath+"','money':'"+price
-				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"
-				+",'payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
+		var data = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
+				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"+",'orderId':'"+orderId
+				+"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
 				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 		getPaySign(data);		
 	}
 	if(id == "wechat_pay"){ //微信支付 paytypeid:6
-		var data = "{'openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+backPath+"'"+",'money':'"+price
-				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"
-				+",'payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
+		var data = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
+				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"+",'orderId':'"+orderId
+				+"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
 				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 		getPaySign(data);
 	}
@@ -85,9 +85,9 @@ function getPaySign(param){
         //成功返回后调用函数
         success:function(data){
         	if(data.ret == 0){
+        	    debugger;
         		param = param +"&sign="+ data.content;
         		var path = RESOURCE_PAY_COMMON_IP_PORT+"tcsl/CommPayPage.htm?data="+param;
-        		// path = "../templates/WfrmBookStatus.html?";//测试使用
         		checkOrder(path);
         	}
         },
@@ -122,6 +122,7 @@ function checkOrder(path){
         success:function(data){
         	if(data.ret == 0){
         		orderId = data.content;
+                console.info("检测是否可订房完成");
         		payOrder(path);
         	}
         },

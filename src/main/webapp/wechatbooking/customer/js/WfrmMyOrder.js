@@ -234,21 +234,24 @@ function createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,
 	return div;
 	
 }
-function onclick_pay(id){
+function onclick_pay(type){
     var requestPath = getRequestPath();
-    var backPath = requestPath+"wechatbooking/customer/templates/WfrmBookStatus.html";
-	if(id == "crm_pay"){ //crm支付 paytypeid:3
-		var data = "{'openid':'','mpid':'','udStateUrl':'"+backPath+"'"+",'money':'"+price
-				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"
-				+",'payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
-				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
+	var openId = getCookie("openId");
+	var mpid = getCookie("mpId");
+	var finishPath = requestPath+"myOrder/finishPay";
+    debugger;
+	if(type == "crm_pay"){ //crm支付 paytypeid:3
+		var data = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
+			+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"+",'orderId':'"+itemId
+			+"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
+			",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 		getPaySign(data);
 	}
-	if(id == "wechat_pay"){ //微信支付 paytypeid:6
-		var data = "{'openid':'','mpid':'','udStateUrl':'"+backPath+"'"+",'money':'"+price
-				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"
-				+",'payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
-				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
+	if(type == "wechat_pay"){ //微信支付 paytypeid:6
+		var data = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
+			+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"+",'orderId':'"+itemId
+			+"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
+			",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 		getPaySign(data);
 	}
 }
@@ -304,7 +307,6 @@ function getPaySign(param){
         		var path = RESOURCE_PAY_COMMON_IP_PORT+"tcsl/CommPayPage.htm?data="+param;
         		saveCookie("pay_orderId",itemId);
 				saveCookie("pay_price",price);
-        		// path = "../templates/WfrmBookStatus.html?returnCode=1";//测试使用
         		window.location.href = path;
         	}
         },

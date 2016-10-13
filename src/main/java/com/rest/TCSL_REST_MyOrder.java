@@ -63,7 +63,8 @@ public class TCSL_REST_MyOrder {
     @RequestMapping("/finishPay")
     @ResponseBody
     public TCSL_VO_Result finishPay(HttpServletRequest request, HttpServletResponse response){
-        String id = request.getParameter("id");//订单id
+        String id = request.getParameter("orderId");//订单id
+        System.out.println("访问支付成功接口-----------"+id);
         TCSL_VO_Result result = boMyOrder.finishPay(id);
         return result;
     }

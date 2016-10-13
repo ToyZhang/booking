@@ -46,7 +46,7 @@ function init(){
             	var request = getRequestPath().split(":");
 				var ip = request[1].substring(2);
 				//拼接访问路径
-				var requestUrl = "http://"+ip+":808" +  //该端口号需与nginx设置一致
+				var requestUrl = "http://"+ip+":"+RESOURCE_NGINX_PORT +  //该端口号需与nginx设置一致
 						"/image/"+shopName+"/"+name+"/"+imgName;
             	img.src = requestUrl;
             	img.className = "am-img-responsive";
@@ -71,6 +71,13 @@ function init(){
   });
 }
 function selectRoomCount(){
+    debugger;
+    if($("#doc-select-2").options == null ||
+        $("#doc-select-2").options == "" ||
+        $("#doc-select-2").options === undefined){
+        $("#orderPrice").html("总价:￥0");
+        return;
+    }
 	selectCount = $("#doc-select-2 option:selected").val() - 0;
 	totalPrice = selectCount * price;
 	$("#orderPrice").html("总价:￥"+totalPrice);

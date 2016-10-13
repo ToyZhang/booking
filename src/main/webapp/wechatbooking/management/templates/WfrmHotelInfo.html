@@ -54,7 +54,8 @@
                         	</div>
 						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-4" id="hotel_name_box"> 
 						    	
-						    	<input onblur="onblur_hotelName()" type="text" id="hotel_name" class="am-form-field am-input-sm " placeholder="请输入酒店名称   必填">
+						    	<input onblur="onblur_hotelName()" maxlength="15"
+									   type="text" id="hotel_name" class="am-form-field am-input-sm " placeholder="请输入酒店名称   必填">
 							</div>
 							<div class="am-hide-sm-only am-u-md-6" id="hotel_name_msg"> <!-- 酒店名称错误提示信息 -->
                             	
@@ -66,7 +67,8 @@
                             	联系电话 
                         	</div>
 						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-4">
-						    	<input id="phone_num" type="text" class="am-form-field am-input-sm" placeholder="请输入联系电话">
+						    	<input id="phone_num" type="text" maxlength="15"
+									   class="am-form-field am-input-sm" placeholder="请输入联系电话">
 							</div>
 							<div class="am-hide-sm-only am-u-md-6"> <!-- 酒店名称错误提示信息 -->
                             	
@@ -78,7 +80,8 @@
                             	酒店地址
                         	</div>
 						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-4">
-						    	<input id="hotel_address" type="text" class="am-form-field am-input-sm" placeholder="请输入酒店地址">
+						    	<input id="hotel_address" type="text" maxlength="20"
+									   class="am-form-field am-input-sm" placeholder="请输入酒店地址">
 							</div>
 							<div class="am-hide-sm-only am-u-md-6"> <!-- 酒店名称错误提示信息 -->
 
@@ -89,7 +92,8 @@
                                 内容描述
                             </div>
                             <div class="am-u-sm-12 am-u-md-10">
-                                <textarea id="hotel_desp" runat="server" Rows="9" class="am-form-field am-input-sm" placeholder="请输入内容描述"></textarea>
+                                <textarea id="hotel_desp" runat="server" maxlength="100"
+										  Rows="9" class="am-form-field am-input-sm" placeholder="请输入内容描述"></textarea>
                             </div>
                         </div>
                     </div>
