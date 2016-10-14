@@ -2,9 +2,6 @@ var mcId;
 var dinerId;
 var openId;
 var mpId;
-window.onload = function(){
-
-}
 /**
  * 初始化时间按钮
  */
@@ -68,7 +65,6 @@ function init(startDate,endDate){
                 $("#hotel_name").html(name);
                 var address = content.address; //商户地址
                 $("#hotel_address").html(address);
-                var mcId = content.mcid; //商户id
                 var phone = content.phone; //商户电话
                 $("#hotel_phone").html(phone);
                 var roomList = content.roomInfoList; //房间列表
@@ -116,14 +112,10 @@ function createItem(roomTypeId,price,roomName,imgName,shopName){
 	var imgDiv = document.createElement("div");
 	imgDiv.className = "am-u-sm-4 am-list-thumb";
 	var img = document.createElement("img");
-	//根据请求路径获取服务器所在ip
-	var request = getRequestPath().split(":");
-	var ip = request[1].substring(2);
-	var requestUrl = "http://"+ip+":808" +  //该端口号需与nginx设置一致
-						"/image/"+shopName+"/"+roomName+"/"+imgName;
+	var requestUrl = RESOURCE_NGINX_DOMAIN_NAME + "/image/"+shopName+"/"+roomName+"/"+imgName;
 	img.src = requestUrl;
 	img.onerror = function(){
-		img.src = "../images/hotelDefault.jpg";
+		img.src = "../images/roomDefault.jpg";
 	};
 	imgDiv.appendChild(img);
 	li.appendChild(imgDiv);

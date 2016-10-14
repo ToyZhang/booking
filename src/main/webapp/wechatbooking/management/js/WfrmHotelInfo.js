@@ -47,7 +47,6 @@ function onclick_btnSave(){
     	return;
    	}
 	var requestPath = getRequestPath();
-    
     var phoneNum = $("#phone_num").val();
     var address = $("#hotel_address").val();
     var description = $("#hotel_desp").val();

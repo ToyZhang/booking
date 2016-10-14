@@ -235,24 +235,14 @@ function createItem(roomName,startDate,endDate,stayDays,id,phone,userName,money,
 	
 }
 function onclick_pay(type){
-    var requestPath = getRequestPath();
-	var openId = getCookie("openId");
-	var mpid = getCookie("mpId");
-	var finishPath = requestPath+"myOrder/finishPay";
-    debugger;
+
 	if(type == "crm_pay"){ //crm支付 paytypeid:3
-		var data = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
-			+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"+",'orderId':'"+itemId
-			+"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
-			",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
-		getPaySign(data);
+        var payTypeId = 3;
+        queryOpenId(payTypeId);
 	}
 	if(type == "wechat_pay"){ //微信支付 paytypeid:6
-		var data = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
-			+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"+",'orderId':'"+itemId
-			+"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
-			",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
-		getPaySign(data);
+        var payTypeId = 6;
+        queryOpenId(payTypeId);
 	}
 }
 function onclick_cancel(id,mcId,roomTypeId,count,endDate,begDate){
@@ -283,7 +273,45 @@ function onclick_cancel(id,mcId,roomTypeId,count,endDate,begDate){
 //		error:function(){ }
     });
 }
-function getPaySign(param){
+function queryOpenId(payTypeId) {
+    var requestPath = getRequestPath();
+    $.ajax({
+        //请求方式
+        type:"post",
+        //请求路径
+        url:requestPath+'myOrder/queryOpenId',
+        //是否异步请求
+        async:true,
+        //传参
+        data:{
+            orderId:itemId
+        },
+        //发送请求前执行方法
+//		beforeSend:function(){ },
+        //成功返回后调用函数
+        success:function(data){
+            if(data.ret == 0){
+                debugger;
+                openId =  data.content;
+                getPaySign(payTypeId);
+            }
+        },
+        //调用出错执行的函数
+//		error:function(){ }
+    });
+}
+function getPaySign(payTypeId){
+    debugger;
+    var requestPath = getRequestPath();
+    if(openId == null || openId == "" || openId === undefined){
+        return ;
+    }
+    var mpid = getCookie("mpId");
+    var finishPath = requestPath+"myOrder/finishPay";
+    var param = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
+        +"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId2+"','paytypeid':'"+payTypeId+"'"+",'orderId':'"+itemId
+        +"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
+        ",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 	var requestPath = getRequestPath();
 	//判断房间数量是否足够
 	$.ajax({

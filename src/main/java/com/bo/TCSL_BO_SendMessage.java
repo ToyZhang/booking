@@ -114,7 +114,7 @@ public class TCSL_BO_SendMessage implements ApplicationListener<ContextRefreshed
             //模板内容
             Map<String,TCSL_VO_WechatTemplateData> data = template.getData();
 
-            TCSL_VO_WechatTemplateData first = new TCSL_VO_WechatTemplateData("您好，你已成功退房，欢迎再次光临！","#000000");
+            TCSL_VO_WechatTemplateData first = new TCSL_VO_WechatTemplateData("您好，您已成功退房，欢迎再次光临！","#000000");
             data.put("first",first);
             TCSL_VO_WechatTemplateData keyword1 = new TCSL_VO_WechatTemplateData(shopName,"#000000");
             data.put("keyword1",keyword1);

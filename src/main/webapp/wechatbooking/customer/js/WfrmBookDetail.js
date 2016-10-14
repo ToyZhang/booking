@@ -43,11 +43,8 @@ function init(){
             	var shopName = content.shopName;
             	var imgName = content.imgName;
             	var img = document.createElement("img");
-            	var request = getRequestPath().split(":");
-				var ip = request[1].substring(2);
 				//拼接访问路径
-				var requestUrl = "http://"+ip+":"+RESOURCE_NGINX_PORT +  //该端口号需与nginx设置一致
-						"/image/"+shopName+"/"+name+"/"+imgName;
+				var requestUrl = RESOURCE_NGINX_DOMAIN_NAME + "/image/"+shopName+"/"+name+"/"+imgName;
             	img.src = requestUrl;
             	img.className = "am-img-responsive";
             	img.style = "margin:auto";
@@ -62,8 +59,6 @@ function init(){
             		}
             		selectRoomCount();
             	}
-            	
-            	
             }
         },
         //调用出错执行的函数
@@ -72,9 +67,9 @@ function init(){
 }
 function selectRoomCount(){
     debugger;
-    if($("#doc-select-2").options == null ||
-        $("#doc-select-2").options == "" ||
-        $("#doc-select-2").options === undefined){
+    if($("#doc-select-2").val() == null ||
+        $("#doc-select-2").val() == "" ||
+        $("#doc-select-2").val()=== undefined){
         $("#orderPrice").html("总价:￥0");
         return;
     }
@@ -89,25 +84,41 @@ function onclick_order(){
 	var endDate = $("#my-endDate").html();
 	var count = selectCount;
 	var customer = $("#orderName").val();
+    var checkName = true;
+    var checkPhone = true;
+    var checkId = true;
 	if(customer == null || customer == "" || customer === undefined){
-		$("#customer-msg").html("联系人信息为空");
-		return;
+        checkName = false;
 	}
-	$("#customer-msg").html("");
 	var phoneReg = /^[0-9]{11,12}$/; //验证电话号码有效性
 	var phone = $("#orderTel").val();
 	if(!phoneReg.exec(phone)){
-		$("#phone-msg").html("联系电话信息有误");
-		return;	
+	    checkPhone = false;
 	}
 	$("#phone-msg").html("");
 	var idNum = $("#orderIDCard").val();
 	var idNumReg = /^[0-9]{17}[a-zA-Z0-9]$/;
 	if(!idNumReg.exec(idNum)){
-		$("#idCard-msg").html("身份证信息有误");
-		return;
+	    checkId = false;
 	}
-	$("#idCard-msg").html("");
+	if(checkName == true){
+        $("#customer-msg").html("");
+    }else {
+        $("#customer-msg").html("联系人信息为空");
+    }
+    if(checkPhone == true){
+        $("#phone-msg").html("");
+    }else {
+        $("#phone-msg").html("联系电话信息有误");
+    }
+    if(checkId == true){
+        $("#idCard-msg").html("");
+    }else {
+        $("#idCard-msg").html("身份证信息有误");
+    }
+    if(checkName == false || checkPhone == false || checkId == false){
+        return;
+    }
 	saveCookie("roomName",roomName);
 	saveCookie("customer",customer);
 	var url = "../templates/WfrmOrderIdentify.html?price="+price

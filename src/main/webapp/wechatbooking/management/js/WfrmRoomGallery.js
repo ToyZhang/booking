@@ -77,7 +77,7 @@ function createImgTag(shopName,roomType,imgName){
 	var request = getRequestPath().split(":");
 	var ip = request[1].substring(2);
 	//拼接访问路径
-	var requestUrl = "http://"+ip+":808" +  //该端口号需与nginx设置一致
+	var requestUrl = RESOURCE_NGINX_DOMAIN_NAME +
 						"/image/"+shopName+"/"+roomType+"/"+imgName;
 	img.id = "img-zty-"+shopName + "-zty-" + roomType + "-zty-" + imgName;
 	img.src = requestUrl;

@@ -46,28 +46,25 @@ function onclick_frontPay(){
  * @param {Object} id 支付方式的id
  */
 function onclick_pay(id){
-	var openId = getCookie("openId");
-	var mpid = getCookie("mpId");
-    var requestPath = getRequestPath();
-    var finishPath = requestPath+"myOrder/finishPay";
 	if(id == "crm_pay"){ //crm支付 paytypeid:3
-		var data = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
-				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'3'"+",'orderId':'"+orderId
-				+"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
-				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
-		getPaySign(data);		
+        var payTypeId = 3;
+        checkOrder(payTypeId);
 	}
 	if(id == "wechat_pay"){ //微信支付 paytypeid:6
-		var data = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
-				+"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'6'"+",'orderId':'"+orderId
-				+"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
-				",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
-		getPaySign(data);
+        var payTypeId = 6;
+        checkOrder(payTypeId);
 	}
 }
-function getPaySign(param){
+function getPaySign(payTypeId){
+    var openId = getCookie("openId");
+    var mpid = getCookie("mpId");
+    var requestPath = getRequestPath();
+    var finishPath = requestPath+"myOrder/finishPay";
 	var requestPath = getRequestPath();
-	//判断房间数量是否足够
+    var param = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
+        +"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'"+payTypeId+"'"+",'orderId':'"+orderId
+        +"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
+        ",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
 	$.ajax({
         //请求方式
         type:"post",
@@ -86,9 +83,9 @@ function getPaySign(param){
         success:function(data){
         	if(data.ret == 0){
         	    debugger;
-        		param = param +"&sign="+ data.content;
+        		param = param +"&sign="+data.content;
         		var path = RESOURCE_PAY_COMMON_IP_PORT+"tcsl/CommPayPage.htm?data="+param;
-        		checkOrder(path);
+                payOrder(path);
         	}
         },
         //调用出错执行的函数
@@ -98,7 +95,7 @@ function getPaySign(param){
 /**
  * 检查该房型是否可预订
  */
-function checkOrder(path){
+function checkOrder(payTypeId){
 	var requestPath = getRequestPath();
 	//判断房间数量是否足够
 	$.ajax({
@@ -122,8 +119,7 @@ function checkOrder(path){
         success:function(data){
         	if(data.ret == 0){
         		orderId = data.content;
-                console.info("检测是否可订房完成");
-        		payOrder(path);
+                getPaySign(payTypeId);
         	}
         },
         //调用出错执行的函数

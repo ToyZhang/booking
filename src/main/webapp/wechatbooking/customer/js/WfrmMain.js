@@ -92,15 +92,11 @@ function createHotelItem(address,name,imgName,orderTel){
 	imgDiv.className = "am-u-sm-4 am-list-thumb";
 	//拼接访问路径
 	var img =document.createElement("img");
-	//根据请求路径获取服务器所在ip
-	var request = getRequestPath().split(":");
-	var ip = request[1].substring(2);
 	var requestUrl;
 	if(imgName == null || imgName == "" || imgName === undefined){
 		requestUrl = "../images/hotelDefault.jpg";
 	}else{
-		requestUrl = "http://"+ip+":808" +  //该端口号需与nginx设置一致
-					"/image/"+name+"/outdoor_scene/"+imgName;
+		requestUrl = RESOURCE_NGINX_DOMAIN_NAME + "/image/"+name+"/outdoor_scene/"+imgName;
 	}
 	img.src = requestUrl;
 	imgDiv.appendChild(img);
@@ -144,8 +140,7 @@ function onclick_hotel(hotel){
 	if((gcId != null && gcId != "" && gcId !== undefined)
 		&& (dinerId != null && dinerId != "" && dinerId !== undefined)
 		&& (openId == null || openId == "" || openId === undefined)
-		&& (mpId == null || mpId == "" || mpId === undefined)){
-		debugger;
+		&& (mpId != null || mpId != "" || mpId !== undefined)){
 		saveCookie("customer-mcId",mcId);
 		window.location.href = "../templates/WfrmMyOrder.html";
 	}else{

@@ -1,6 +1,7 @@
 package com.bo;
 
 import com.dao.mysql.TCSL_DAO_MyOrder;
+import com.dao.mysql.TCSL_DAO_SendMessage_mysql;
 import com.vo.TCSL_VO_MyOrder;
 import com.vo.TCSL_VO_MyOrderInfo;
 import com.vo.TCSL_VO_Result;
@@ -24,6 +25,8 @@ public class TCSL_BO_MyOrder {
     TCSL_DAO_MyOrder daoMyOrder;
     @Resource
     TCSL_BO_SendMessage boSendMessage;
+    @Resource
+    TCSL_DAO_SendMessage_mysql daoSendMessageMysql;
 
     public TCSL_VO_Result query(String mcId,String dinerId){
         TCSL_VO_Result result = new TCSL_VO_Result();
@@ -239,4 +242,11 @@ public class TCSL_BO_MyOrder {
         return "";
     }
 
+    public TCSL_VO_Result queryOpenId(String orderId) {
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        String openId = daoSendMessageMysql.getOpenIdByOrderId(orderId);
+        result.setRet(0);
+        result.setContent(openId);
+        return result;
+    }
 }

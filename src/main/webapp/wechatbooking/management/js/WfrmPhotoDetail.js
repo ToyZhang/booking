@@ -9,7 +9,7 @@ function init(){
 	var roomType = getCookie("roomName");
 	var shopName = getCookie("shopName");
 	var imgName = getCookie("detailImg");
-	var requestUrl = "http://"+ip+":808" +  //该端口号需与nginx设置一致
+	var requestUrl = RESOURCE_NGINX_DOMAIN_NAME +
 						"/image/"+shopName+"/"+roomType+"/"+imgName;
 	var img = document.getElementById("displayImg");
 	img.src = requestUrl;

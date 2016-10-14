@@ -73,18 +73,12 @@ function createImg(shopName,imgName){
     var li = document.createElement("li");
 	var img = document.createElement("img");
 	img.className = "am-img-responsive";
-	//根据请求路径获取服务器所在ip
-	var request = getRequestPath().split(":");
-	var ip = request[1].substring(2);
-	var requestUrl = "http://"+ip+":808" +  //该端口号需与nginx设置一致
-						"/image/"+shopName+"/"+"outdoor_scene"+"/"+imgName;
+	var requestUrl = RESOURCE_NGINX_DOMAIN_NAME +
+		"/image/"+shopName+"/"+"outdoor_scene"+"/"+imgName;
 	img.src = requestUrl;
 	li.appendChild(img);
 	ul.appendChild(li);
 	createThumb(shopName,imgName,requestUrl);
-
-//	var value = "<li><img class='am-img-responsive'  src='http://localhost:808/image/testZTY/outdoor_scene/123.jpg'></li>";
-//	ul.innerHTML = value;
 	/**
 	 * Example:
 	 * 	<li>

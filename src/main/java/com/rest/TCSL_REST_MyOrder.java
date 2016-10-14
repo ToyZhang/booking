@@ -64,7 +64,6 @@ public class TCSL_REST_MyOrder {
     @ResponseBody
     public TCSL_VO_Result finishPay(HttpServletRequest request, HttpServletResponse response){
         String id = request.getParameter("orderId");//订单id
-        System.out.println("访问支付成功接口-----------"+id);
         TCSL_VO_Result result = boMyOrder.finishPay(id);
         return result;
     }
@@ -111,4 +110,12 @@ public class TCSL_REST_MyOrder {
         TCSL_VO_Result result = boMyOrder.createPayMd5(mcId,data);
         return result;
     }
+    @RequestMapping("/queryOpenId")
+    @ResponseBody
+    public TCSL_VO_Result queryOpenId(HttpServletRequest request, HttpServletResponse response){
+        String orderId = request.getParameter("orderId");
+        TCSL_VO_Result result = boMyOrder.queryOpenId(orderId);
+        return result;
+    }
+
 }
