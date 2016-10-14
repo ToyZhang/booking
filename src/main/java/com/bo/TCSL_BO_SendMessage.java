@@ -166,14 +166,14 @@ public class TCSL_BO_SendMessage implements ApplicationListener<ContextRefreshed
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-//                try {
-//                    final String grantType = "client_credential";
-//                    final String appId = utilCommon.getPropertyParam("weChat.properties","weChat.appId");//公众号appid
-//                    final String secret = utilCommon.getPropertyParam("weChat.properties","weChat.secret");//公众号secret
-//                    TCSL_UTIL_Common.weChat_token = getWeChatToken(grantType,appId,secret);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    final String grantType = "client_credential";
+                    final String appId = utilCommon.getPropertyParam("weChat.properties","weChat.appId");//公众号appid
+                    final String secret = utilCommon.getPropertyParam("weChat.properties","weChat.secret");//公众号secret
+                    TCSL_UTIL_Common.weChat_token = getWeChatToken(grantType,appId,secret);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         },0,7150*1000);//0ms后执行，之后每隔7150s后执行
     }
