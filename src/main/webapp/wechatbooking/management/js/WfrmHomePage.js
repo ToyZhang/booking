@@ -12,7 +12,7 @@ function init(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'homePage/queryHistoryData',
+        url:requestPath+RESOURCE_PROJECT_NAME+'homePage/queryHistoryData',
         //是否异步请求
         async:true,
         //传参
@@ -133,7 +133,7 @@ function initTodayInfo(requestPath,mcId) {
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'homePage/queryTodayNotArrive',
+        url:requestPath+RESOURCE_PROJECT_NAME+'homePage/queryTodayNotArrive',
         //是否异步请求
         async:true,
         //传参
@@ -169,7 +169,7 @@ function  initNewOrderInfo(requestPath,mcId) {
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'homePage/queryNewOrder',
+        url:requestPath+RESOURCE_PROJECT_NAME+'homePage/queryNewOrder',
         //是否异步请求
         async:true,
         //传参

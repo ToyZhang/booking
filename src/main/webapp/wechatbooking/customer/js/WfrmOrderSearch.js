@@ -16,7 +16,7 @@ function query(){
 	dinerId = params["dinerid"];
 	openId = params["openid"];
 	mpId = params["mpid"];
-	var values = [gcId,dinerId];
+	var values = [gcId,dinerId,openId,mpId];
 	if(!checkEmpty(values)){
 		return;
 	}
@@ -28,7 +28,7 @@ function query(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'hotelDetail/queryHotelList',
+        url:requestPath+RESOURCE_PROJECT_NAME+'hotelDetail/queryHotelList',
         //是否异步请求
         async:true,
         //传参
@@ -137,15 +137,8 @@ function onclick_hotel(hotel){
 	saveCookie("shopName",shopName);
 	saveCookie("address",address);
 	saveCookie("orderTel",orderTel);
-	if((gcId != null && gcId != "" && gcId !== undefined)
-		&& (dinerId != null && dinerId != "" && dinerId !== undefined)
-		&& (openId == null || openId == "" || openId === undefined)
-		&& (mpId != null || mpId != "" || mpId !== undefined)){
-		saveCookie("customer-mcId",mcId);
-		window.location.href = "../templates/WfrmMyOrder.html";
-	}else{
-		var url = "../templates/WfrmHotelDetail.html?mcid="+mcId+"&dinerid="+dinerId+"&openid="+openId+"&mpid="+mpId;
-		window.location.href = url;
-	}
+	saveCookie("customer-mcId",mcId);
+	window.location.href = "../templates/WfrmMyOrder.html";
+
 	
 }

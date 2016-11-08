@@ -19,7 +19,7 @@ function init(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'book/queryInfo',
+        url:requestPath+RESOURCE_PROJECT_NAME+'book/queryInfo',
         //是否异步请求
         async:true,
         //传参

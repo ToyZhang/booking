@@ -8,7 +8,7 @@ function init() {
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'facilityMatain/queryFacility',
+        url:requestPath+RESOURCE_PROJECT_NAME+'facilityMatain/queryFacility',
         //是否异步请求
         async:true,
         //传参
@@ -163,7 +163,7 @@ function save(item){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'facilityMatain/addFacility',
+        url:requestPath+RESOURCE_PROJECT_NAME+'facilityMatain/addFacility',
         //是否异步请求
         async:true,
         //传参
@@ -210,7 +210,7 @@ function cancel(item){
             //请求方式
             type:"post",
             //请求路径
-            url:requestPath+'facilityMatain/deleteFacility',
+            url:requestPath+RESOURCE_PROJECT_NAME+'facilityMatain/deleteFacility',
             //是否异步请求
             async:true,
             //传参

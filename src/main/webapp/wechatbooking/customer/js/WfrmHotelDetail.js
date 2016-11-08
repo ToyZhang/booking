@@ -14,30 +14,29 @@ $(function() {
 	var startDate = currentTime();
 	var endDate = yestodayTime(startDate);
 	init(startDate,endDate);
-    $('#my-startDate').text(startDate);
+    $('#my-start').attr('value',startDate);
+  	$('#my-end').attr('value',"2016-11-09");
     var $alert = $('#my-alert');
-    $('#my-start').datepicker().
-      on('changeDate.datepicker.amui', function(event) {
+    $('#my-start').datepicker().on('changeDate.datepicker.amui', function(event) {
         $alert.hide();
-        $('#my-startDate').text($('#my-start').data('date'));
+        startDate = event.date.Format("yyyy-MM-dd");
         $(this).datepicker('close');
   	});
 
-    $('#my-end').datepicker().
-      on('changeDate.datepicker.amui', function(event) {
-        if (event.date.valueOf() < startDate.valueOf()) {
+    $('#my-end').datepicker().on('changeDate.datepicker.amui', function(event) {
+    	var eventTime = event.date.valueOf();
+    	var startTime = new Date(startDate).valueOf();
+        if (eventTime < startTime) {
           $alert.find('p').text('结束日期应大于开始日期！').end().show();
         } else {
             $alert.hide();
-            endDate = new Date(event.date);
-            $('#my-endDate').text($('#my-end').data('date'));
-            var start = $('#my-startDate').html();
-            var end = $('#my-endDate').html();
+            endDate = event.date.Format("yyyy-MM-dd");
             $("#myRoomList").empty();
-            init(start,end);
+          	init(startDate,endDate);
         }
         $(this).datepicker('close');
   	});
+  	init(startDate,endDate);
 });
 
 function init(startDate,endDate){
@@ -46,7 +45,7 @@ function init(startDate,endDate){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'hotelDetail/queryHotelDetail',
+        url:requestPath+RESOURCE_PROJECT_NAME+'hotelDetail/queryHotelDetail',
         //是否异步请求
         async:true,
         //传参
@@ -59,6 +58,9 @@ function init(startDate,endDate){
 //		beforeSend:function(){ },
         //成功返回后调用函数
         success:function(data){
+        	var a = data.content.roomInfoList.length;
+        	//TODO 测试弹窗
+        	alert("长度"+a);
             if(data.ret == 0){
                 var content = data.content;
                 var name = content.name; //商户名称

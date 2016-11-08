@@ -9,7 +9,7 @@ function init(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'hotelDetail/queryFacility',
+        url:requestPath+RESOURCE_PROJECT_NAME+'hotelDetail/queryFacility',
         //是否异步请求
         async:true,
         //传参

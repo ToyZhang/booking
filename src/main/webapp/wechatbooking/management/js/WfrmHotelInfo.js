@@ -12,7 +12,7 @@ function init(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'hotelInfo/queryInfo',
+        url:requestPath+RESOURCE_PROJECT_NAME+'hotelInfo/queryInfo',
         //是否异步请求
         async:true,
         //传参
@@ -54,7 +54,7 @@ function onclick_btnSave(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'hotelInfo/updateInfo',
+        url:requestPath+RESOURCE_PROJECT_NAME+'hotelInfo/updateInfo',
         //是否异步请求
         async:true,
         //传参

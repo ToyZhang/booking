@@ -36,7 +36,7 @@ function init(dinerId){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'myOrder/query',
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/query',
         //是否异步请求
         async:true,
         //传参
@@ -251,7 +251,7 @@ function onclick_cancel(id,mcId,roomTypeId,count,endDate,begDate){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'myOrder/cancelOrder',
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/cancelOrder',
         //是否异步请求
         async:true,
         //传参
@@ -279,7 +279,7 @@ function queryOpenId(payTypeId) {
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'myOrder/queryOpenId',
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/queryOpenId',
         //是否异步请求
         async:true,
         //传参
@@ -318,7 +318,7 @@ function getPaySign(payTypeId){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'myOrder/createPayMd5',
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/createPayMd5',
         //是否异步请求
         async:true,
         //传参

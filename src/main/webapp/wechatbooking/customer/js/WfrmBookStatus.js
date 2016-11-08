@@ -53,7 +53,7 @@ function finishPay(){
     //请求方式
     type:"post",
     //请求路径
-    url:requestPath+'myOrder/finishPay',
+    url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/finishPay',
     //是否异步请求
     async:true,
     //传参

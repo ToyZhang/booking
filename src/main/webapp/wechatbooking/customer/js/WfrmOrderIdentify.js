@@ -13,6 +13,7 @@ window.onload = function(){
 	init();
 }
 function init(){
+	debugger;
 	var params = getRequestParam();
 	price = params["price"];
 	roomName = getCookie("roomName");
@@ -39,7 +40,7 @@ function init(){
  */
 function onclick_frontPay(){
     path = "../templates/WfrmBookStatus.html?frontPay=1";
-    checkOrder(path);
+    checkOrder("",path);
 }
 /**
  * 立即支付
@@ -48,11 +49,11 @@ function onclick_frontPay(){
 function onclick_pay(id){
 	if(id == "crm_pay"){ //crm支付 paytypeid:3
         var payTypeId = 3;
-        checkOrder(payTypeId);
+        checkOrder(payTypeId,"");
 	}
 	if(id == "wechat_pay"){ //微信支付 paytypeid:6
         var payTypeId = 6;
-        checkOrder(payTypeId);
+        checkOrder(payTypeId,"");
 	}
 }
 function getPaySign(payTypeId){
@@ -69,7 +70,7 @@ function getPaySign(payTypeId){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'myOrder/createPayMd5',
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/createPayMd5',
         //是否异步请求
         async:true,
         //传参
@@ -81,8 +82,8 @@ function getPaySign(payTypeId){
 //		beforeSend:function(){ },
         //成功返回后调用函数
         success:function(data){
+        	debugger;
         	if(data.ret == 0){
-        	    debugger;
         		param = param +"&sign="+data.content;
         		var path = RESOURCE_PAY_COMMON_IP_PORT+"tcsl/CommPayPage.htm?data="+param;
                 payOrder(path);
@@ -95,14 +96,14 @@ function getPaySign(payTypeId){
 /**
  * 检查该房型是否可预订
  */
-function checkOrder(payTypeId){
+function checkOrder(payTypeId,path){
 	var requestPath = getRequestPath();
 	//判断房间数量是否足够
 	$.ajax({
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'myOrder/checkOrder',
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/checkOrder',
         //是否异步请求
         async:true,
         //传参
@@ -117,9 +118,15 @@ function checkOrder(payTypeId){
 //		beforeSend:function(){ },
         //成功返回后调用函数
         success:function(data){
+        	debugger;
         	if(data.ret == 0){
         		orderId = data.content;
-                getPaySign(payTypeId);
+                if(payTypeId == "" && path != ""){ //前台支付
+                    payOrder(path);
+                }
+                if(payTypeId != "" && path == ""){ //立即支付
+                    getPaySign(payTypeId);
+                }
         	}
         },
         //调用出错执行的函数
@@ -130,6 +137,7 @@ function checkOrder(payTypeId){
  * 添加订单
  */
 function payOrder(path){
+	debugger;
 	var requestPath = getRequestPath();
 	var now = getNowTime();
 	var dinerId = getCookie("dinerId");
@@ -145,7 +153,7 @@ function payOrder(path){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'myOrder/addOrder',
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/addOrder',
         //是否异步请求
         async:true,
         //传参
@@ -172,6 +180,7 @@ function payOrder(path){
 //		beforeSend:function(){ },
         //成功返回后调用函数
         success:function(data){
+        	debugger
         	saveCookie("pay_orderId",orderId);
 			saveCookie("pay_price",price);
     		window.location.href = path;

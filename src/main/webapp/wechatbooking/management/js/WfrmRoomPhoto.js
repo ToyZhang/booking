@@ -8,7 +8,7 @@ function init(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'hotelDetail/queryRoomList',
+        url:requestPath+RESOURCE_PROJECT_NAME+'hotelDetail/queryRoomList',
         //是否异步请求
         async:true,
         //传参

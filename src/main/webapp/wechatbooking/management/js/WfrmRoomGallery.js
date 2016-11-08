@@ -31,7 +31,7 @@ function initInfo(){
 		//请求方式
 		type:"post",
 		//请求路径
-		url:requestPath+'uploadPhoto/queryPhoto',
+		url:requestPath+RESOURCE_PROJECT_NAME+'uploadPhoto/queryPhoto',
 		//是否异步请求
 		async:true,
 		//传参
@@ -145,7 +145,7 @@ function deleteImg(delImg){
 		//请求方式
 		type:"post",
 		//请求路径
-		url:requestPath+'uploadPhoto/deletePhoto',
+		url:requestPath+RESOURCE_PROJECT_NAME+'uploadPhoto/deletePhoto',
 		//是否异步请求
 		async:true,
 		//传参

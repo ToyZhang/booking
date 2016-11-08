@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="booking:war exploded">
+  <artifact type="war" name="booking:war exploded">
     <output-path>$PROJECT_DIR$/target/booking-1.0-SNAPSHOT</output-path>
-    <root id="root">
+    <root id="archive" name="booking_war exploded.war">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="booking" />

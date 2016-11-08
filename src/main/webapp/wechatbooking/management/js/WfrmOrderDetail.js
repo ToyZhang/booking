@@ -45,7 +45,7 @@ function initData(){
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+'orderDetail/query',
+        url:requestPath+RESOURCE_PROJECT_NAME+'orderDetail/query',
         //是否异步请求
         async:true,
         //传参
