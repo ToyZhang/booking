@@ -21,7 +21,7 @@ jQuery(function(){
         swf: '../api/webuploader/Uploader.swf',
 
         // 文件接收服务端。
-        server: requestPath+'uploadPhoto/addPhoto',
+        server: requestPath+RESOURCE_PROJECT_NAME+'uploadPhoto/addPhoto',
 
         // 选择文件的按钮
         pick: '#filePicker',

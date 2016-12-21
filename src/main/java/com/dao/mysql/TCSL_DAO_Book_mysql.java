@@ -10,7 +10,7 @@ import java.util.List;
  * Created by zhangtuoyu on 2016-09-26.
  */
 public interface TCSL_DAO_Book_mysql {
-    TCSL_VO_OrderFormInfo queryRoomCount(
+    List<TCSL_VO_OrderFormInfo> queryRoomCount(
         @Param("ROOMTYPEID") String roomTypeId,
         @Param("MCID") String mcId,
         @Param("STARTDATE") String startDate,

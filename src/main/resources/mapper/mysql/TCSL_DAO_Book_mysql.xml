@@ -6,7 +6,7 @@
     <select id="queryRoomCount" resultType="com.vo.TCSL_VO_OrderFormInfo">
         SELECT
         CNAME,
-        MIN(icount) COUNT
+        icount COUNT
         FROM
         PHO_HT_ROOMTYPE
         WHERE

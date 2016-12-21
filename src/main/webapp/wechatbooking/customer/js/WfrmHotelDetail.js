@@ -12,31 +12,33 @@ $(function() {
 	openId = params["openid"];
 	mpId = params["mpid"];
 	var startDate = currentTime();
-	var endDate = yestodayTime(startDate);
-	init(startDate,endDate);
-    $('#my-start').attr('value',startDate);
-  	$('#my-end').attr('value',"2016-11-09");
+	var endDate = currentTime(1);
     var $alert = $('#my-alert');
     $('#my-start').datepicker().on('changeDate.datepicker.amui', function(event) {
         $alert.hide();
         startDate = event.date.Format("yyyy-MM-dd");
+        $('#my-start').attr('value',startDate);
         $(this).datepicker('close');
   	});
 
     $('#my-end').datepicker().on('changeDate.datepicker.amui', function(event) {
     	var eventTime = event.date.valueOf();
     	var startTime = new Date(startDate).valueOf();
-        if (eventTime < startTime) {
+        if (eventTime <= startTime) {
           $alert.find('p').text('结束日期应大于开始日期！').end().show();
         } else {
             $alert.hide();
             endDate = event.date.Format("yyyy-MM-dd");
+            $('#my-end').attr('value',endDate);
             $("#myRoomList").empty();
           	init(startDate,endDate);
         }
         $(this).datepicker('close');
   	});
-  	init(startDate,endDate);
+  	$('#my-start').attr('value',startDate);
+  	$('#my-end').attr('value',endDate);
+  	var nextDay;
+  	init(startDate,nextDay);
 });
 
 function init(startDate,endDate){
@@ -58,9 +60,6 @@ function init(startDate,endDate){
 //		beforeSend:function(){ },
         //成功返回后调用函数
         success:function(data){
-        	var a = data.content.roomInfoList.length;
-        	//TODO 测试弹窗
-        	alert("长度"+a);
             if(data.ret == 0){
                 var content = data.content;
                 var name = content.name; //商户名称
@@ -70,6 +69,17 @@ function init(startDate,endDate){
                 var phone = content.phone; //商户电话
                 $("#hotel_phone").html(phone);
                 var roomList = content.roomInfoList; //房间列表
+                //创建酒店外景图片
+                if($("#hotel_img").find("img").length == 0){
+                	var hotelImg = content.hoteImg; //酒店外景图片名称
+	                var img = document.createElement("img");
+					//拼接访问路径
+					var requestUrl = RESOURCE_NGINX_DOMAIN_NAME + "/image/"+name+"/outdoor_scene/"+hotelImg;
+	            	img.src = requestUrl;
+	            	img.className = "am-img-responsive";
+	            	img.style = "margin:auto";
+	            	$("#hotel_img").append(img);
+                }
                 for(var i=0; i<roomList.length; i++){
                 	var roomTypeId = roomList[i].croomtypeid;
                 	var price = roomList[i].mprice;
@@ -141,8 +151,8 @@ function createItem(roomTypeId,price,roomName,imgName,shopName){
 	$("#myRoomList").append(li);
 }
 function onclick_order(roomTypeId){
-	var begDate = $('#my-startDate').text().trim();
-	var endDate = $('#my-endDate').text().trim();
+	var begDate = $('#my-start').attr('value').trim();
+	var endDate = $('#my-end').attr('value').trim();
 	var errStatus = $('#my-alert').css('display');  //错误提示信息 none 隐藏   block 显示
 	if(errStatus == "none"){
 		var url = "../templates/WfrmBookDetail.html?mcId="+mcId

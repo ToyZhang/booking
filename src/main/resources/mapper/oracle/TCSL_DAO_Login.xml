@@ -22,7 +22,7 @@
          DESP = #{DESP}
         WHERE
             MCID = #{MCID}
-    </update>
+</update>
     <select id="queryByMcid" resultType="PHO_MC_O2O">
         SELECT
             *

@@ -51,7 +51,10 @@ public class TCSL_REST_HotelInfo {
         String phoneNum = request.getParameter("phoneNum");
         String address = request.getParameter("address");
         String description = request.getParameter("description");
-        boHotelInfo.saveInfo(mcId,hotelName,phoneNum,address,description);
+        String cityName = request.getParameter("cityName");
+        String longtitude = request.getParameter("longtitude");
+        String latitude = request.getParameter("latitude");
+        boHotelInfo.saveInfo(mcId,hotelName,phoneNum,address,description,cityName,longtitude,latitude);
         TCSL_VO_Result result = new TCSL_VO_Result();
         result.setRet(0);
         return result;

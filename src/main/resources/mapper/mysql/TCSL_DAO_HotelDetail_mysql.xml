@@ -8,12 +8,13 @@
         CNAME,
         CROOMTYPEID,
         MPRICE,
+        ICOUNT,
         CASE
         WHEN min(icount) >= 1 THEN
         '1'
         ELSE
         '2'
-        END
+        END ROOMSTATUS
         FROM
         PHO_HT_ROOMTYPE
         WHERE mcid = #{MCID}

@@ -20,9 +20,9 @@ function query(){
 	if(!checkEmpty(values)){
 		return;
 	}
-    saveCookie("dinerId",dinerId);
-	saveCookie("openId",openId);
-	saveCookie("mpId",mpId);
+//  saveCookie("dinerId",dinerId);
+//	saveCookie("openId",openId);
+//	saveCookie("mpId",mpId);
 	var requestPath = getRequestPath();
 	$.ajax({
         //请求方式
@@ -41,13 +41,21 @@ function query(){
         success:function(data){
             if(data.ret == 0){
                 var content = data.content;
+                var name;
+                var address;
+                var orderTel;
                 for(var i=0;i<content.length;i++){
-                	var address = content[i].address;
+                	address = content[i].address;
                 	mcId = content[i].mcid;
-                	var name = content[i].name;
+                	name = content[i].name;
                 	var imgName = content[i].hoteImg;
-                    var orderTel = content[i].ordertel;
+                    orderTel = content[i].ordertel;
                 	createHotelItem(address,name,imgName,orderTel);
+                }
+                var size = content.length - 0;
+                if(size == 1){
+                	var hotel = {id:"shopName-zty-"+name+"-zty-"+address+"-zty-"+orderTel};
+                	onclick_hotel(hotel);
                 }
                 $('a').on('click',function(e){
 					var hotel = e.target;

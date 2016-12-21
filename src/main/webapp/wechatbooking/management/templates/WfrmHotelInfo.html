@@ -13,9 +13,9 @@
 	    <link rel="apple-touch-icon-precomposed" href="../api/AmazeUI/i/app-icon72x72@2x.png">
 	    <link rel="stylesheet" href="../api/AmazeUI/css/amazeui.min.css" />
 	    <link rel="stylesheet" href="../api/AmazeUI/css/admin.css">
-	    <link rel="stylesheet" type="text/css" href="../api/webuploader/webuploader.css" />
+	    <link rel="stylesheet" type="text/css"  href="../api/css/kuCity.css"/>
+	    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=kpc15j1AQFyUVq5743wbnFDMpkjvlUBG"></script>
         <script src="../api/jQuery/jquery.min.js"></script>
-	    <script src="../api/webuploader/webuploader.js"></script>
 	    <script src="../js/WfrmHotelInfo.js"></script>
 		<script src="../js/common.js"></script>
 		<script src="../js/resource.js"></script>
@@ -31,6 +31,15 @@
         <script src="../api/AmazeUI/js/amazeui.min.js"></script>
         <!--<![endif]-->
         <script src="../api/AmazeUI/js/app.js"></script>
+        <script src="../api/js/kuCity.js"></script>
+        <style>
+        	#allmap{
+        		width: 350px;
+        		height: 370px;
+        		float: right;
+        		margin:5px 10px -380px 0px;
+        	}
+        </style>
 	</head>
 	<body>
         <div class="am-cf am-padding">
@@ -45,6 +54,8 @@
                 </li>
             </ul>
             <div class="am-tabs-bd">
+            	<!-- 酒店地图定位 -->
+            	<div id="allmap"></div>
                 <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                     <form id="Form1" class="am-form" runat="server">
                     	<!-- 酒店名称 -->
@@ -78,11 +89,13 @@
 					    	<div  class="am-u-sm-4 am-u-md-2 am-text-right">
                             	酒店地址
                         	</div>
-						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-4">
-						    	<input id="hotel_address" type="text" maxlength="20"
-									   class="am-form-field am-input-sm" placeholder="请输入酒店地址">
+						    <div class="am-form-group am-form-icon am-form-feedback am-u-sm-8 am-u-md-6">
+						    	<!-- 选择城市 -->
+                        		<input type="text" id="citySelect" style="height:35px;width: 100px;border-radius: 3px;z-index: 999;text-align: center;display: inline;" placeholder="选择城市"/>
+						    	<input id="hotel_address" type="text" maxlength="20" style="height: 35px;width: 450px;display: inline;" placeholder="请输入酒店地址">
+						    	<button type="button" id="btnLocation" class="am-btn am-btn-primary am-btn-xs">定位</button>
 							</div>
-							<div class="am-hide-sm-only am-u-md-6"> <!-- 酒店名称错误提示信息 -->
+							<div class="am-hide-sm-only am-u-md-4"> <!-- 酒店名称错误提示信息 -->
 
 						    </div>
 						</div>
@@ -91,10 +104,13 @@
                             <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
                                 内容描述
                             </div>
-                            <div class="am-u-sm-12 am-u-md-10">
+                            <div class="am-u-sm-12 am-u-md-6">
                                 <textarea id="hotel_desp" runat="server" maxlength="100"
 										  Rows="9" class="am-form-field am-input-sm" placeholder="请输入内容描述"></textarea>
                             </div>
+                            <div class="am-hide-sm-only am-u-md-4"> <!-- 酒店名称错误提示信息 -->
+
+						    </div>
                         </div>
                     </form>
                 </div>

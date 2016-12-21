@@ -10,6 +10,7 @@ public class PHO_MC_O2O {
     private String DESP;
     private String ADDRESS;
     private String ORDERTEL;
+    private String GCID;
 
     public String getMCID() {
         return MCID;
@@ -57,5 +58,13 @@ public class PHO_MC_O2O {
 
     public void setORDERTEL(String ORDERTEL) {
         this.ORDERTEL = ORDERTEL;
+    }
+
+    public String getGCID() {
+        return GCID;
+    }
+
+    public void setGCID(String GCID) {
+        this.GCID = GCID;
     }
 }

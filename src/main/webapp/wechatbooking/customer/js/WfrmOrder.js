@@ -3,13 +3,80 @@ var gcId;
 var dinerId;
 var openId;
 var mpId;
-window.onload = function(){
-    query();
+var content; //后台查询出的酒店列表
+$(function(){
+	initCitySelect();
+	initSearchEvent();
+})
+/*
+ * 初始化城市选择框,定位所在城市
+ */
+function initCitySelect(){
+	//初始化城市选择框
+	$(".city").CityPicker();
+	//根据ip自动定位
+	map = new BMap.Map("allmap"); //创建地图实例
+	var point = new BMap.Point(0,0); //创建坐标点
+	map.centerAndZoom(point,12); //初始化地图 设置中心店，显示级别
+	function myFun(result){
+		getCityName(result.name);
+	}
+	function getCityName(name){ //获取根据ip定位城市名称
+		var cityName = name;
+		$('#selectPosition').val(cityName); //城市选择框初始化
+		query(cityName);
+	}
+	var myCity = new BMap.LocalCity();
+	myCity.get(myFun);
+	
+}
+/**
+ * 绑定查询框事件
+ */
+function initSearchEvent(){
+	$('#searchBox').on('input',function(e){
+		filterContent();
+	});
+}
+/**
+ * 过滤显示列表
+ * @param {Object} value
+ */
+function filterContent(){
+	$('#hotel_list').children().remove(); //清空酒店列表
+	var value = $('#searchBox').val(); //搜索框内容
+	if(value == null || value == "" || value === undefined){ //搜索内容为空，显示全部酒店列表
+		for(var i=0;i<content.length;i++){
+            var address = content[i].address;
+            mcId = content[i].mcid;
+            var name = content[i].name;
+            var imgName = content[i].hoteImg;
+            var orderTel = content[i].ordertel;
+            createHotelItem(address,name,imgName,orderTel);
+       }
+	}else{ //搜索内容不为空，过滤酒店列表
+		for(var i=0;i<content.length;i++){
+            var address = content[i].address;
+            mcId = content[i].mcid;
+            var name = content[i].name;
+            var imgName = content[i].hoteImg;
+            var orderTel = content[i].ordertel;
+            var checkName = name.indexOf(value); //判断名称中是否符合过滤条件  -1不符合
+            var checkAddress = address.indexOf(value); //判断地址中是否符合过滤条件  -1不符合
+            if(checkName != -1 || checkAddress != -1){
+            	createHotelItem(address,name,imgName,orderTel);
+            }
+       }
+	}
+	$('.am-list-item-hd a').on('click',function(e){
+        var hotel = e.target;
+        onclick_hotel(hotel);
+    });
 }
 /**
  * 查询显示数据
  */
-function query(){
+function query(cityName){
     //获取请求参数
     var params = getRequestParam();
     gcId = params["gcid"];
@@ -21,9 +88,9 @@ function query(){
         console.error("WfrmOrder gcid/dinerid/openid/mpid is null");
         return;
     }
-    saveCookie("dinerId",dinerId);
-    saveCookie("openId",openId);
-    saveCookie("mpId",mpId);
+//  saveCookie("dinerId",dinerId);
+//  saveCookie("openId",openId);
+//  saveCookie("mpId",mpId);
     var requestPath = getRequestPath();
     $.ajax({
         //请求方式
@@ -34,26 +101,16 @@ function query(){
         async:true,
         //传参
         data:{
-            gcId:gcId
+            gcId:gcId,
+            cityName:cityName
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },
         //成功返回后调用函数
         success:function(data){
             if(data.ret == 0){
-                var content = data.content;
-                for(var i=0;i<content.length;i++){
-                    var address = content[i].address;
-                    mcId = content[i].mcid;
-                    var name = content[i].name;
-                    var imgName = content[i].hoteImg;
-                    var orderTel = content[i].ordertel;
-                    createHotelItem(address,name,imgName,orderTel);
-                }
-                $('a').on('click',function(e){
-                    var hotel = e.target;
-                    onclick_hotel(hotel);
-                });
+                content= data.content;
+                filterContent();
             }
 
         },
@@ -141,5 +198,13 @@ function onclick_hotel(hotel){
     var url = "../templates/WfrmHotelDetail.html?mcid="+mcId+"&dinerid="+dinerId+"&openid="+openId+"&mpid="+mpId;
     window.location.href = url;
 
+}
+/**
+ * 切换城市
+ * @param {Object} name
+ */
+function changeLocalCity(name){
+	$('#selectPosition').val(name); //城市选择框赋值
+	query(name); //切换城市重新刷新数据
 }
 

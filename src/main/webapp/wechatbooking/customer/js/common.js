@@ -136,13 +136,13 @@ function getRequestParam(){
  */
 function yestodayTime(now) {
 	var time = new Date(now);
-	time = +time + 1000*60*60*24;
+	time = time + 1000*60*60*24;
 	time = new Date(time);
 	var month = time.getMonth()+1;
 	if(month < 10){
 		month = "0" + month;
 	}
-	var day = time.getDate();
+	var day = time.getDate() - 0;
 	if(day < 10){
 		day = "0" + day;
 	}
@@ -152,11 +152,15 @@ function yestodayTime(now) {
   * 获取当前时间 YYYY-MM-DD
   * Example:var now = currentTime();  返回值 "2016-09-24"
   */
-function currentTime() {
+function currentTime(num) {
     var now = new Date();
     var year = now.getFullYear();       //年
     var month = now.getMonth() + 1;     //月
-    var day = now.getDate();
+    var day;
+    if(num == null || num == "" || num === undefined){
+    	num = 0;
+    }
+    day = now.getDate() + num;
     var hh = now.getHours();            //时
     var mm = now.getMinutes();          //分
     var ss = now.getSeconds();           //秒

@@ -307,7 +307,7 @@ function getPaySign(payTypeId){
         return ;
     }
     var mpid = getCookie("mpId");
-    var finishPath = requestPath+"myOrder/finishPay";
+    var finishPath = requestPath+RESOURCE_PROJECT_NAME+"myOrder/finishPay";
     var param = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
         +"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId2+"','paytypeid':'"+payTypeId+"'"+",'orderId':'"+itemId
         +"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +

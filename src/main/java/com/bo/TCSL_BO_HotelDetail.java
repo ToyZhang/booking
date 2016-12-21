@@ -1,12 +1,14 @@
 package com.bo;
 
 import com.dao.mysql.TCSL_DAO_HotelDetail_mysql;
+import com.dao.mysql.TCSL_DAO_Hotel_mysql;
 import com.dao.oracle.TCSL_DAO_HotelDetail;
 import com.dao.oracle.TCSL_DAO_MC_orl;
 import com.dao.oracle.TCSL_DAO_ServerFacility;
 import com.po.oracle.PHO_HT_HOTELITEM;
 import com.po.oracle.PHO_MC_O2O;
 import com.util.TCSL_UTIL_Common;
+import com.vo.TCSL_VO_Hotel;
 import com.vo.TCSL_VO_HotelDetail;
 import com.vo.TCSL_VO_Result;
 import com.vo.TCSL_VO_RoomInfo;
@@ -14,7 +16,10 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhangtuoyu on 2016-09-22.
@@ -31,16 +36,24 @@ public class TCSL_BO_HotelDetail {
     TCSL_DAO_MC_orl daoMc_orl; //查询商户信息
     @Resource
     TCSL_DAO_ServerFacility daoServerFacility;
-
+    @Resource
+    TCSL_DAO_Hotel_mysql daoHotelMysql;
     /**
      * 查询酒店列表
      * @param gcId
      * @return
      * @throws Exception
      */
-    public TCSL_VO_Result queryHotelList(String gcId) throws Exception {
+    public TCSL_VO_Result queryHotelList(String gcId,String name ) throws Exception {
         TCSL_VO_Result result = new TCSL_VO_Result();
-        List<TCSL_VO_HotelDetail> hotelList= daoHotelDetail.queryHotelList(gcId);
+        List<TCSL_VO_HotelDetail> hotelList= daoHotelDetail.queryHotelList(gcId); //根据集群号gcId查询酒店列表
+        List<TCSL_VO_Hotel> hotelInfoList = daoHotelMysql.queryAll(); //查询酒店位置信息
+        List<TCSL_VO_HotelDetail> resultList = new ArrayList<TCSL_VO_HotelDetail>();
+        Map<Integer,TCSL_VO_Hotel> hotelInfoMap = new HashMap<Integer,TCSL_VO_Hotel>();
+        for (TCSL_VO_Hotel hotel:hotelInfoList) {
+            Integer hotel_mcId = hotel.getiMCID();
+            hotelInfoMap.put(hotel_mcId,hotel);
+        }
         //查询外景图片名称
         String savePath = utilCommon.getPropertyParam("upload-path.properties","upload.path");
         for (TCSL_VO_HotelDetail voHotelDetail: hotelList) {
@@ -61,8 +74,27 @@ public class TCSL_BO_HotelDetail {
                 }
             }
             voHotelDetail.setHoteImg(fileName);
+            //添加酒店定位相关信息
+            TCSL_VO_Hotel hotel = hotelInfoMap.get(Integer.parseInt(voHotelDetail.getMCID()));
+            voHotelDetail.setLongtitude(hotel.getdLONGTITUDE());
+            voHotelDetail.setLatitude(hotel.getdLATITUDE());
+            String cityName = hotel.getcCITY();
+            if(name != null){ //城市过滤条件不为空
+                if(cityName != null){ //酒店所在城市不为空
+                    //存在name为天津市，cityName为天津的情况
+                    //判断城市名称(条件)是否包含城市名称(酒店所在城市)或是否相同
+                    if(name.indexOf(cityName) != -1 || name.equals(cityName)){
+                        //符合城市名称，添加到resultList中
+                        voHotelDetail.setCity(cityName);
+                        resultList.add(voHotelDetail);
+                    }
+                }
+            }else{ //城市过滤条件为空，不进行过滤
+                voHotelDetail.setCity(cityName);
+                resultList.add(voHotelDetail);
+            }
         }
-        result.setContent(hotelList);
+        result.setContent(resultList);
         result.setRet(0);
         return result;
     }
@@ -85,10 +117,23 @@ public class TCSL_BO_HotelDetail {
         voHotelDetail.setMCID(mc.getMCID()); //商户mcId
         voHotelDetail.setPhone(mc.getORDERTEL()); //联系电话
         List<TCSL_VO_RoomInfo> roomList = daoHotelDetailMysql.queryRoomListByTime(mcId,startDate,endDate);
+        String savePath = utilCommon.getPropertyParam("upload-path.properties","upload.path"); //图片保存路径
+        String outPath = savePath+"/"+shopName+"/"+"outdoor_scene"; //酒店外景图片保存路径
+        File outFile = new File(outPath); //外景图片文件夹对象
+        String outImg = "";
+        if(outFile.exists()){ //判断外景图片所在文件夹是否存在
+            File[] files = outFile.listFiles(); //获取文件夹中所有文件对象
+            for (int i=0; i<files.length; i++) { //获取一张图片名称不为空的图片名称
+                outImg = files[i].getName();
+                if(outImg != null && !outImg.equals("")){
+                    break;
+                }
+            }
+        }
+        voHotelDetail.setHoteImg(outImg);
         //获取房间图片名称
         for (TCSL_VO_RoomInfo room:roomList) {
             String roomName = room.getCNAME();
-            String savePath = utilCommon.getPropertyParam("upload-path.properties","upload.path");
             String folderPath = savePath+"/"+shopName+"/"+roomName;
             String imgName = "";
             File file = new File(folderPath);

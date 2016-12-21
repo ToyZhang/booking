@@ -14,6 +14,10 @@ public class TCSL_VO_HotelDetail extends TCSL_VO_Facilitys{
     private String phone;
     private String ORDERTEL;
     private List<TCSL_VO_RoomInfo> roomInfoList;
+    private String city; //酒店所在城市
+    private Double longtitude; //酒店所在经度
+    private Double latitude; //酒店所在纬度
+
     public String getMCID() {
         return MCID;
     }
@@ -76,5 +80,29 @@ public class TCSL_VO_HotelDetail extends TCSL_VO_Facilitys{
 
     public void setORDERTEL(String ORDERTEL) {
         this.ORDERTEL = ORDERTEL;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Double getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(Double longtitude) {
+        this.longtitude = longtitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 }

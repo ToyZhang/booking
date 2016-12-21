@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,8 +38,34 @@ public class TCSL_BO_Book {
      */
     public TCSL_VO_Result queryInfo(String mcId, String startDate, String endDate, String roomTypeId) throws Exception {
         TCSL_VO_Result result = new TCSL_VO_Result();
-        TCSL_VO_OrderFormInfo voOrderFormInfo =
-                daoBookMysql.queryRoomCount(roomTypeId,mcId,startDate,endDate);//提交订单信息
+        //计算入住时长
+        startDate = startDate + " 00:00:00";
+        Timestamp starTime = Timestamp.valueOf(startDate);
+        endDate = endDate + " 00:00:00";
+        Timestamp endTime = Timestamp.valueOf(endDate);
+        long time = endTime.getTime() - starTime.getTime();
+        long stayDay = (time / (1000 * 60 * 60 * 24));
+        //房型信息(房型名称，房型可预订数量
+        List<TCSL_VO_OrderFormInfo> list = daoBookMysql.queryRoomCount(roomTypeId,mcId,startDate,endDate);
+        TCSL_VO_OrderFormInfo voOrderFormInfo = new TCSL_VO_OrderFormInfo();
+        long size = 0L;
+        if(list != null ){
+            size = list.size();
+        }
+        if(size < stayDay){ //该时间段中不是每天都有可预订房间
+            result.setRet(-1);
+            return result;
+        }
+        //查询结果集中，该时间段最小可预订数
+        long minNUm = 0L;
+        List<Long> nums = new ArrayList<Long>();
+        for (TCSL_VO_OrderFormInfo info : list){
+            String name  = info.getCNAME();
+            voOrderFormInfo.setCNAME(name);
+            long num = Long.parseLong(info.getCOUNT());
+            nums.add(num);
+        }
+        voOrderFormInfo.setCOUNT(Collections.min(nums).toString());
         PHO_MC_O2O mcO2O = daoLogin.queryByMcid(mcId);
         String name = mcO2O.getNAME(); //商户名称
         voOrderFormInfo.setShopName(name);
@@ -54,13 +82,6 @@ public class TCSL_BO_Book {
             }
         }
         voOrderFormInfo.setImgName(imgName);
-        //计算入住时长
-        startDate = startDate + " 00:00:00";
-        Timestamp starTime = Timestamp.valueOf(startDate);
-        endDate = endDate + " 00:00:00";
-        Timestamp endTime = Timestamp.valueOf(endDate);
-        long time = endTime.getTime() - starTime.getTime();
-        long stayDay = (time / (1000 * 60 * 60 * 24));
         voOrderFormInfo.setDays(String.valueOf(stayDay));
         List<BigDecimal> priceList = daoBookMysql.queryPrice(roomTypeId,mcId,startDate,endDate);
         BigDecimal price = new BigDecimal(0);

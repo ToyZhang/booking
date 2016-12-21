@@ -60,7 +60,7 @@ function getPaySign(payTypeId){
     var openId = getCookie("openId");
     var mpid = getCookie("mpId");
     var requestPath = getRequestPath();
-    var finishPath = requestPath+"myOrder/finishPay";
+    var finishPath = requestPath+RESOURCE_PROJECT_NAME+"myOrder/finishPay";
 	var requestPath = getRequestPath();
     var param = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
         +"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'"+payTypeId+"'"+",'orderId':'"+orderId
