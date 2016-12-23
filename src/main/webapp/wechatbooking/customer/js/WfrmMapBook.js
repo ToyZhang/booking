@@ -63,7 +63,7 @@ function init(name,gcId){
 function changeLocalCity(name){
 	map.clearOverlays();//清空原来的标注
 	init(name,gcId);
-	map.centerAndZoom(name,12);
+//	map.centerAndZoom(name,12);
 }
 /**
  * 创建酒店图层
@@ -112,9 +112,10 @@ function createHotel(info){
 		div.appendChild(tag);
 		}
 	}
-	//创建标记图层
-	var marker = new BMap.Marker(new BMap.Point(hotelLongitude,hoteLatitude));
+	//创建标记图层 109.29036,22.41106
+	var marker = new BMap.Marker(new BMap.Point(hotelLongitude,hoteLatitude)); //hotelLongitude,hoteLatitude
 	map.addOverlay(marker);
+	map.centerAndZoom(new BMap.Point(hotelLongitude,hoteLatitude),12);
 	//创建标记点击后窗口内容
 	var infoWindow = new BMap.InfoWindow(div);
 	//标记添加点击事件
