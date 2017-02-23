@@ -47,6 +47,12 @@ function onclick_frontPay(){
  * @param {Object} id 支付方式的id
  */
 function onclick_pay(id){
+    //防止连续多次下单，删除下单支付按钮，替换为加载
+    $('.am-modal-actions-group').children().remove();
+    var load = document.createElement("div");
+    load.style = "width: 100%;height: 120px;";
+    document.getElementById('my-actions-body').appendChild(load);
+    document.getElementById('my-actions').style = "background-image: url('../images/timg.gif');background-position-y:-78px";
 	if(id == "crm_pay"){ //crm支付 paytypeid:3
         var payTypeId = 3;
         checkOrder(payTypeId,"");
