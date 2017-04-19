@@ -8,7 +8,7 @@
             *
         FROM
             pho_mc_o2o A,
-            pho_mcbusiness@dlo2o b
+            pho_mcbusiness_o2o b
         WHERE
             A .state = 1
         AND A .gcid = #{GCID}
