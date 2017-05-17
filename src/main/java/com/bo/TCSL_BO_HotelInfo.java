@@ -52,7 +52,7 @@ public class TCSL_BO_HotelInfo {
      */
     public void saveInfo(String mcId, String hotelName, String phoneNum, String address, String desp,
                          String cityName,String longtitude,String latitude) {
-        daoLogin.updateMc(hotelName,phoneNum,address,desp,mcId);
+//        daoLogin.updateMc(hotelName,phoneNum,address,desp,mcId);
         //获取酒店gcId
         PHO_MC_O2O pho_mc_o2O = daoLogin.queryByMcid(mcId);
         String gcId = pho_mc_o2O.getGCID();
