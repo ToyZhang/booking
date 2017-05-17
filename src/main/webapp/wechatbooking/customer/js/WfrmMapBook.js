@@ -4,27 +4,48 @@ $(function(){
 	//获取相关参数
 	var params = getRequestParam();
 	gcId = params['gcid'];
-	//根据ip自动定位
-	map = new BMap.Map("allmap"); //创建地图实例
+    //创建地图实例
+	map = new BMap.Map("allmap");
 	var point = new BMap.Point(0,0); //创建坐标点
 	map.centerAndZoom(point,12); //初始化地图 设置中心店，显示级别
-	var name;
-	function myFun(result){
-		var cityName = result.name;
-		map.setCenter(cityName);
-		getCityName(cityName);
-	}
-	function getCityName(cityName){ //获取根据ip定位城市名称
-		name = cityName;
-		$("#cityName").html(name);
-		//初始化地图中酒店数据
-		init(name,gcId);
-	}
-	var myCity = new BMap.LocalCity();
-	myCity.get(myFun);
-	//初始化城市选择框
-	$(".city").CityPicker();
+    //根据百度地图api 根据浏览器h5特性定位所在城市
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function (r) {
+        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            var mk = new BMap.Marker(r.point);
+            currentLat = r.point.lat;   //当前维度
+            currentLon = r.point.lng;   //当前经度
+            var pt = new BMap.Point(currentLon, currentLat);
+            var geoc = new BMap.Geocoder();
+            geoc.getLocation(pt, function (rs) {
+                var addComp = rs.addressComponents;
+                var cityName = addComp.city;
+                cityOpration(cityName);
+            })
+        }else{
+            //根据ip自动定位
+            map = new BMap.Map("allmap"); //创建地图实例
+            var point = new BMap.Point(0,0); //创建坐标点
+            map.centerAndZoom(point,12); //初始化地图 设置中心店，显示级别
+            function myFun(result){
+                cityOpration(result.name);
+            }
+            var myCity = new BMap.LocalCity();
+            myCity.get(myFun);
+        }
+    })
+
 })
+function  cityOpration(name) {
+    //以定位城市居中显示地图
+    map.setCenter(name);
+    //初始化城市选择框
+    $(".city").CityPicker();
+    //初始化所在地城市名称
+    $("#cityName").html(name);
+    //初始化酒店数据
+    init(name,gcId);
+}
 function init(name,gcId){
 	var requestPath = getRequestPath();
     $.ajax({
