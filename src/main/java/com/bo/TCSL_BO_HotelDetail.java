@@ -89,7 +89,7 @@ public class TCSL_BO_HotelDetail {
             String cityName = hotel.getcCITY();
             System.out.println("TCSL_BO_HotelDetail----酒店名称，经纬度---line90-"+
                     cityName+"---"+hotel.getdLONGTITUDE()+"---"+hotel.getdLATITUDE());
-            if(name != null){ //城市过滤条件不为空
+            if(name != null && !"".equals(name)){ //城市过滤条件不为空
                 System.out.println("TCSL_BO_HotelDetail----查询城市名称---line93-"+name);
                 if(cityName != null){ //酒店所在城市不为空
                     System.out.println("TCSL_BO_HotelDetail----酒店所在地名称---line95-"+cityName);

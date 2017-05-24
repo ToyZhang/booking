@@ -31,6 +31,8 @@
         <property name="checkoutTimeout" value="1000" />
         <!-- 当连接获取失败重试次数 -->
         <property name="acquireRetryAttempts" value="2" />
+        <!--每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->
+        <property name="idleConnectionTestPeriod" value="60"></property>
     </bean>
 
     <!-- 配置 SqlSessionFactory 对象 -->
@@ -78,6 +80,8 @@
         <property name="checkoutTimeout" value="1000" />
         <!-- 当连接获取失败重试次数 -->
         <property name="acquireRetryAttempts" value="2" />
+        <!--每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->
+        <property name="idleConnectionTestPeriod" value="60"></property>
     </bean>
 
     <!-- 配置 SqlSessionFactory 对象 -->

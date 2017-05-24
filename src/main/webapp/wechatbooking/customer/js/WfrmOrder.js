@@ -5,7 +5,10 @@ var openId;
 var mpId;
 var content; //后台查询出的酒店列表
 $(function(){
-    initLocation();
+    //屏蔽掉初始定位城市查询该城市酒店列表功能
+    //initLocation();
+    var city = "";
+    query(city);
 	initSearchEvent();
 })
 /*
@@ -121,8 +124,7 @@ function query(cityName){
         async:true,
         //传参
         data:{
-            gcId:gcId,
-            cityName:cityName
+            gcId:gcId
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },
@@ -132,7 +134,6 @@ function query(cityName){
                 content= data.content;
                 filterContent();
             }
-
         },
         //调用出错执行的函数
 //		error:function(){ }
