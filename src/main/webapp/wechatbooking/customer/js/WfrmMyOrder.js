@@ -10,7 +10,10 @@ var phoneNum;
 var idNum;
 var price;
 var dinerId;
+var code;
 window.onload = function(){
+	var params = getRequestParam();
+	code = params["code"];
 	dinerId = getCookie("dinerId");
 	mcId = getCookie("customer-mcId");
 	initConfirm();
@@ -293,52 +296,170 @@ function queryOpenId(payTypeId) {
             if(data.ret == 0){
                 debugger;
                 openId =  data.content;
-                getPaySign(payTypeId);
+                getParentOpenId(code,payTypeId);
+                //getPaySign(payTypeId);
             }
         },
         //调用出错执行的函数
 //		error:function(){ }
     });
 }
-function getPaySign(payTypeId){
-    debugger;
+/**
+ * 获取用户对父公众号(商龙)的openId
+ * @param code
+ */
+function getParentOpenId(code,payTypeId){
     var requestPath = getRequestPath();
-    if(openId == null || openId == "" || openId === undefined){
-        return ;
-    }
-    var mpid = getCookie("mpId");
-    var finishPath = requestPath+RESOURCE_PROJECT_NAME+"myOrder/finishPay?orderId="+orderId;
-    var param = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
-        +"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'"+payTypeId+"'"+",'orderId':'"+itemId
-        +"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
-        ",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
-	var requestPath = getRequestPath();
-	//判断房间数量是否足够
-	$.ajax({
+    $.ajax({
         //请求方式
         type:"post",
         //请求路径
-        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/createPayMd5',
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/getParentOpenId',
         //是否异步请求
         async:true,
         //传参
         data:{
-            mcId:mcId,
-            data:param
+            code:code
         },
         //发送请求前执行方法
 //		beforeSend:function(){ },
         //成功返回后调用函数
         success:function(data){
-        	if(data.ret == 0){
-        		param = param +"&sign="+ data.content;
-        		var path = RESOURCE_PAY_COMMON_IP_PORT+"tcsl/CommPayPage.htm?data="+param;
-        		saveCookie("pay_orderId",itemId);
-				saveCookie("pay_price",price);
-        		window.location.href = path;
-        	}
+            if(data.ret == 0){
+                var parentOpenId = data.content;
+                getPayKey(parentOpenId,payTypeId);
+            }
         },
         //调用出错执行的函数
 //		error:function(){ }
-  });
+    });
 }
+/**
+ * 获取用于通用支付接口的支付key,跳转通用支付页
+ * @param parentOpenId
+ */
+function getPayKey(parentOpenId,payTypeId) {
+    var openId = getCookie("openId");
+    var mpid = getCookie("mpId");
+    var appid = getCookie("appid");
+    var requestPath = getRequestPath();
+    var finishPath = requestPath+RESOURCE_PROJECT_NAME+"wechatbooking/customer/templates/WfrmBookStatus.html?frontPay=2";
+    var param = {
+        "body": "订单描述",
+        "storeid": mcId,
+        "unionid": "",
+        "paySerialNo": "",
+        "goods": [
+
+        ],
+        "appid": appid,
+        "turnUrl": finishPath,
+        "payBusinNo": "M20170704456412C",
+        "kind": "10325",
+        "paytypeid": payTypeId,
+        "udStateUrl": "http://o2oapi.wuuxiang.com/tcsl/CommonAddMoneyCommitAction.htm",
+        "ishdfk": 0,
+        "payMoney": price,
+        "cardinfo": [
+
+        ],
+        "busiScopeNo": "rechargeCard",
+        "money": price,
+        "openid": openId,
+        "orderid": itemId,
+        "mpid": mpid,
+        "trueMoney": price,
+        "payFrom": 3,
+        "items": [
+            {
+                "itemcount": 1,
+                "itemid": "582",
+                "itemname": "原始紫菜包饭",
+                "price": 10.05,
+                "skuinfo": "",
+                "remark": "",
+                "code": "111"
+            }
+        ],
+        "parentOpenid": parentOpenId
+    };
+    param = JSON.stringify(param);
+    param = "data="+param;
+    //绕过安全检测的头信息
+    var head = {'isrsa':0};
+    head = JSON.stringify(head);
+    $.ajax({
+        //请求方式
+        type:"post",
+        dataType:"json",
+        //请求路径
+        url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/getPayKey',
+        //是否异步请求
+        async:true,
+        //传参
+        data:{
+            requestParam:param,
+            headParam:head
+        },
+        //发送请求前执行方法
+        // beforeSend:function(xhr){ },
+        //成功返回后调用函数
+        success:function(data){
+            if(data.ret == 0){
+                var key = data.content;
+                var envType = RESOURCE_PAY_TYPE; // 1 测试 2预发布 3正式
+                var path =  RESOURCE_PAY_PAGE + "?" +"key="+key+"&envType=" + envType;
+                window.location.href = path;
+            }
+        },
+        error: function (XMLHttpReuqest, textStautus, errothrown) {
+            console.log(XMLHttpRequest.status);
+            console.log(XMLHttpReuqest.readyState);
+            console.log(XMLHttpRequest.responseText);
+            console.log(textStautus);
+            console.log(errothrown);
+        }
+    });
+}
+// function getPaySign(payTypeId){
+//     debugger;
+//     var requestPath = getRequestPath();
+//     if(openId == null || openId == "" || openId === undefined){
+//         return ;
+//     }
+//     var mpid = getCookie("mpId");
+//     var finishPath = requestPath+RESOURCE_PROJECT_NAME+"myOrder/finishPay?orderId="+orderId;
+//     var param = "{'body':'订单描述','openid':'"+openId+"','mpid':'"+mpid+"','udStateUrl':'"+finishPath+"','money':'"+price
+//         +"','trueMoney':'"+price+"','kind':'10325'"+",'storeid':'"+mcId+"','paytypeid':'"+payTypeId+"'"+",'orderId':'"+itemId
+//         +"','payFrom':3"+",'payMoney':'"+price+"','ishdfk':'0','goods':[{'goodsName':'手机','price':'99'" +
+//         ",'quantity':'1'},{'goodsName':'电视','price':'2','quantity':'2'}]}";
+// 	var requestPath = getRequestPath();
+// 	//判断房间数量是否足够
+// 	$.ajax({
+//         //请求方式
+//         type:"post",
+//         //请求路径
+//         url:requestPath+RESOURCE_PROJECT_NAME+'myOrder/createPayMd5',
+//         //是否异步请求
+//         async:true,
+//         //传参
+//         data:{
+//             mcId:mcId,
+//             data:param
+//         },
+//         //发送请求前执行方法
+// //		beforeSend:function(){ },
+//         //成功返回后调用函数
+//         success:function(data){
+//         	if(data.ret == 0){
+//         		param = param +"&sign="+ data.content;
+//         		var path = RESOURCE_PAY_COMMON_IP_PORT+"tcsl/CommPayPage.htm?data="+param;
+//         		saveCookie("pay_orderId",itemId);
+// 				saveCookie("pay_price",price);
+//         		window.location.href = path;
+//         	}
+//         },
+//         //调用出错执行的函数
+// //		error:function(){ }
+//   });
+// }

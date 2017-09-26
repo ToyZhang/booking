@@ -146,7 +146,18 @@ function onclick_hotel(hotel){
 	saveCookie("address",address);
 	saveCookie("orderTel",orderTel);
 	saveCookie("customer-mcId",mcId);
-	window.location.href = "../templates/WfrmMyOrder.html";
+	// window.location.href = "../templates/WfrmMyOrder.html";
 
+    var requestPath = getRequestPath();
+    var redirect_uri = requestPath+RESOURCE_PROJECT_NAME+"wechatbooking/customer/templates/WfrmMyOrder.html";
+    redirect_uri = encodeURIComponent(redirect_uri);//对回调页面进行编码
+    //微信登录授权，获取code，用于获取父openId
+    var url = "https://wechat.wuuxiang.com/i5xwxplus/connect/oauth2/authorize?" +
+        "appid="+RESOURCE_PARENT_APP_ID+
+        "&redirect_uri="+redirect_uri+
+        "&response_type=code" +
+        "&scope=snsapi_base" +
+        "&state=123#wechat_redirect";
+    window.location.href = url;
 	
 }

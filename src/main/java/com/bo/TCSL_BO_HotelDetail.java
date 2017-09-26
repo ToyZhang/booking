@@ -45,13 +45,9 @@ public class TCSL_BO_HotelDetail {
      * @throws Exception
      */
     public TCSL_VO_Result queryHotelList(String gcId,String name ) throws Exception {
-        System.out.println("TCSL_BO_HotelDetail-----查询条件gcId--line48-"+gcId);
-        System.out.println("TCSL_BO_HotelDetail-----查询条件name--line49-"+name);
         TCSL_VO_Result result = new TCSL_VO_Result();
         List<TCSL_VO_HotelDetail> hotelList= daoHotelDetail.queryHotelList(gcId); //根据集群号gcId查询酒店列表
-        System.out.println("TCSL_BO_HotelDetail-----集群下酒店列表--line52-"+hotelList);
         List<TCSL_VO_Hotel> hotelInfoList = daoHotelMysql.queryAll(); //查询酒店位置信息
-        System.out.println("TCSL_BO_HotelDetail-----酒店位置信息列表--line54-"+hotelInfoList);
         List<TCSL_VO_HotelDetail> resultList = new ArrayList<TCSL_VO_HotelDetail>();
         Map<Integer,TCSL_VO_Hotel> hotelInfoMap = new HashMap<Integer,TCSL_VO_Hotel>();
         for (TCSL_VO_Hotel hotel:hotelInfoList) {
@@ -60,52 +56,48 @@ public class TCSL_BO_HotelDetail {
         }
         //查询外景图片名称
         String savePath = utilCommon.getPropertyParam("upload-path.properties","upload.path");
-        System.out.println("TCSL_BO_HotelDetail--酒店外景图片保存路径--line63--"+savePath);
         for (TCSL_VO_HotelDetail voHotelDetail: hotelList) {
             String shopName = voHotelDetail.getNAME(); //商户名称
             String folderPath = savePath+"/"+shopName+"/"+"outdoor_scene";
-            System.out.println("TCSL_BO_HotelDetail--酒店名称--line67--"+shopName);
             //判断文件夹是否存在
             File df = new File(folderPath);
-            if(!df.exists()){
-                continue;
-            }
-            System.out.println("TCSL_BO_HotelDetail--酒店名称--line73--该酒店外景图片文件夹存在");
-            File[] files = df.listFiles();
             String fileName = "";
-            for (int i = 0; i < files.length; i++){
-                if(i == 0){
-                    File f = files[i];
-                    fileName = f.getName();
-                    break;
+            if(df.exists()){
+                File[] files = df.listFiles();
+
+                //多个外景图片，只取第一个
+                for (int i = 0; i < files.length; i++){
+                    if(i == 0){
+                        File f = files[i];
+                        fileName = f.getName();
+                        break;
+                    }
                 }
             }
-            System.out.println("TCSL_BO_HotelDetail--酒店外景图片名称--line83--"+fileName);
             voHotelDetail.setHoteImg(fileName);
             //添加酒店定位相关信息
             TCSL_VO_Hotel hotel = hotelInfoMap.get(Integer.parseInt(voHotelDetail.getMCID()));
-            voHotelDetail.setLongtitude(hotel.getdLONGTITUDE());
-            voHotelDetail.setLatitude(hotel.getdLATITUDE());
-            String cityName = hotel.getcCITY();
-            System.out.println("TCSL_BO_HotelDetail----酒店名称，经纬度---line90-"+
-                    cityName+"---"+hotel.getdLONGTITUDE()+"---"+hotel.getdLATITUDE());
-            if(name != null && !"".equals(name)){ //城市过滤条件不为空
-                System.out.println("TCSL_BO_HotelDetail----查询城市名称---line93-"+name);
-                if(cityName != null){ //酒店所在城市不为空
-                    System.out.println("TCSL_BO_HotelDetail----酒店所在地名称---line95-"+cityName);
-                    //存在name为天津市，cityName为天津的情况
-                    //判断城市名称(条件)是否包含城市名称(酒店所在城市)或是否相同
-                    if(name.indexOf(cityName) != -1 || name.equals(cityName)
-                            || cityName.indexOf(name) != -1){
-                        //符合城市名称，添加到resultList中
-                        voHotelDetail.setCity(cityName);
-                        resultList.add(voHotelDetail);
-                        System.out.println("TCSL_BO_HotelDetail---line103-查询城市名称匹配成功，查询成功");
+            if(hotel != null && !"".equals(hotel)){
+                voHotelDetail.setLongtitude(hotel.getdLONGTITUDE()); //添加经度信息
+                voHotelDetail.setLatitude(hotel.getdLATITUDE()); //添加维度信息
+                String cityName = hotel.getcCITY(); //酒店所在城市
+                //判断城市包含关系，对比对象：1.前端选择城市范围；2.该酒店所在城市
+
+                if(name != null && !"".equals(name)){ //城市过滤条件不为空
+                    if(cityName != null){ //酒店所在城市不为空
+                        //存在name为天津市，cityName为天津的情况
+                        //判断城市名称(条件)是否包含城市名称(酒店所在城市)或是否相同
+                        if(name.indexOf(cityName) != -1 || name.equals(cityName)
+                                || cityName.indexOf(name) != -1){
+                            //符合城市名称，添加到resultList中
+                            voHotelDetail.setCity(cityName);
+                            resultList.add(voHotelDetail);
+                        }
                     }
+                }else{ //城市过滤条件为空，不进行过滤
+                    voHotelDetail.setCity(cityName);
+                    resultList.add(voHotelDetail);
                 }
-            }else{ //城市过滤条件为空，不进行过滤
-                voHotelDetail.setCity(cityName);
-                resultList.add(voHotelDetail);
             }
         }
         result.setContent(resultList);

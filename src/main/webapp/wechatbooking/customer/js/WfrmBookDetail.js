@@ -163,8 +163,23 @@ function onclick_order(){
     }
 	saveCookie("roomName",roomName);
 	saveCookie("customer",customer);
-	var url = "../templates/WfrmOrderIdentify.html?price="+price
-	+"&startDate="+startDate+"&endDate="+endDate+"&count="+count+"&phone="+phone+"&idNum="+idNum
-	+"&mcId="+mcId+"&roomTypeId="+roomTypeId;
+	saveCookie("startDate",startDate);
+	saveCookie("endDate",endDate);
+	saveCookie("count",count);
+	saveCookie("phone",phone);
+	saveCookie("idNum",idNum);
+	saveCookie("mcId",mcId);
+	saveCookie("roomTypeId",roomTypeId);
+
+	var requestPath = getRequestPath();
+	var redirect_uri = requestPath+RESOURCE_PROJECT_NAME+"wechatbooking/customer/templates/WfrmOrderIdentify.html?price="+price;
+    redirect_uri = encodeURIComponent(redirect_uri);//对回调页面进行编码
+    //微信登录授权，获取code，用于获取父openId
+    var url = "https://wechat.wuuxiang.com/i5xwxplus/connect/oauth2/authorize?" +
+        "appid="+RESOURCE_PARENT_APP_ID+
+        "&redirect_uri="+redirect_uri+
+        "&response_type=code" +
+        "&scope=snsapi_base" +
+        "&state=123#wechat_redirect";
 	window.location.href = url;
 }

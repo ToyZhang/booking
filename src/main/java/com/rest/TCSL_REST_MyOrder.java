@@ -2,6 +2,7 @@ package com.rest;
 
 import com.bo.TCSL_BO_MyOrder;
 import com.vo.TCSL_VO_Result;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -115,6 +116,22 @@ public class TCSL_REST_MyOrder {
     public TCSL_VO_Result queryOpenId(HttpServletRequest request, HttpServletResponse response){
         String orderId = request.getParameter("orderId");
         TCSL_VO_Result result = boMyOrder.queryOpenId(orderId);
+        return result;
+    }
+    @RequestMapping("/getParentOpenId")
+    @ResponseBody
+    public TCSL_VO_Result getParentOpenId(HttpServletRequest request, HttpServletResponse response){
+        String code = request.getParameter("code");
+        TCSL_VO_Result result = boMyOrder.getParentOpenId(code);
+        return result;
+    }
+    @RequestMapping("/getPayKey")
+    @ResponseBody
+    public TCSL_VO_Result getPayKey(HttpServletRequest request, HttpServletResponse response){
+        String param = request.getParameter("requestParam");
+        String head = request.getParameter("headParam");
+        JSONObject headJson  = JSONObject.fromObject(head);
+        TCSL_VO_Result result = boMyOrder.getPayKey(param,headJson);
         return result;
     }
 

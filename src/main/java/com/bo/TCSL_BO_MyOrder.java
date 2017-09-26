@@ -2,10 +2,12 @@ package com.bo;
 
 import com.dao.mysql.TCSL_DAO_MyOrder;
 import com.dao.mysql.TCSL_DAO_SendMessage_mysql;
+import com.util.TCSL_UTIL_Common;
 import com.vo.TCSL_VO_MyOrder;
 import com.vo.TCSL_VO_MyOrderInfo;
 import com.vo.TCSL_VO_Result;
 import com.vo.TCSL_VO_SendMessageContent;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -27,6 +29,8 @@ public class TCSL_BO_MyOrder {
     TCSL_BO_SendMessage boSendMessage;
     @Resource
     TCSL_DAO_SendMessage_mysql daoSendMessageMysql;
+    @Resource
+    TCSL_UTIL_Common tcslUtilCommon;
 
     public TCSL_VO_Result query(String mcId,String dinerId){
         TCSL_VO_Result result = new TCSL_VO_Result();
@@ -123,6 +127,58 @@ public class TCSL_BO_MyOrder {
     }
 
     /**
+     * 获取用户在父公众号的openId
+     * @param code
+     * @return
+     */
+    public TCSL_VO_Result getParentOpenId(String code){
+        System.out.println("bo_MyOrder----code---"+code);
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        try {
+            //获取parentOpenId
+            String parentAppId = tcslUtilCommon.getPropertyParam("weChat.properties","weChat.praentAppId");
+            System.out.println("bo_MyOrder----parentAppId---"+parentAppId);
+            String parentSecret = tcslUtilCommon.getPropertyParam("weChat.properties","weChat.parentSecret");
+            System.out.println("bo_MyOrder----parentSecret---"+parentSecret);
+            String url = "https://api.weixin.qq.com/sns/oauth2/access_token?" +
+                    "appid="+parentAppId +
+                    "&secret="+parentSecret +
+                    "&code="+code +
+                    "&grant_type=authorization_code";
+            JSONObject requestResult = tcslUtilCommon.httpsRequest(url,"GET",null);
+            System.out.println("bo_MyOrder----requestResult---"+requestResult);
+            String openId = (String)requestResult.get("openid");
+            System.out.println("bo_MyOrder----openId---"+openId);
+            result.setRet(0);
+            result.setContent(openId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return result;
+        }
+    }
+
+    /**
+     * 获取通用支付key
+     * @param param 参数
+     * @return
+     */
+    public TCSL_VO_Result getPayKey(String param,JSONObject headJson){
+        TCSL_VO_Result result = new TCSL_VO_Result();
+        String url = null;
+        try {
+            String payKeyUrl = tcslUtilCommon.getPropertyParam("weChat.properties","weChat.getPayKeyUrl");
+            url = payKeyUrl + "?" +param;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject requestResult = tcslUtilCommon.httpsRequest(url,"GET",null,headJson);
+        String key = requestResult.getString("key");
+        result.setRet(0);
+        result.setContent(key);
+        return result;
+    }
+    /**
      * 检查该房间是否可预订
      * @param mcId 商户id
      * @param roomTypeId 房型id
@@ -144,6 +200,7 @@ public class TCSL_BO_MyOrder {
         }else{
             result.setRet(-1);
         }
+        //生成订单号
         SimpleDateFormat format = new SimpleDateFormat("YYYYMMddHHmmss");
         String strNow = format.format(new Date());
         Random r = new Random();
@@ -151,6 +208,7 @@ public class TCSL_BO_MyOrder {
         String orderId = "WX-" + strNow + "-" + strRandom;
         result.setContent(orderId);
         return result;
+
     }
 
     /**

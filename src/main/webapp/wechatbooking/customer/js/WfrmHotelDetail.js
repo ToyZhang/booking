@@ -43,6 +43,11 @@ $(function() {
 
 function init(startDate,endDate){
 	var requestPath = getRequestPath();
+	//test
+	//TODO
+    // startDate = '2016-12-19';
+    // endDate = '2016-12-20';
+    //test end
 	$.ajax({
         //请求方式
         type:"post",
@@ -154,6 +159,9 @@ function onclick_order(roomTypeId){
 	var begDate = $('#my-start').attr('value').trim();
 	var endDate = $('#my-end').attr('value').trim();
 	var errStatus = $('#my-alert').css('display');  //错误提示信息 none 隐藏   block 显示
+    // TODO
+    // begDate = '2016-12-19';
+    // endDate = '2016-12-20';
 	if(errStatus == "none"){
 		var url = "../templates/WfrmBookDetail.html?mcId="+mcId
 		+"&roomTypeId="+roomTypeId+"&begDate="+begDate+"&endDate="+endDate;

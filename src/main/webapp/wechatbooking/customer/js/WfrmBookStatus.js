@@ -1,5 +1,4 @@
 var orderId;
-var returnCode;
 var frontPay;
 window.onload = function(){
 	init();
@@ -22,7 +21,7 @@ function init(){
     //商户电话
     var orderTel = getCookie("orderTel");
     $("#shop_tel").html(orderTel);
-    if(frontPay != null && frontPay != "" && frontPay !== undefined){
+    if(frontPay != null && frontPay != "" && frontPay !== undefined && frontPay == "1"){
         $("#pay_type").html("前台支付");
         var a = document.createElement("a");
         a.className = "am-icon-btn am-success am-icon-check";
@@ -32,13 +31,11 @@ function init(){
         $("#order_flag").append(span);
         return;
     }
-	returnCode = params["returnCode"];
-    var errorCode = params["errorCode"];
-    if(returnCode != null && returnCode !="" && returnCode!==undefined && errorCode == "1"){
+    if(frontPay != null && frontPay != "" && frontPay !== undefined && frontPay == "2"){
         $("#pay_type").html("网上支付");
         finishPay();
     }else{
-        $("#pay_type").html("网上支付");
+        $("#pay_type").html("未支付");
         var a = document.createElement("a");
         a.className = "am-icon-btn am-danger am-icon-close";
         var span = document.createElement("span");
